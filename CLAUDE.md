@@ -66,6 +66,7 @@ SEO記事（コラム）・採用事例の本文を書くときは、**必ず7�
 | WP・クラウド・外部サービスID・触禁領域 | [docs/operations/INFRA.md](docs/operations/INFRA.md) |
 | やること・拡張計画 | [docs/planning/ROADMAP.md](docs/planning/ROADMAP.md) |
 | 事例フロント実装（詳細ページ・ビルド）の要件 | [docs/planning/CASE-FRONTEND-PLAN.md](docs/planning/CASE-FRONTEND-PLAN.md) |
+| 客先ごとの採用LP（制作サンプル `/sample/{客先}/`）の仕様・素材の作り方 | [docs/specs/SAMPLE-LP.md](docs/specs/SAMPLE-LP.md) |
 | 学び・引き継ぎ知識 | [docs/planning/KNOWLEDGE.md](docs/planning/KNOWLEDGE.md) |
 | ルール化候補（自動収集の下書き） | [docs/planning/RULE-CANDIDATES.md](docs/planning/RULE-CANDIDATES.md) |
 | お問い合わせのHubSpot連携仕様 | [docs/operations/HUBSPOT-CTA-HANDOFF.md](docs/operations/HUBSPOT-CTA-HANDOFF.md) |

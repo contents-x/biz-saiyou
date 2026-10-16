@@ -43,6 +43,16 @@
 - `GITHUB_TOKEN` で push したコミットは別のワークフローを起動しないので、無限ループ防止の `[skip ci]` は要らない
 - 公開リポの定期実行は、60日間リポに動きが無いと GitHub が自動で無効にする
 
+### 画像しかないLP案を、くっきりしたWebページにする（2026-10-16）
+
+客先から届いたLP案が 941px 幅の画像だけだったときの学び。手順の正本は [../specs/SAMPLE-LP.md](../specs/SAMPLE-LP.md) §4。
+
+- **拡大は Real-ESRGAN の `realesrgan-x4plus-anime`** が最良（通常の拡大や `realesr-animevideov3` より線・文字がくっきり）。macOS 版の `realesrgan-ncnn-vulkan` は M1 の GPU で1枚数秒
+- **焼き込まれた文字・ボタンを消すのは OpenCV contrib の `xphoto.inpaint`（FSR_BEST）**。Telea は筋、Shiftmap はブロック状の跡が出た。文字は線だけをマスクにすると背景の模様が残る。大きなボタンの跡はわずかに残るので、PCでは同じ位置に本物のボタンを重ね、スマホではグラデーションでなじませた
+- 手書き風の Google Fonts（Yomogi / Zen Kurenaido / Klee One 等）は LP案の手書き文字と雰囲気が合わなかった → 手書きの一言は絵として残し、本文・見出し・ボタン・表だけを HTML にした
+- 動画のサムネイルは本編から**字幕の無いフレーム**を探す（字幕は焼き込みのことが多い。画面下の白い画素の数で自動判定できる）
+- PDFKit で漫画PDFを書き出すと、白紙ページもそのまま出る（アソビシステム様 A案の9ページ目は元から白紙だった）
+
 ### クロスOS表記ズレの正体と対策（2026-05-24 調査）
 
 BizManga制作で「Mac/Win/iPhone/Androidで表記がずれる」問題が判明。徹底調査の結論を [../specs/DEVICE-RULES.md](../specs/DEVICE-RULES.md) §16 にルール化。要点:
