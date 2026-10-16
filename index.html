@@ -498,6 +498,8 @@
               <div>
                 <h3 class="rx-scene__title">採用サイトに<span class="rx-home-accent">載せる</span></h3>
                 <p class="rx-scene__text">応募前から「働く自分」をイメージしやすく。</p>
+                <!-- 実例: 客先専用の採用LP（制作サンプル・docs/specs/SAMPLE-LP.md）。同じタブで開く -->
+                <a class="rx-scene__link" href="sample/asobisystem/">実際の採用LPの例を見る</a>
               </div>
             </div>
             <figure class="rx-scene__fig">
@@ -951,6 +953,24 @@
         <p class="rx-hs__eyebrow rx-hs__eyebrow--accent">こんな制作実績があります</p>
         <h2 class="rx-hs__title rx-works__title" id="worksHeading">導入事例・<span class="rx-home-accent">制作実績</span></h2>
         <p class="rx-hs__lead">採用漫画を中心に、さまざまな業界・職種のコンテンツを制作しています。</p>
+
+        <!-- 採用LPの制作例（客先専用LP /sample/{客先}/・docs/specs/SAMPLE-LP.md）。カード全体がリンクで、同じタブで開く。
+             画面写真はサンプルLPの最初の画面（PC 1100px幅・スマホ 375px幅）を撮ったもの。サンプルLPの見た目を変えたら撮り直す -->
+        <a class="rx-works__lp rx-anim" href="sample/asobisystem/">
+          <span class="rx-works__lp-shot">
+            <span class="rx-works__lp-pc">
+              <span class="rx-works__lp-bar" aria-hidden="true"><i></i><i></i><i></i></span>
+              <img src="images/home/sample-lp-asobisystem-pc.webp" alt="" width="1100" height="964" loading="lazy" decoding="async">
+            </span>
+            <span class="rx-works__lp-sp"><img src="images/home/sample-lp-asobisystem-sp.webp" alt="" width="320" height="631" loading="lazy" decoding="async"></span>
+          </span>
+          <span class="rx-works__lp-body">
+            <span class="rx-works__lp-label">採用LPの制作例</span>
+            <span class="rx-works__lp-title">アソビシステム様の採用LP</span>
+            <span class="rx-works__lp-text">採用漫画と採用アニメーションを、会社専用の採用LPにまとめた例です。仕事内容・働く環境・募集要項まで、1ページで伝えます。</span>
+            <span class="rx-works__lp-more">採用LPを見る<svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </span>
+        </a>
 
         <!-- 本編があるもの（data-manga）は押すと読み画面（下の #worksViewer）が開く。ページ画像の一覧は js/works-viewer.js の先頭。
              4・5枚目は本編の画像が未受領のため表紙のみ（受領したら同じ形のボタンにして、js/works-viewer.js に1件足す） -->
