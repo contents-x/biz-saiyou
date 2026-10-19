@@ -1,7 +1,7 @@
 /* =========================================================================
    column.js — ビズ採用 コラムページ（column.html 専用）
    - カテゴリタブ絞り込み（aria-pressed 切替）
-   - キーワード検索（タイトル＋カテゴリの部分一致）
+   - キーワード検索（タイトル＋説明文＋カテゴリの部分一致。説明文はカードの data-desc）
    - よく検索されるタグ → 検索ボックスに流し込んで実行
    - カテゴリ × 検索 は AND 条件。ナビ・入場アニメは main.js が担当。
    ========================================================================= */
@@ -28,8 +28,9 @@
       var card = cards[i];
       var cat = card.getAttribute('data-category') || '';
       var title = card.getAttribute('data-title') || '';
+      var desc = card.getAttribute('data-desc') || '';
       var catOk = (state.category === 'all' || cat === state.category);
-      var qOk = (!q || normalize(title).indexOf(q) !== -1 || normalize(cat).indexOf(q) !== -1);
+      var qOk = (!q || normalize(title).indexOf(q) !== -1 || normalize(desc).indexOf(q) !== -1 || normalize(cat).indexOf(q) !== -1);
       var show = catOk && qOk;
       card.hidden = !show;
       if (show) visible++;

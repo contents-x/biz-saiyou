@@ -17,6 +17,7 @@
   <meta property="og:url" content="{{page_url}}">
   <meta property="og:site_name" content="ビズ採用">
   <meta property="og:locale" content="ja_JP">
+  {{og_image}}
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{seo_title}}">
@@ -40,7 +41,7 @@
 <body class="rx-jp-body">
 
   <!-- ===================== 共通ヘッダー（全ページ同一・ホーム基準で 2026-09-28 に統一）
-       ロゴ画像＋タグライン＋メニュー2項目（サービス／料金プラン。事例・コラムは非表示）＋CTA2つ（無料診断／お問い合わせ）＋SPハンバーガー。
+       ロゴ画像＋タグライン＋メニュー3項目（サービス／料金プラン／コラム。事例は非表示）＋CTA2つ（無料診断／お問い合わせ）＋SPハンバーガー。
        スタイルは css/style.css の .rx-nav、開閉は js/main.js。共通コンポーネント化していないため、
        変更するときは全HTMLと tools/templates/*.tpl を同時に直す（テンプレを直さないと再生成で巻き戻る） ===================== -->
   <header class="rx-nav" id="nav">
@@ -52,7 +53,8 @@
       <nav class="rx-nav__menu" id="navMenu" aria-label="メインナビゲーション">
         <a class="rx-nav__link" href="../../service.html">サービス</a>
         <a class="rx-nav__link" href="../../price.html">料金プラン</a>
-        <!-- 事例・コラムは 2026-09-28 から非表示（case.html / column.html 自体は残置。再表示時はここに <a> を戻す） -->
+        <a class="rx-nav__link" href="../../column.html" aria-current="true">コラム</a>
+        <!-- 事例は 2026-09-28 から非表示（case.html 自体は残置。再表示時はここに <a> を戻す）。コラムは 2026-10-19 に再表示 -->
       </nav>
       <div class="rx-nav__ctas">
         <a class="rx-nav__cta rx-nav__cta--line" href="../../contact.html?source=free-diagnosis">無料診断を申し込む</a>
@@ -89,14 +91,17 @@
       </div>
     </article>
 
+    <!-- 関連するコラム（他の記事が無いときは build-columns.py がこの枠ごと消す） -->
+<!-- RELATED -->
     <section class="rx-colrel" aria-labelledby="relHeading">
       <div class="rx-colrel__inner">
         <h2 class="rx-colrel__heading" id="relHeading">関連するコラム</h2>
         <ul class="rx-colrel__grid">{{related}}</ul>
       </div>
     </section>
+<!-- /RELATED -->
 
-    <!-- CTA バナー -->
+    <!-- CTA バナー（ホームの最後のCTA＝提案書 最終版 p26 と同じ文言・2026-10-19） -->
     <section class="rx-colcta" aria-labelledby="colCtaHeading">
       <div class="rx-colcta__inner rx-anim">
         <div class="rx-colcta__art" aria-hidden="true">
@@ -108,18 +113,18 @@
           </svg>
         </div>
         <div class="rx-colcta__text">
-          <h2 class="rx-colcta__heading" id="colCtaHeading">貴社の採用課題をプロが解決します</h2>
-          <p class="rx-colcta__lead">採用でお悩みの方、まずは無料のオンライン相談で気軽にご相談ください。</p>
+          <h2 class="rx-colcta__heading" id="colCtaHeading">まずは、無料の採用力診断から。</h2>
+          <p class="rx-colcta__lead">御社の仕事の中身や職場の空気が、候補者からどう見えているかをお伝えします。</p>
           <ul class="rx-colcta__points">
-            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>採用戦略のご相談</li>
-            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>自社に合った媒体のご提案</li>
-            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>無料の改善診断</li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>採用課題の整理</li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>既存施策の確認</li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>候補者へ伝えるテーマの選定</li>
           </ul>
         </div>
         <div class="rx-colcta__action">
-          <span class="rx-colcta__badge"><b>60分</b>無料</span>
-          <a class="rx-colcta__btn" href="../../contact.html">無料相談を予約する<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10h14M11 4l6 6-6 6"/></svg></a>
-          <p class="rx-colcta__note">オンラインで気軽に相談できます</p>
+          <span class="rx-colcta__badge">診断は<b>無料</b></span>
+          <a class="rx-colcta__btn" href="../../contact.html?source=free-consultation">無料相談はこちら<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10h14M11 4l6 6-6 6"/></svg></a>
+          <p class="rx-colcta__note">相談内容に「採用力診断希望」とご記入ください</p>
         </div>
       </div>
     </section>
@@ -143,6 +148,7 @@
           <ul class="rx-footer__links">
             <li><a class="rx-footer__link" href="../../service.html">サービス</a></li>
             <li><a class="rx-footer__link" href="../../price.html">料金プラン</a></li>
+            <li><a class="rx-footer__link" href="../../column.html">コラム</a></li>
             <li><a class="rx-footer__link" href="../../contact.html">お問い合わせ</a></li>
             <li><a class="rx-footer__link" href="../../company.html">会社概要</a></li>
             <li><a class="rx-footer__link" href="../../privacy.html">プライバシーポリシー</a></li>

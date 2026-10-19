@@ -61,6 +61,10 @@ GitHub Pages のプロジェクトページに `*.contentsx.jp` サブドメイ�
   - フィールド: 会社名（タイトル）/ タグ（`rx_case_tag`・チェックボックス選択）/ 成果概要 / メイン画像（アイキャッチ＋フォーカルポイント `focal.x/y` → フロントは `object-position: x% y%` で再現）/ 実績数値 `stats[{label,value,unit,arrow:up|down|none}]` 最大3個可変
   - 詳細ページURLは `/case/{slug}` 予定（サブディレクトリ化に伴い、該当ページはパス規約を絶対パスへ切替）
   - フロント実装（fetch JS・静的ビルド・日次cron）は未着手。WP側手順の正本は ContentX_HP 側 `docs/operations/WP-SERVICE-ONBOARDING.md`
+- **コラムの自動取り込み（2026-10-19）**: WP の共有コラム `cx_column` のうち掲載先「リクルートX」の記事を、GitHub Actions `.github/workflows/build-columns.yml` が**1時間ごと（毎時17分）**に `tools/build-columns.py` で静的ページに書き出し、差分があれば `github-actions[bot]` が main に push → GitHub Pages が公開する。WP で公開・修正・非公開にした内容は最大1時間ほどで反映。すぐ反映したいときは GitHub の Actions 画面 →「Build Column Pages」→「Run workflow」
+  - push のためワークフローに `permissions: contents: write` を明示している（このリポの既定トークンは読み取り専用）
+  - ⚠️ 公開リポの定期実行は、**60日間リポに動き（コミット等）が無いと GitHub が自動で止める**。記事の更新が長く無い時期のあとは Actions 画面で「Build Column Pages」が無効になっていないか確認し、止まっていたら Enable workflow
+  - ⚠️ **事例の `build-cases.yml` は 2026-09-27 から毎日失敗中**（push が 403＝上の permissions が無い）。ただし WP の事例本文はまだ旧名「リクルートX」のため、push が通ると22ページの「ビズ採用」が戻る。**WP 側の表記を直してから permissions を足す**（[ROADMAP](../planning/ROADMAP.md)・[BUGS](../../BUGS.md) 2026-10-19）
 - **ホームの制作実績の読み画面（2026-10-06）はWPの制作事例 works のページ画像を直接表示している**（`js/works-viewer.js` の `MANGA`。対象 `hana` / `gaudia-3` / `birdman`。works はビズマンガ・ContentsX と共有の投稿タイプ）。⚠️ WPでこれらの作品のページ画像（メディア）を削除・差し替えると、ビズ採用のホームで画像が出なくなる／古いままになる。差し替えたら `MANGA` のURLも更新する
   - 公開API `/contentsx/v1/*` の CORS は `ichioshi.contentsx.jp` のみ許可（`josawa2255.github.io` と `file://` は不可・2026-10-06 確認）。そのためフロントから実行時にAPIを読まず、URLを静的に持つ（`<img>` の読み込みは CORS の影響を受けない。`index.html` の CSP `img-src` は `https://cms.contentsx.jp` を許可済み）
 

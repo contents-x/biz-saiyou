@@ -158,8 +158,10 @@ h1, h2, h3, h4, [id]:not(html, body) { scroll-margin-top: calc(var(--rx-header-h
 .rx-nav__link:hover::after,
 .rx-nav__link:focus-visible::after { transform: scaleX(1); }
 
-/* 現在ページ: ピンクで「現在地」を示す（全ページ共通のナビ仕様） */
-.rx-nav__link[aria-current="page"] { color: var(--rx-accent, #ec2d87); }
+/* 現在ページ: ピンクで「現在地」を示す（全ページ共通のナビ仕様）。
+   "true" はコラム記事ページ用（そのページ自体ではないが「コラム」の中にいることを示す） */
+.rx-nav__link[aria-current="page"],
+.rx-nav__link[aria-current="true"] { color: var(--rx-accent, #ec2d87); }
 
 /* 準備中の項目: href無しのプレースホルダー。薄く表示し、下線アニメ・ポインタを無効化 */
 .rx-nav__link[aria-disabled="true"] { opacity: .5; cursor: default; }

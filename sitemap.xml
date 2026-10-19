@@ -16,6 +16,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://ichioshi.contentsx.jp/column.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://ichioshi.contentsx.jp/price.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -58,4 +63,6 @@
   <url><loc>https://ichioshi.contentsx.jp/case/hir/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://ichioshi.contentsx.jp/case/second-table/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://ichioshi.contentsx.jp/case/ganesha/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+
+  <url><loc>https://ichioshi.contentsx.jp/column/hiring-issues-3-tiers/</loc><lastmod>2026-10-19</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>

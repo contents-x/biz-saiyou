@@ -42,7 +42,7 @@
 <body class="rx-jp-body">
 
   <!-- ===================== 共通ヘッダー（全ページ同一・ホーム基準で 2026-09-28 に統一）
-       ロゴ画像＋タグライン＋メニュー2項目（サービス／料金プラン。事例・コラムは非表示）＋CTA2つ（無料診断／お問い合わせ）＋SPハンバーガー。
+       ロゴ画像＋タグライン＋メニュー3項目（サービス／料金プラン／コラム。事例は非表示）＋CTA2つ（無料診断／お問い合わせ）＋SPハンバーガー。
        スタイルは css/style.css の .rx-nav、開閉は js/main.js。共通コンポーネント化していないため、
        変更するときは全HTMLと tools/templates/*.tpl を同時に直す（テンプレを直さないと再生成で巻き戻る） ===================== -->
   <header class="rx-nav" id="nav">
@@ -54,7 +54,8 @@
       <nav class="rx-nav__menu" id="navMenu" aria-label="メインナビゲーション">
         <a class="rx-nav__link" href="../../service.html">サービス</a>
         <a class="rx-nav__link" href="../../price.html">料金プラン</a>
-        <!-- 事例・コラムは 2026-09-28 から非表示（case.html / column.html 自体は残置。再表示時はここに <a> を戻す） -->
+        <a class="rx-nav__link" href="../../column.html">コラム</a>
+        <!-- 事例は 2026-09-28 から非表示（case.html 自体は残置。再表示時はここに <a> を戻す）。コラムは 2026-10-19 に再表示 -->
       </nav>
       <div class="rx-nav__ctas">
         <a class="rx-nav__cta rx-nav__cta--line" href="../../contact.html?source=free-diagnosis">無料診断を申し込む</a>
@@ -298,6 +299,7 @@
           <ul class="rx-footer__links">
             <li><a class="rx-footer__link" href="../../service.html">サービス</a></li>
             <li><a class="rx-footer__link" href="../../price.html">料金プラン</a></li>
+            <li><a class="rx-footer__link" href="../../column.html">コラム</a></li>
             <li><a class="rx-footer__link" href="../../contact.html">お問い合わせ</a></li>
             <li><a class="rx-footer__link" href="../../company.html">会社概要</a></li>
             <li><a class="rx-footer__link" href="../../privacy.html">プライバシーポリシー</a></li>
