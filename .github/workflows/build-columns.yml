@@ -1,0 +1,48 @@
+name: Build Column Pages
+
+# WP（cms.contentsx.jp）の共有コラムのうち掲載先＝ビズ採用の記事を取り込み、
+# column.html・/column/{slug}/・sitemap.xml を作り直して main に push する（GitHub Pages がそのまま公開）。
+# 変更が無い回は何もしない。WP の API はブラウザから直接読めない（CORS は本番ドメインのみ）ため、静的に書き出している。
+on:
+  schedule:
+    # 1時間ごと（毎時17分。GitHub が混み合う毎時0分を避ける）。WP で公開・修正した記事が最大1時間ほどで載る
+    - cron: "17 * * * *"
+  workflow_dispatch:
+    # すぐ載せたいときは GitHub の Actions 画面 →「Build Column Pages」→「Run workflow」
+
+# ビルド結果を main に push するため書き込み権限を明示する（このリポの既定は読み取り専用。
+# build-cases.yml はこの指定が無く、push が 403 で失敗している → BUGS.md 2026-10-19）
+permissions:
+  contents: write
+
+# 手動実行と定期実行が重なっても、同時に push しないよう1本ずつ順に動かす
+concurrency:
+  group: build-columns
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      # 標準ライブラリだけで動くので、ランナーに入っている python3 をそのまま使う
+      - name: Run build-columns.py
+        run: python3 tools/build-columns.py
+
+      - name: Commit and push
+        run: |
+          git add column.html column/ sitemap.xml
+          if git diff --cached --quiet; then
+            echo "変更なし（WP の記事に更新が無い）"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "build: update columns from WP API"
+          # ビルド中に別の push があっても取り込んでから送る
+          git pull --rebase origin main
+          git push origin HEAD:main

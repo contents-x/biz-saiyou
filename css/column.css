@@ -1,5 +1,5 @@
 /* =========================================================================
-   column.css — リクルートX コラムページ（column.html / column/{slug}/ 一覧部）
+   column.css — ビズ採用 コラムページ（column.html / column/{slug}/ 一覧部）
    依存: css/tokens.css → css/style.css の後に読み込む
    デザイン: 「デザイン候補/コラム/heroPC.png・heroスマホ.png」を忠実に再現
    ブレークポイント（DEVICE-RULES §3）: SP ≤768 / TAB 769–1024 / PC ≥1025
@@ -218,6 +218,30 @@
 }
 .rx-colfeat__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
+/* 新着が1〜2本のとき（記事が少ない時期）の並べ方。件数クラスは build-columns.py が付ける */
+.rx-colfeat--n1 {
+  aspect-ratio: auto;
+  display: flex;
+  justify-content: center;
+  padding: clamp(12px, 2vw, 24px) 0 clamp(16px, 2.4vw, 28px);
+}
+.rx-colfeat--n1::before {
+  content: "";
+  position: absolute;
+  inset: 6% 10% 2% 14%;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #f7d6e6 0%, #f3e3f1 55%, #e7ecfa 100%);
+  transform: rotate(4deg);
+}
+.rx-colfeat--n1 .rx-colfeat__item { position: relative; width: min(100%, 500px); transform: rotate(-2deg); }
+.rx-colfeat--n1 .rx-colfeat__link { flex-direction: column-reverse; }
+.rx-colfeat--n1 .rx-colfeat__media { flex: none; max-width: none; aspect-ratio: 16 / 9; }
+.rx-colfeat--n1 .rx-colfeat__text { padding: 16px 20px 18px; gap: 9px; }
+.rx-colfeat--n1 .rx-colfeat__title { font-size: clamp(.9375rem, .85rem + .4vw, 1.125rem); }
+.rx-colfeat--n2 { aspect-ratio: 1.85; }
+.rx-colfeat--n2 .rx-colfeat__item:nth-child(1) { top: 4%; }
+.rx-colfeat--n2 .rx-colfeat__item:nth-child(2) { top: 38%; }
+
 /* ---- 下段: 検索＋ピル（フル幅・左寄せ。ピルは1行に収まる） ---- */
 .rx-colhero__search { max-width: 100%; }
 
@@ -240,7 +264,9 @@
   margin: 0 auto;
   padding: 0 clamp(20px, 4vw, 40px);
 }
-.rx-pickup__label {
+/* セクションの小見出し（PICK UP / ARTICLES 共通） */
+.rx-pickup__label,
+.rx-collist__label {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -251,7 +277,8 @@
   color: var(--rx-accent);
   margin: 0 0 clamp(14px, 2vw, 20px);
 }
-.rx-pickup__label::after {
+.rx-pickup__label::after,
+.rx-collist__label::after {
   content: "";
   width: clamp(40px, 8vw, 88px);
   height: 2px;
@@ -700,6 +727,13 @@
   font-size: 1.0625rem;
   line-height: 2;
   color: #2b3242;
+  /* 全体の .rx-jp-body は keep-all だが、和文の長文が読点ごとの塊で折れて行末がガタつき
+     「。」だけ次の行に落ちるため、本文は通常改行に戻す（home.css / service.css と同じ対処） */
+  word-break: normal;
+}
+/* 記事タイトル・本文見出しは文節で改行（DEVICE-RULES §16。未対応ブラウザは keep-all のまま） */
+@supports (word-break: auto-phrase) {
+  .rx-cold__title, .rx-cold__body :is(h2, h3, h4) { word-break: auto-phrase; text-wrap: balance; }
 }
 .rx-cold__body > :first-child { margin-top: 0; }
 .rx-cold__body p { margin: 0 0 1.5em; }
@@ -749,6 +783,46 @@
   text-align: left;
 }
 .rx-cold__body th { background: #fdf2f8; font-weight: 700; }
+.rx-cold__body figure { margin: 0 0 1.5em; }
+.rx-cold__body figure img { margin: 0; }
+.rx-cold__body figcaption { margin-top: .5em; font-size: .8125rem; color: #6b7385; text-align: center; }
+.rx-cold__body mark { background: linear-gradient(transparent 58%, #fbd3e6 58%); color: inherit; padding: 0 .1em; }
+/* 表は build-columns.py が .rx-cold__table で包み、本体セルに列名 data-label を付ける。
+   スマホは行ごとのカードに組み替える（多列の表を横スクロールで逃がさない → BUGS.md 2026-09-28）。
+   1列目はカードの見出し、2列目以降は列名を小さく添える。見出し行は読み上げ専用で残す */
+.rx-cold__table { overflow-x: auto; margin: 0 0 1.5em; }
+.rx-cold__table table { margin: 0; }
+@media (max-width: 768px) {
+  .rx-cold__table thead {
+    position: absolute;
+    width: 1px; height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .rx-cold__table table,
+  .rx-cold__table tbody,
+  .rx-cold__table tr,
+  .rx-cold__table td,
+  .rx-cold__table tbody th { display: block; width: 100%; }
+  .rx-cold__table tr {
+    margin: 0 0 12px;
+    border: 1px solid var(--rx-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .rx-cold__table td,
+  .rx-cold__table tbody th { border: 0; border-top: 1px solid var(--rx-border); padding: 10px 14px; }
+  .rx-cold__table tr > :first-child { border-top: 0; background: #fdf2f8; font-weight: 700; color: #0a0a0c; }
+  .rx-cold__table tr > :not(:first-child)[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin: 0 0 2px;
+    font-size: .75rem;
+    font-weight: 700;
+    color: #8a93a3;
+  }
+}
 .rx-cold__back {
   max-width: 760px;
   margin: clamp(28px, 4vw, 44px) auto 0;

@@ -24,7 +24,9 @@
 - 公開時に既存ページ（Contents X / BizManga 本文）から**アンカーテキスト内部リンク5〜10本**を張る（孤立ページ化を防ぐ）
 - 既存ページから自然に文脈接続できる箇所を選ぶ
 - **`service.html` の内部リンク**（2026-10-06 時点）: 受け＝全ページのヘッダー・フッターナビ。出し＝`index.html#flow` 1本・`price.html` 1本・`price.html#plans` 1本・`contact.html?source=free-consultation` 1本・電話1本。外部リンク＝01 なぜ今・03 採用AIOの出典9本（すべて `target="_blank" rel="noopener"`）。**Contents X / BizManga 本文からの外部内部リンク5〜10本は未実施**
-- **ナビからの事例・コラム非表示（2026-09-28）**: `case.html` / `column.html` と配下ページへの導線はヘッダー・フッターから外した。残る内部リンクはホーム §10「採用支援の導入事例を見る」、事例詳細のパンくず・「事例一覧へ戻る」のみ（`service.html` の「導入事例を見る」は 2026-10-06 の組み直しで無くなった）。sitemap.xml には残置（noindex にはしていない）
+- **コラムのナビ再表示（2026-10-19）**: `column.html` をヘッダー・フッターに戻した（受け＝全ページのヘッダー・フッター。出し＝各記事カード `column/{slug}/`）。記事ページはパンくず（トップ／コラム）・「コラム一覧へ戻る」・関連するコラム（同じカテゴリ優先で3本）で一覧と相互につながる。sitemap.xml に `column.html` と全記事を載せた
+- **コラム記事のメタ**: title・description は WP の SEO タイトル/説明（空なら「{タイトル}｜ビズ採用 コラム」と抜粋）。canonical・og:url は `https://ichioshi.contentsx.jp/column/{slug}/`、og:image・twitter:image はアイキャッチ（日本語ファイル名は URL エンコード）。構造化データは `Article`（publisher＝ビズ採用）＋`BreadcrumbList`
+- **ナビからの事例非表示（2026-09-28）**: `case.html` と配下ページへの導線はヘッダー・フッターから外した（コラムも同日に外したが 2026-10-19 に戻した）。残る内部リンクはホーム §10「採用支援の導入事例を見る」、事例詳細のパンくず・「事例一覧へ戻る」のみ（`service.html` の「導入事例を見る」は 2026-10-06 の組み直しで無くなった）。sitemap.xml には残置（noindex にはしていない）
 - **`company.html` / `privacy.html`（2026-09-28 新設）**: 受け＝全ページのフッター。出し＝会社概要→ `contact.html`・`contentsx.jp`、プライバシーポリシー→ `contact.html`。ヘッダーナビには置かない
 
 ## 4. KW戦略（事業ドメインの蓄積）
@@ -35,7 +37,7 @@
 
 ## 5. 運用メモ
 
-- **sitemap.xml**: ルート直下に配置済み（2026-06-13）。トップ/service.html/case.html/price.html/contact.html/company.html/privacy.html＋全 `/case/{slug}/`。**case エントリは build-cases.py が日次で自動更新**（`update_sitemap`）するので手動編集不要。新規の静的ページを足したら sitemap.xml に1行追加する
+- **sitemap.xml**: ルート直下に配置済み（2026-06-13）。トップ/service.html/case.html/column.html/price.html/contact.html/company.html/privacy.html＋全 `/case/{slug}/`＋全 `/column/{slug}/`。**case エントリは build-cases.py が日次、column エントリは build-columns.py が1時間ごとに自動更新**（`update_sitemap`）するので手動編集不要。新規の静的ページを足したら sitemap.xml に1行追加する
 - **robots.txt**: ルート直下に配置済み。全許可＋ `Sitemap:` 行で sitemap.xml を明示
 - サブドメイン開通済み（`https://ichioshi.contentsx.jp/`）。**github.io 旧URLは 301 で新ドメインへ自動リダイレクト**（重複コンテンツはGitHub側で解消済み）
 - Google Search Console へ登録・サイトマップ送信（`https://ichioshi.contentsx.jp/sitemap.xml`）— **未対応**。要ユーザーのGoogleアカウント操作（プロパティ追加＋所有権確認）

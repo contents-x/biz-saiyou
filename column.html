@@ -24,7 +24,7 @@
 <body class="rx-jp-body">
 
   <!-- ===================== 共通ヘッダー（全ページ同一・ホーム基準で 2026-09-28 に統一）
-       ロゴ画像＋タグライン＋メニュー2項目（サービス／料金プラン。事例・コラムは非表示）＋CTA2つ（無料診断／お問い合わせ）＋SPハンバーガー。
+       ロゴ画像＋タグライン＋メニュー3項目（サービス／料金プラン／コラム。事例は非表示）＋CTA2つ（無料診断／お問い合わせ）＋SPハンバーガー。
        スタイルは css/style.css の .rx-nav、開閉は js/main.js。共通コンポーネント化していないため、
        変更するときは全HTMLと tools/templates/*.tpl を同時に直す（テンプレを直さないと再生成で巻き戻る） ===================== -->
   <header class="rx-nav" id="nav">
@@ -36,7 +36,8 @@
       <nav class="rx-nav__menu" id="navMenu" aria-label="メインナビゲーション">
         <a class="rx-nav__link" href="service.html">サービス</a>
         <a class="rx-nav__link" href="price.html">料金プラン</a>
-        <!-- 事例・コラムは 2026-09-28 から非表示（case.html / column.html 自体は残置。再表示時はここに <a> を戻す） -->
+        <a class="rx-nav__link" href="column.html" aria-current="page">コラム</a>
+        <!-- 事例は 2026-09-28 から非表示（case.html 自体は残置。再表示時はここに <a> を戻す）。コラムは 2026-10-19 に再表示 -->
       </nav>
       <div class="rx-nav__ctas">
         <a class="rx-nav__cta rx-nav__cta--line" href="contact.html?source=free-diagnosis">無料診断を申し込む</a>
@@ -50,7 +51,8 @@
 
   <main>
 
-    <!-- ===================== ヒーロー（左コピー＋検索 / 右 新着ストリップ） ===================== -->
+    <!-- ===================== ヒーロー（左コピー＋検索 / 右 新着コラム）
+         BUILD マーカーの中身は tools/build-columns.py が WP の記事から毎回作り直す（手で直しても上書きされる） ===================== -->
     <section class="rx-colhero" aria-labelledby="colHeading">
       <div class="rx-colhero__inner">
         <div class="rx-colhero__top">
@@ -60,42 +62,22 @@
             <p class="rx-colhero__lead">求人広告に頼らない採用を実現するためのノウハウや成功事例をお届けします。SNS採用、採用LP、コンテンツ制作、応募数改善など、採用マーケティングに役立つ情報を発信しています。</p>
           </div>
 
-          <div class="rx-colhero__featured">
-            <ul class="rx-colfeat" aria-label="新着コラム">
 <!-- BUILD:COLUMN_FEATURED -->
-              <li class="rx-colfeat__item is-placeholder">
-                <a class="rx-colfeat__link" href="#">
+          <div class="rx-colhero__featured">
+            <ul class="rx-colfeat rx-colfeat--n1" aria-label="新着コラム">
+              <li class="rx-colfeat__item">
+                <a class="rx-colfeat__link" href="column/hiring-issues-3-tiers/">
                   <div class="rx-colfeat__text">
-                    <span class="rx-colfeat__badge">SNS採用</span>
-                    <h3 class="rx-colfeat__title">Instagram採用の始め方 完全ガイド</h3>
-                    <span class="rx-colfeat__date">2026.05.10</span>
+                    <span class="rx-colfeat__badge">新着</span>
+                    <p class="rx-colfeat__title">採用がうまくいかない原因を3層で診断｜市場・組織・手法のフレーム</p>
+                    <span class="rx-colfeat__date">2026.10.19</span>
                   </div>
-                  <figure class="rx-colfeat__media"></figure>
+                  <figure class="rx-colfeat__media"><img src="https://cms.contentsx.jp/wp-content/uploads/2026/06/採用-うまくいかない原因-ヘッダーイラスト-1024x576.webp" alt="" loading="lazy" decoding="async"></figure>
                 </a>
               </li>
-              <li class="rx-colfeat__item is-placeholder">
-                <a class="rx-colfeat__link" href="#">
-                  <div class="rx-colfeat__text">
-                    <span class="rx-colfeat__badge">採用LP</span>
-                    <h3 class="rx-colfeat__title">応募率を高める採用LPの作り方</h3>
-                    <span class="rx-colfeat__date">2026.05.02</span>
-                  </div>
-                  <figure class="rx-colfeat__media"></figure>
-                </a>
-              </li>
-              <li class="rx-colfeat__item is-placeholder">
-                <a class="rx-colfeat__link" href="#">
-                  <div class="rx-colfeat__text">
-                    <span class="rx-colfeat__badge">採用改善</span>
-                    <h3 class="rx-colfeat__title">応募数を増やすための5つの改善ポイント</h3>
-                    <span class="rx-colfeat__date">2026.04.28</span>
-                  </div>
-                  <figure class="rx-colfeat__media"></figure>
-                </a>
-              </li>
-<!-- /BUILD:COLUMN_FEATURED -->
             </ul>
           </div>
+<!-- /BUILD:COLUMN_FEATURED -->
         </div>
 
         <div class="rx-colhero__search">
@@ -105,133 +87,38 @@
             <button class="rx-colsearch__btn" type="submit">検索</button>
           </form>
 
+<!-- BUILD:COLUMN_SEARCH_TAGS -->
           <ul class="rx-colsearch__tags" aria-label="よく検索されるキーワード">
             <li><button type="button" class="rx-colsearch__tag" data-query="応募"><svg class="rx-colsearch__tagic" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.2 8.2l1.9 1.9 3.7-3.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>応募が来ない</button></li>
-            <li><button type="button" class="rx-colsearch__tag" data-query="費用"><svg class="rx-colsearch__tagic" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.2 8.2l1.9 1.9 3.7-3.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>広告費が高い</button></li>
-            <li><button type="button" class="rx-colsearch__tag" data-query="SNS"><svg class="rx-colsearch__tagic" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.2 8.2l1.9 1.9 3.7-3.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>SNSを始めたい</button></li>
-            <li><button type="button" class="rx-colsearch__tag" data-query="採用LP"><svg class="rx-colsearch__tagic" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.2 8.2l1.9 1.9 3.7-3.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>採用LPを改善したい</button></li>
-            <li><button type="button" class="rx-colsearch__tag" data-query="求人広告"><svg class="rx-colsearch__tagic" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.3"/><path d="M5.2 8.2l1.9 1.9 3.7-3.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>求人広告を見直したい</button></li>
           </ul>
+<!-- /BUILD:COLUMN_SEARCH_TAGS -->
         </div>
       </div>
     </section>
 
-    <!-- ===================== PICK UP（注目記事） ===================== -->
-    <section class="rx-pickup" aria-labelledby="pickupHeading">
-      <div class="rx-pickup__inner">
-        <p class="rx-pickup__label" id="pickupHeading">PICK UP</p>
-        <div class="rx-pickup__body">
+    <!-- ===================== PICK UP（注目記事・WP で「ピックアップ」にした記事があるときだけ表示） ===================== -->
 <!-- BUILD:COLUMN_PICKUP -->
-          <a class="rx-pickup__card is-placeholder" href="#">
-            <span class="rx-pickup__media" aria-hidden="true"></span>
-            <span class="rx-pickup__content">
-              <span class="rx-pickup__cat">求人広告</span>
-              <span class="rx-pickup__title">求人広告に頼りきらない採用とは？〜SNS時代の新しい採用戦略を徹底解説〜</span>
-              <span class="rx-pickup__desc">求人広告の効果が頭打ち。応募は来るが採用につながらない——そんな課題を抱える企業が増えています。本記事では求人広告に依存しない採用手法を解説します。</span>
-              <span class="rx-pickup__date">2026.06.15</span>
-            </span>
-          </a>
 <!-- /BUILD:COLUMN_PICKUP -->
-        </div>
-      </div>
-    </section>
 
-    <!-- ===================== コラム一覧（カテゴリタブ＋カードグリッド） ===================== -->
+    <!-- ===================== コラム一覧（カテゴリタブ＝カテゴリが2つ以上あるときだけ表示＋カードグリッド） ===================== -->
     <section class="rx-collist" aria-label="コラム一覧">
       <div class="rx-collist__inner">
+        <p class="rx-collist__label">ARTICLES</p>
 
-        <div class="rx-collist__filter" role="group" aria-label="カテゴリで絞り込み" data-column-filter>
 <!-- BUILD:COLUMN_TABS -->
-          <button type="button" class="rx-collist__filter-btn" data-filter="all" aria-pressed="true">すべて</button>
-          <button type="button" class="rx-collist__filter-btn" data-filter="求人広告" aria-pressed="false">求人広告</button>
-          <button type="button" class="rx-collist__filter-btn" data-filter="SNS採用" aria-pressed="false">SNS採用</button>
-          <button type="button" class="rx-collist__filter-btn" data-filter="採用LP" aria-pressed="false">採用LP</button>
-          <button type="button" class="rx-collist__filter-btn" data-filter="コンテンツ制作" aria-pressed="false">コンテンツ制作</button>
-          <button type="button" class="rx-collist__filter-btn" data-filter="採用改善" aria-pressed="false">採用改善</button>
 <!-- /BUILD:COLUMN_TABS -->
-        </div>
 
         <ul class="rx-collist__grid" data-column-grid>
 <!-- BUILD:COLUMN_GRID -->
-          <li class="rx-colcard rx-anim is-placeholder" data-category="求人広告" data-title="求人広告の費用対効果を最大化する方法">
-            <a class="rx-colcard__link" href="#">
-              <figure class="rx-colcard__media"></figure>
+          <li class="rx-colcard rx-anim" data-category="" data-title="採用がうまくいかない原因を3層で診断｜市場・組織・手法のフレーム" data-desc="採用がうまくいかない原因を探るなかで、応募数の減少や内定辞退、経営層からの問いかけに直面したことはないでしょうか。何が真…">
+            <a class="rx-colcard__link" href="column/hiring-issues-3-tiers/">
+              <figure class="rx-colcard__media"><img src="https://cms.contentsx.jp/wp-content/uploads/2026/06/採用-うまくいかない原因-ヘッダーイラスト-1024x576.webp" alt="採用がうまくいかない原因を3層で診断｜市場・組織・手法のフレーム" loading="lazy" decoding="async"></figure>
               <div class="rx-colcard__body">
-                <span class="rx-colcard__cat">求人広告</span>
-                <h3 class="rx-colcard__title">求人広告の費用対効果を最大化する方法</h3>
-                <p class="rx-colcard__desc">媒体選定から原稿改善まで、費用対効果を高めるポイントを解説します。</p>
+                
+                <h3 class="rx-colcard__title">採用がうまくいかない原因を3層で診断｜市場・組織・手法のフレーム</h3>
+                <p class="rx-colcard__desc">採用がうまくいかない原因を探るなかで、応募数の減少や内定辞退、経営層からの問いかけに直面したことはないでしょうか。何が真…</p>
                 <div class="rx-colcard__foot">
-                  <span class="rx-colcard__date"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" stroke-linecap="round"/></svg>2024.05.08</span>
-                  <span class="rx-colcard__arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></span>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li class="rx-colcard rx-anim is-placeholder" data-category="SNS採用" data-title="TikTokで採用成功する企業の共通点とは">
-            <a class="rx-colcard__link" href="#">
-              <figure class="rx-colcard__media"></figure>
-              <div class="rx-colcard__body">
-                <span class="rx-colcard__cat">SNS採用</span>
-                <h3 class="rx-colcard__title">TikTokで採用成功する企業の共通点とは</h3>
-                <p class="rx-colcard__desc">若年層へのリーチを広げるTikTok活用のポイントと成功事例を紹介します。</p>
-                <div class="rx-colcard__foot">
-                  <span class="rx-colcard__date"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" stroke-linecap="round"/></svg>2024.05.01</span>
-                  <span class="rx-colcard__arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></span>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li class="rx-colcard rx-anim is-placeholder" data-category="採用LP" data-title="採用LPの改善で応募数が2倍になった事例">
-            <a class="rx-colcard__link" href="#">
-              <figure class="rx-colcard__media"></figure>
-              <div class="rx-colcard__body">
-                <span class="rx-colcard__cat">採用LP</span>
-                <h3 class="rx-colcard__title">採用LPの改善で応募数が2倍になった事例</h3>
-                <p class="rx-colcard__desc">実際の改善事例をもとに、応募につながるLPの作り方を具体的に解説します。</p>
-                <div class="rx-colcard__foot">
-                  <span class="rx-colcard__date"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" stroke-linecap="round"/></svg>2024.04.24</span>
-                  <span class="rx-colcard__arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></span>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li class="rx-colcard rx-anim is-placeholder" data-category="コンテンツ制作" data-title="採用コンテンツの作り方完全ガイド">
-            <a class="rx-colcard__link" href="#">
-              <figure class="rx-colcard__media"></figure>
-              <div class="rx-colcard__body">
-                <span class="rx-colcard__cat">コンテンツ制作</span>
-                <h3 class="rx-colcard__title">採用コンテンツの作り方完全ガイド</h3>
-                <p class="rx-colcard__desc">求職者の心を動かすコンテンツの企画・制作のポイントを解説。</p>
-                <div class="rx-colcard__foot">
-                  <span class="rx-colcard__date"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" stroke-linecap="round"/></svg>2024.04.17</span>
-                  <span class="rx-colcard__arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></span>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li class="rx-colcard rx-anim is-placeholder" data-category="採用改善" data-title="応募数が伸び悩む原因と改善アクション">
-            <a class="rx-colcard__link" href="#">
-              <figure class="rx-colcard__media"></figure>
-              <div class="rx-colcard__body">
-                <span class="rx-colcard__cat">採用改善</span>
-                <h3 class="rx-colcard__title">応募数が伸び悩む原因と改善アクション</h3>
-                <p class="rx-colcard__desc">応募が来ない原因を特定し、改善につなげる具体的なアクションを紹介します。</p>
-                <div class="rx-colcard__foot">
-                  <span class="rx-colcard__date"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" stroke-linecap="round"/></svg>2024.04.10</span>
-                  <span class="rx-colcard__arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></span>
-                </div>
-              </div>
-            </a>
-          </li>
-          <li class="rx-colcard rx-anim is-placeholder" data-category="SNS採用" data-title="X（旧Twitter）を活用した採用ブランディング術">
-            <a class="rx-colcard__link" href="#">
-              <figure class="rx-colcard__media"></figure>
-              <div class="rx-colcard__body">
-                <span class="rx-colcard__cat">SNS採用</span>
-                <h3 class="rx-colcard__title">X（旧Twitter）を活用した採用ブランディング術</h3>
-                <p class="rx-colcard__desc">企業の魅力を発信し、ファンを増やすためのX活用のコツを解説します。</p>
-                <div class="rx-colcard__foot">
-                  <span class="rx-colcard__date"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" stroke-linecap="round"/></svg>2024.04.03</span>
+                  <span class="rx-colcard__date"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M2.5 6.5h11M5.5 2v3M10.5 2v3" stroke-linecap="round"/></svg>2026.10.19</span>
                   <span class="rx-colcard__arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></span>
                 </div>
               </div>
@@ -244,7 +131,7 @@
       </div>
     </section>
 
-    <!-- ===================== CTA バナー ===================== -->
+    <!-- ===================== CTA バナー（ホームの最後のCTA＝提案書 最終版 p26 と同じ文言・2026-10-19） ===================== -->
     <section class="rx-colcta" aria-labelledby="colCtaHeading">
       <div class="rx-colcta__inner rx-anim">
         <div class="rx-colcta__art" aria-hidden="true">
@@ -256,18 +143,18 @@
           </svg>
         </div>
         <div class="rx-colcta__text">
-          <h2 class="rx-colcta__heading" id="colCtaHeading">貴社の採用課題をプロが解決します</h2>
-          <p class="rx-colcta__lead">採用でお悩みの方、まずは無料のオンライン相談で気軽にご相談ください。</p>
+          <h2 class="rx-colcta__heading" id="colCtaHeading">まずは、無料の採用力診断から。</h2>
+          <p class="rx-colcta__lead">御社の仕事の中身や職場の空気が、候補者からどう見えているかをお伝えします。</p>
           <ul class="rx-colcta__points">
-            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>採用戦略のご相談</li>
-            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>自社に合った媒体のご提案</li>
-            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>無料の改善診断</li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>採用課題の整理</li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>既存施策の確認</li>
+            <li><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 5"/></svg>候補者へ伝えるテーマの選定</li>
           </ul>
         </div>
         <div class="rx-colcta__action">
-          <span class="rx-colcta__badge"><b>60分</b>無料</span>
-          <a class="rx-colcta__btn" href="contact.html">無料相談を予約する<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10h14M11 4l6 6-6 6"/></svg></a>
-          <p class="rx-colcta__note">オンラインで気軽に相談できます</p>
+          <span class="rx-colcta__badge">診断は<b>無料</b></span>
+          <a class="rx-colcta__btn" href="contact.html?source=free-consultation">無料相談はこちら<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10h14M11 4l6 6-6 6"/></svg></a>
+          <p class="rx-colcta__note">相談内容に「採用力診断希望」とご記入ください</p>
         </div>
       </div>
     </section>
@@ -288,6 +175,7 @@
           <ul class="rx-footer__links">
             <li><a class="rx-footer__link" href="service.html">サービス</a></li>
             <li><a class="rx-footer__link" href="price.html">料金プラン</a></li>
+            <li><a class="rx-footer__link" href="column.html">コラム</a></li>
             <li><a class="rx-footer__link" href="contact.html">お問い合わせ</a></li>
             <li><a class="rx-footer__link" href="company.html">会社概要</a></li>
             <li><a class="rx-footer__link" href="privacy.html">プライバシーポリシー</a></li>
