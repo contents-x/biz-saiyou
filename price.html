@@ -51,56 +51,66 @@
 
   <main>
 
-    <!-- ===================== 1. ヒーロー（写真＋実績カード / 資料 p28 準拠） ===================== -->
-    <section class="rx-phero2" aria-labelledby="priceHeading">
-      <div class="rx-phero2__inner">
+    <!-- ===================== 1. ヒーロー（2026-10-23 リデザイン・参考デザイン準拠）
+         見出し → 説明 → 3プラン → 注記 → CTA の順に読ませる。料金・見出し・CTAはすべてHTMLテキスト
+         （画像は背景＝CSS と人物イラストだけ）。PC＝左に情報・右下に人物 / SP＝情報 → CTA → 人物 の縦積み。
+         スタイルは css/price.css の .rx-price-hero。各プランの行は下の料金プラン（#plan-*）へ飛ぶ ===================== -->
+    <section class="rx-price-hero" aria-labelledby="priceHeading">
+      <div class="rx-price-hero__inner">
 
-        <div class="rx-phero2__copy">
-          <p class="rx-p-eyebrow">PRICE PLAN</p>
-          <h1 class="rx-phero2__heading" id="priceHeading">制作と活用の<br><span class="rx-phero2__line3"><span class="rx-phero2__under">月額</span>プラン</span></h1>
-          <p class="rx-phero2__lead">月額<span class="rx-p-pink">15万円</span>から。応募前の職場体験をつくる、採用クリエイティブの制作と活用の月額プランです。採用AIO（AI検索対策）とスポット制作パックもご用意しています。</p>
+        <div class="rx-price-hero__body">
+          <p class="rx-price-hero__eyebrow" lang="en">PRICE</p>
+          <h1 class="rx-price-hero__title" id="priceHeading">料金プラン</h1>
+          <p class="rx-price-hero__lead">貴社の採用状況・運用体制に合わせて、<br>最適な支援プランをご用意しています。</p>
 
-          <a class="rx-p-btn rx-phero2__cta" href="contact.html?source=free-diagnosis">
-            <svg class="rx-p-btn__lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.4 15.4 5.1 5.1"/><path d="M7.6 10.5h1.6l1.1-2.2 1.5 4.2 1-2h1.6"/></svg>
-            <span>無料診断を申し込む</span>
-            <svg class="rx-p-btn__chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5.5 2.5 5.5 5.5-5.5 5.5"/></svg>
-          </a>
-
-          <ul class="rx-phero2__assures">
-            <li class="rx-phero2__assure">
-              <span class="rx-phero2__assure-icon rx-phero2__assure-icon--fill" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7.5 5 4.5 6 4.5-6M12 11v8M8.5 13.5h7M8.5 16.5h7"/></svg>
-              </span>
-              診断無料
+          <ul class="rx-price-hero__plans">
+            <li>
+              <a class="rx-price-hero__plan" href="#plan-light">
+                <span class="rx-price-hero__plan-name">ライト</span>
+                <span class="rx-price-hero__plan-price"><span class="rx-price-hero__plan-unit">月額</span><b class="rx-stat-num">15</b>万円</span>
+                <svg class="rx-price-hero__plan-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+              </a>
             </li>
-            <li class="rx-phero2__assure">
-              <span class="rx-phero2__assure-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#f00858" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.5C10.2 5 8 4.4 4.5 4.4v12.3c3.5 0 5.7.6 7.5 2 1.8-1.4 4-2 7.5-2V4.4c-3.5 0-5.7.6-7.5 2.1Z"/><path d="M12 6.5v12.2"/></svg>
-              </span>
-              年間契約・税別
+            <li>
+              <a class="rx-price-hero__plan rx-price-hero__plan--recommended" href="#plan-standard">
+                <span class="rx-price-hero__plan-name">スタンダード</span>
+                <span class="rx-price-hero__plan-price"><span class="rx-price-hero__plan-unit">月額</span><b class="rx-stat-num">24</b>万円</span>
+                <span class="rx-price-hero__badge">おすすめ</span>
+                <svg class="rx-price-hero__plan-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+              </a>
             </li>
-            <li class="rx-phero2__assure">
-              <span class="rx-phero2__assure-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#f00858" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.6"/><path d="m8.8 8.4 3.2 3.4 3.2-3.4M12 11.8v4.2M9.4 12.9h5.2M9.4 15h5.2"/></svg>
-              </span>
-              媒体費・追加制作は別途お見積り
+            <li>
+              <a class="rx-price-hero__plan" href="#plan-premium">
+                <span class="rx-price-hero__plan-name">プレミアム</span>
+                <span class="rx-price-hero__plan-price"><span class="rx-price-hero__plan-unit">月額</span><b class="rx-stat-num">39</b>万円</span>
+                <svg class="rx-price-hero__plan-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+              </a>
             </li>
           </ul>
-        </div>
-      </div>
 
-      <div class="rx-phero2__visual">
-        <img class="rx-phero2__photo" src="images/price/hero-meeting.webp" alt="" aria-hidden="true" width="1218" height="941" loading="eager" fetchpriority="high" decoding="async">
+          <ul class="rx-price-hero__notes">
+            <li>年間契約・税別</li>
+            <li>媒体費・追加制作は別途</li>
+          </ul>
 
-          <div class="rx-phero2__card rx-phero2__card--plan">
-            <p class="rx-phero2__plan-badge">おすすめ</p>
-            <p class="rx-phero2__plan-name">スタンダード</p>
-            <p class="rx-phero2__plan-price"><b class="rx-stat-num">24</b>万円<span class="rx-phero2__plan-per">/月</span></p>
-            <ul class="rx-phero2__plan-list">
-              <li>制作量と支援範囲を拡張</li>
-              <li>年間契約・税別</li>
-            </ul>
+          <div class="rx-price-hero__actions">
+            <a class="rx-price-hero__cta" href="contact.html?source=free-diagnosis">
+              <span>無料診断を申し込む</span>
+              <svg class="rx-price-hero__cta-arrow" viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h19M15 2.5 21 8l-6 5.5"/></svg>
+            </a>
+            <a class="rx-price-hero__compare" href="#plans">
+              <span>プラン比較を見る</span>
+              <svg class="rx-price-hero__compare-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+            </a>
           </div>
+        </div>
+
+        <div class="rx-price-hero__visual">
+          <p class="rx-price-hero__message">人が育てば、<br>会社はもっと、<br>やさしく強くなれる。</p>
+          <img class="rx-price-hero__person" src="images/price/hero-person.webp" srcset="images/price/hero-person-720.webp 720w, images/price/hero-person.webp 1086w" sizes="(max-width: 768px) 80vw, 40vw" alt="資料を胸に抱え、斜め上を見上げる女性のイラスト" width="1086" height="1448" loading="eager" fetchpriority="high" decoding="async">
+          <p class="rx-price-hero__signature" lang="en" aria-hidden="true">Good People<br>Brighter Future</p>
+        </div>
+
       </div>
     </section>
 
@@ -115,7 +125,7 @@
 
         <ul class="rx-plans__grid">
 
-          <li class="rx-pcard rx-anim">
+          <li class="rx-pcard rx-anim" id="plan-light">
             <h3 class="rx-pcard__head">ライト</h3>
             <div class="rx-pcard__body">
               <div class="rx-pcard__pricing rx-pcard__pricing--single rx-pcard__pricing--lead">
@@ -127,7 +137,7 @@
             <p class="rx-pcard__foot">年間契約・税別。求人広告の媒体費・スカウト運用・追加制作は別途お見積りです。</p>
           </li>
 
-          <li class="rx-pcard rx-pcard--featured rx-anim">
+          <li class="rx-pcard rx-pcard--featured rx-anim" id="plan-standard">
             <p class="rx-pcard__badge">おすすめ</p>
             <h3 class="rx-pcard__head">スタンダード</h3>
             <div class="rx-pcard__body">
@@ -140,7 +150,7 @@
             <p class="rx-pcard__foot">年間契約・税別。求人広告の媒体費・スカウト運用・追加制作は別途お見積りです。</p>
           </li>
 
-          <li class="rx-pcard rx-anim">
+          <li class="rx-pcard rx-anim" id="plan-premium">
             <h3 class="rx-pcard__head">プレミアム</h3>
             <div class="rx-pcard__body">
               <div class="rx-pcard__pricing rx-pcard__pricing--single rx-pcard__pricing--lead">
