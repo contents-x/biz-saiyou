@@ -1260,6 +1260,19 @@
   gap: 8px;
 }
 .rx-scene__fig--note img { width: 100%; max-width: 190px; margin: 0 auto; }
+/* 「採用サイトに載せる」の実例リンク（客先専用の採用LP・docs/specs/SAMPLE-LP.md） */
+.rx-scene__link {
+  display: inline-flex;
+  align-items: center;
+  gap: .35em;
+  min-height: 44px;
+  font-weight: 700;
+  font-size: .875rem;
+  color: var(--rx-accent-hover);
+  text-decoration: underline;
+  text-underline-offset: .25em;
+}
+.rx-scene__link::after { content: ""; width: .4em; height: .4em; border-top: 2px solid currentColor; border-right: 2px solid currentColor; transform: rotate(45deg); }
 .rx-scene__note {
   font-family: 'Zen Kurenaido', var(--hm-sans);
   font-size: clamp(1rem, .9rem + .4vw, 1.25rem);
@@ -2113,6 +2126,92 @@
   text-underline-offset: .25em;
 }
 .rx-works__link::after { content: ""; width: .4em; height: .4em; border-top: 2px solid currentColor; border-right: 2px solid currentColor; transform: rotate(45deg); }
+
+/* 採用LPの制作例（表紙の並びの上・カード全体がリンク）。左にPCとスマホの画面写真、右に説明。
+   .rx-anim が transform を使うため、ホバーの動きは中の要素にだけ付ける（BUGS.md 2026-09-28） */
+.rx-works__lp {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(18px, 2.4vw, 28px);
+  margin: clamp(24px, 3vw, 44px) 0 0;
+  padding: clamp(18px, 2.6vw, 36px);
+  border-radius: clamp(16px, 1.6vw, 22px);
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(28, 40, 74, .12);
+  color: var(--hm-navy);
+  text-decoration: none;
+}
+.rx-works__lp:focus-visible { outline: 3px solid var(--rx-accent); outline-offset: 3px; }
+.rx-works__lp-shot { position: relative; display: block; padding: 0 13% 5% 0; }
+.rx-works__lp-pc {
+  display: block;
+  overflow: hidden;
+  border: 1px solid #e3e6ef;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(16, 28, 77, .14);
+  transition: transform .3s ease;
+}
+.rx-works__lp-bar { display: flex; gap: 5px; padding: 7px 10px; background: #eef0f6; }
+.rx-works__lp-bar i { width: 8px; height: 8px; border-radius: 50%; background: #c8cddb; }
+.rx-works__lp-pc img, .rx-works__lp-sp img { display: block; width: 100%; height: auto; }
+.rx-works__lp-sp {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 25%;
+  overflow: hidden;
+  border: clamp(3px, .4vw, 5px) solid #1b1f33;
+  border-radius: clamp(12px, 1.4vw, 18px);
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(16, 28, 77, .25);
+  transition: transform .3s ease;
+}
+.rx-works__lp-body { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.rx-works__lp-label {
+  align-self: flex-start;
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: rgba(var(--rx-accent-rgb), .1);
+  color: var(--rx-accent);
+  font-size: .8125rem;
+  font-weight: 900;
+}
+.rx-works__lp-title {
+  font-family: var(--hm-sans);
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.875rem);
+  font-weight: 900;
+  line-height: 1.35;
+}
+.rx-works__lp-text { font-size: clamp(.875rem, .84rem + .2vw, 1rem); line-height: 1.8; }
+.rx-works__lp-more {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  min-height: 48px;
+  margin-top: 6px;
+  padding: 0 1.6em;
+  border-radius: 999px;
+  background: var(--rx-grad);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(var(--rx-accent-rgb), .28);
+  transition: box-shadow .2s ease;
+}
+.rx-works__lp-more svg { width: 1.2em; height: 1.2em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@media (hover: hover) {
+  .rx-works__lp:hover .rx-works__lp-pc { transform: translateY(-3px); }
+  .rx-works__lp:hover .rx-works__lp-sp { transform: translateY(-6px); }
+  .rx-works__lp:hover .rx-works__lp-more { box-shadow: 0 12px 24px rgba(var(--rx-accent-rgb), .38); }
+}
+@media (prefers-reduced-motion: reduce) { .rx-works__lp-pc, .rx-works__lp-sp { transition: none; } }
+@media (min-width: 769px) {
+  .rx-works__lp { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: center; gap: clamp(24px, 3.6vw, 56px); }
+}
+@media (max-width: 480px) {
+  .rx-works__lp-more { align-self: stretch; justify-content: center; }
+}
 
 /* 表紙ボタン（本編があるもの）。「読む」ラベルとホバーは js/works-viewer.js が .is-ready を付けたときだけ出す
    （スマホはホバーが無いので、ラベルを常に出して押せることを伝える・DEVICE-RULES §6）。

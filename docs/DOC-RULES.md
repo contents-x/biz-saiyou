@@ -14,6 +14,7 @@
 | 変更の種類 | 更新先 |
 |---|---|
 | 機能追加・動作変更・URLパラメータ・共通コンポーネント | [specs/SPEC.md](specs/SPEC.md) |
+| 客先ごとの採用LP（`/sample/{客先}/`・`css/sample-lp.css`・`js/sample-lp.js`） | [specs/SAMPLE-LP.md](specs/SAMPLE-LP.md) |
 | 色・フォント・角丸・余白などデザイントークン | [specs/DESIGN.md](specs/DESIGN.md) |
 | デバイス表示・レスポンシブ・アクセシビリティ規則 | [specs/DEVICE-RULES.md](specs/DEVICE-RULES.md) |
 | メタタグ・構造化データ・内部リンク・KW戦略 | [content/SEO.md](content/SEO.md) |
