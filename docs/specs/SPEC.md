@@ -27,7 +27,7 @@
 | 料金プラン | `price.html` | `js/main.js`（入場アニメ/固定CTA） | 実装済み |
 | コラム | `column.html`（一覧）＋ `column/{slug}/`（記事・ビルドで生成） | `js/main.js` + `js/column.js`（カテゴリ絞り込み・キーワード検索） | 実装済み（2026-10-19 にナビへ再表示し、WP の記事を1時間ごとに自動で取り込むようにした。§3「コラム」） |
 | 会社概要 | `company.html` | `js/main.js`（ナビ/固定CTA） | 実装済み（2026-09-28 新設。レイアウトは bizform.contentsx.jp/company/ を参考、**会社情報の値は contentsx.jp/company から転記**（社名は登記表記「Contents X 株式会社」・設立 2026-03-03・事業内容4項目。メール `office@contentsx.jp`・電話 `03-6261-0764` はホーム最終CTAと同じ値）。スタイルは `css/legal.css`。導線はフッターのみ） |
-| 採用LP 制作サンプル | `sample/{客先}/index.html`（1客先目 `sample/asobisystem/`） | `js/sample-lp.js`（メニュー・動画・漫画の読み画面） | ローカルのみ・未公開（2026-10-16 新設。掲載許諾が取れるまで push しない。`noindex`・サイトからの導線なし。スタイルは `css/sample-lp.css`＋客先の `theme.css`。仕様と作り方は [SAMPLE-LP.md](SAMPLE-LP.md)） |
+| 採用LP 制作サンプル | `sample/{客先}/index.html`（1客先目 `sample/asobisystem/`） | `js/sample-lp.js`（メニュー・動画・漫画の読み画面） | 実装済み（2026-10-16 新設・2026-10-24 公開＝掲載許諾 確認済み。`noindex`・sitemap に載せない。導線はホームの `#cases` 制作例の枠と `#scene`「採用サイトに載せる」。スタイルは `css/sample-lp.css`＋客先の `theme.css`。仕様と作り方は [SAMPLE-LP.md](SAMPLE-LP.md)） |
 | プライバシーポリシー | `privacy.html` | `js/main.js`（ナビ/固定CTA） | 実装済み（2026-09-28 新設。bizform.contentsx.jp/policy/ の構成を採用向けに書き換え。スタイルは `css/legal.css`。導線はフッターのみ。**送信先・計測ツールを増減したら §6・§10 と最終更新日を更新**） |
 
 ## 3. URL構造・ナビゲーション
