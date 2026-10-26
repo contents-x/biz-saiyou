@@ -25,6 +25,7 @@
 | HubSpot連携の実装仕様 | [operations/HUBSPOT-CTA-HANDOFF.md](operations/HUBSPOT-CTA-HANDOFF.md) |
 | 直したバグ | [/BUGS.md](../BUGS.md) |
 | 規約・ブランドボイス・ルーティング自体 | [/CLAUDE.md](../CLAUDE.md) |
+| GitHubの概要・技術スタック・現在の状態 | [/README.md](../README.md) |
 
 「今回は小さいから」「後でまとめて」は禁止。
 

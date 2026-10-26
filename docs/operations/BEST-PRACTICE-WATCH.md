@@ -10,10 +10,10 @@
 
 | 項目 | 現在の値 | 出典 | 最終確認 |
 |------|---------|------|---------|
-| ドキュメント1ファイルの行数目安 | 200行以下 | （要確認・公式更新で変動） | 2026-05-24 |
-| CLAUDE.md の書き方 | 簡潔・重要情報を上・TL;DR | docs.claude.com | 2026-05-24 |
-| Skill の設計 | SKILL.md は短く、詳細は references/ に分離（段階的開示） | docs.claude.com | 2026-05-24 |
-| リンク書式（VS Code拡張） | `[text](path)` クリック可能形式 | — | 2026-05-24 |
+| ドキュメント1ファイルの行数目安 | 200行以下 | [code.claude.com/docs/en/memory](https://code.claude.com/docs/en/memory) | 2026-10-26 |
+| CLAUDE.md の書き方 | 簡潔・重要情報を上・TL;DR | [code.claude.com/docs/en/best-practices](https://code.claude.com/docs/en/best-practices) | 2026-10-26 |
+| Skill の設計 | SKILL.md は短く・フロントマター付き、詳細は references/ に分離（段階的開示） | [code.claude.com/docs/en/best-practices](https://code.claude.com/docs/en/best-practices) | 2026-10-26 |
+| リンク書式（VS Code拡張） | `[text](path)` クリック可能形式 | — | 2026-10-26 |
 
 > ↑ 値は初期推定を含む。週次ジョブが公式の一次ソースで検証し、URLと値を確定・更新する。
 
@@ -43,3 +43,4 @@
 | 日付 | 変わった項目 | 旧→新 | 反映したファイル |
 |------|------------|--------|----------------|
 | 2026-05-24 | 初期セットアップ | — | 台帳作成 |
+| 2026-10-26 | 全項目の最終確認日・出典URL更新（値は変化なし）。新機能メモ: `/doctor prompt-audit`（CLAUDE.md自動監査）・`AGENTS.md` サポート・`.claude/rules/`（パス別スコープルール）が公式ドキュメントに追記 | 変化なし | BEST-PRACTICE-WATCH.md |

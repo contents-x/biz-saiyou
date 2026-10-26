@@ -73,5 +73,6 @@ SEO記事（コラム）・採用事例の本文を書くときは、**必ず7�
 | バグと再発防止 | [BUGS.md](BUGS.md) |
 | **md運用ルール・スキル使用・自動修整の判断** | [docs/DOC-RULES.md](docs/DOC-RULES.md) ⭐ |
 | **Claude公式の最新推奨の追従状況** | [docs/operations/BEST-PRACTICE-WATCH.md](docs/operations/BEST-PRACTICE-WATCH.md) ⭐ |
+| GitHubに公開する概要・技術スタック・現在の状態 | [README.md](README.md) |
 
 迷ったら [docs/DOC-RULES.md](docs/DOC-RULES.md) を見る。
