@@ -37,7 +37,7 @@ SEO記事（コラム）・採用事例の本文を書くときは、**必ず7�
 - **手順とトンマナの正本**: 非公開のコラム制作リポ（採用ワークスペース直下 `../column-project/`）の `clients/recruitx.md`。作業前に必ず読む
 - **事例単位のSEO仕様書**: 同 `clients/recruitx_cases/{slug}.md`（1事例=1MD）。**KW割当マップ `_index.md` を着手前に確認・着手後に更新**（カニバリ防止）
 - **SEO戦略・KW割当をこの公開リポに書かない**（公開してよいのはメタの実装値のみ → docs/content/SEO.md）
-- 本文の正本はWP（採用事例=rx_case 専用CPT / コラム=共有 `cx_column` に相乗り＝掲載先「リクルートX」にチェック※WP管理画面の項目名は未改名。ビズマンガ/ContentsX と同じ「コラム」メニュー）。**事例は3,000〜5,000字・コラムは7,000字以上**。コラム一覧フロントは `column.html`＋`tools/build-columns.py`（`/columns?site=recruitx` を取得→静的生成）。**GitHub Actions `build-columns.yml` が1時間ごとに自動で取り込み・公開**（手動実行も可）。`column.html` の BUILD マーカー内と `column/` 配下は手で直さない（次のビルドで上書き）
+- 本文の正本はWP（採用事例=rx_case 専用CPT / コラム=共有 `cx_column` に相乗り＝掲載先「リクルートX」にチェック※WP管理画面の項目名は未改名。ビズマンガ/ContentsX と同じ「コラム」メニュー）。**事例は3,000〜5,000字・コラムは7,000字以上**。コラム一覧フロントは `column.html`＋`tools/build-columns.py`（`/columns?site=recruitx` を取得→静的生成）。**GitHub Actions `build-columns.yml` が15分ごとに自動で取り込み・公開**（手動実行も可）。`column.html` の BUILD マーカー内と `column/` 配下は手で直さない（次のビルドで上書き）
 
 ## エンジニアリング規約（Contents X 系共通・厳守）
 

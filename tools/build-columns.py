@@ -6,7 +6,8 @@ tools/build-columns.py  —  ビズ採用 (recruitx) コラムビルダー
   2. /column/{slug}/index.html を静的生成（WP で非公開にした記事のページは削除）
   3. sitemap.xml の /column/ エントリを更新（存在する場合）
 
-GitHub Actions（.github/workflows/build-columns.yml）が1時間ごとに実行し、差分があれば main に push する。
+GitHub Actions（.github/workflows/build-columns.yml）が15分ごとに実行し、差分があれば main に push する
+（GitHub の混雑で実行が遅れたり間引かれたりすることがある）。
 全記事の本文が取れたときだけファイルを書き換える（途中で失敗したら何も書かずに exit 1）。
 
 ⚠️ 公開コラムが 0 件のときは column.html を今のまま保持して終了する
