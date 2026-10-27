@@ -37,7 +37,7 @@
 
 ## 5. 運用メモ
 
-- **sitemap.xml**: ルート直下に配置済み（2026-06-13）。トップ/service.html/case.html/column.html/price.html/contact.html/company.html/privacy.html＋全 `/case/{slug}/`＋全 `/column/{slug}/`。**case エントリは build-cases.py が日次、column エントリは build-columns.py が1時間ごとに自動更新**（`update_sitemap`）するので手動編集不要。新規の静的ページを足したら sitemap.xml に1行追加する
+- **sitemap.xml**: ルート直下に配置済み（2026-06-13）。トップ/service.html/case.html/column.html/price.html/contact.html/company.html/privacy.html＋全 `/case/{slug}/`＋全 `/column/{slug}/`。**case エントリは build-cases.py が日次、column エントリは build-columns.py が15分ごとに自動更新**（`update_sitemap`）するので手動編集不要。新規の静的ページを足したら sitemap.xml に1行追加する
 - **採用LP 制作サンプル（`/sample/{客先}/`）は検索に出さない**（2026-10-16〜）: 各ページに `noindex, nofollow`、sitemap.xml には**追加しない**。客先の社名で検索したときに、客先本人の採用ページより先に出ないようにするため（[../specs/SAMPLE-LP.md](../specs/SAMPLE-LP.md) §2）。内部リンクはホームの `#cases`（制作例の枠）と `#scene`（「採用サイトに載せる」）の2本
 - **robots.txt**: ルート直下に配置済み。全許可＋ `Sitemap:` 行で sitemap.xml を明示
 - サブドメイン開通済み（`https://ichioshi.contentsx.jp/`）。**github.io 旧URLは 301 で新ドメインへ自動リダイレクト**（重複コンテンツはGitHub側で解消済み）

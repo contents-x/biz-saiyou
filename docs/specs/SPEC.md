@@ -25,7 +25,7 @@
 | お問い合わせ | `contact.html` | `js/main.js`（HubSpot Forms API v3 直送 ＋ CRM受信箱へも送信。§7） | 実装済み（2026-08-04 再構築。**ファイルが0バイト＝本番も真っ白の状態だった**のを復元。詳細は [BUGS.md](../../BUGS.md)） |
 | 導入事例 | `case.html` | `js/main.js` + `js/case.js`（業種フィルタ） | 実装済み |
 | 料金プラン | `price.html` | `js/main.js`（入場アニメ/固定CTA） | 実装済み |
-| コラム | `column.html`（一覧）＋ `column/{slug}/`（記事・ビルドで生成） | `js/main.js` + `js/column.js`（カテゴリ絞り込み・キーワード検索） | 実装済み（2026-10-19 にナビへ再表示し、WP の記事を1時間ごとに自動で取り込むようにした。§3「コラム」） |
+| コラム | `column.html`（一覧）＋ `column/{slug}/`（記事・ビルドで生成） | `js/main.js` + `js/column.js`（カテゴリ絞り込み・キーワード検索） | 実装済み（2026-10-19 にナビへ再表示し、WP の記事を自動で取り込むようにした。2026-10-27 から15分ごと。§3「コラム」） |
 | 会社概要 | `company.html` | `js/main.js`（ナビ/固定CTA） | 実装済み（2026-09-28 新設。レイアウトは bizform.contentsx.jp/company/ を参考、**会社情報の値は contentsx.jp/company から転記**（社名は登記表記「Contents X 株式会社」・設立 2026-03-03・事業内容4項目。メール `office@contentsx.jp`・電話 `03-6261-0764` はホーム最終CTAと同じ値）。スタイルは `css/legal.css`。導線はフッターのみ） |
 | 採用LP 制作サンプル | `sample/{客先}/index.html`（1客先目 `sample/asobisystem/`） | `js/sample-lp.js`（メニュー・動画・漫画の読み画面） | 実装済み（2026-10-16 新設・2026-10-24 公開＝掲載許諾 確認済み。`noindex`・sitemap に載せない。導線はホームの `#cases` 制作例の枠と `#scene`「採用サイトに載せる」。スタイルは `css/sample-lp.css`＋客先の `theme.css`。仕様と作り方は [SAMPLE-LP.md](SAMPLE-LP.md)） |
 | プライバシーポリシー | `privacy.html` | `js/main.js`（ナビ/固定CTA） | 実装済み（2026-09-28 新設。bizform.contentsx.jp/policy/ の構成を採用向けに書き換え。スタイルは `css/legal.css`。導線はフッターのみ。**送信先・計測ツールを増減したら §6・§10 と最終更新日を更新**） |
@@ -132,7 +132,7 @@
   - 旧4プラン用アイコン `images/price/plan-*.webp` 10枚は**未使用**（3プランの成果物はインラインSVG。ファイルは削除せず残置、復元はgit履歴）
   - ページ専用スタイルは `css/price.css`（`--rxp-*` トークン。ヒーローのみ鮮やかピンク `--hp #f00858` をセクションスコープで使用。他セクションのピンクは `#eb2a63` 系）
 - 新規LPは公開時に既存ページから内部リンク5〜10本 → [../content/SEO.md](../content/SEO.md)
-- **コラム（2026-10-19〜）**: 記事の正本は WP の共有コラム `cx_column`（掲載先「リクルートX」にチェックした記事＝API `/columns?site=recruitx`）。`tools/build-columns.py` が `column.html` の BUILD マーカー内・`column/{slug}/index.html`・`sitemap.xml` を作り直し、`.github/workflows/build-columns.yml` が**1時間ごと（毎時17分）＋手動実行**で動かして差分があれば main に push する（→ [INFRA.md](../operations/INFRA.md)）。BUILD マーカー内を手で直しても次のビルドで上書きされる
+- **コラム（2026-10-19〜）**: 記事の正本は WP の共有コラム `cx_column`（掲載先「リクルートX」にチェックした記事＝API `/columns?site=recruitx`）。`tools/build-columns.py` が `column.html` の BUILD マーカー内・`column/{slug}/index.html`・`sitemap.xml` を作り直し、`.github/workflows/build-columns.yml` が**15分ごと（毎時7・22・37・52分。2026-10-27 に1時間ごとから変更）＋手動実行**で動かして差分があれば main に push する（→ [INFRA.md](../operations/INFRA.md)）。BUILD マーカー内を手で直しても次のビルドで上書きされる
   - 一覧の出し分け: 右上の新着＝最新3本（本数で並べ方が変わる `rx-colfeat--n1〜n3`。1本のときは画像が上の1枚カード）／PICK UP＝WP で「ピックアップ」にした記事があるときだけ／カテゴリタブ＝カテゴリが2つ以上あるときだけ／よく検索されるキーワード＝候補（`SEARCH_TAGS`）のうち、どれかの記事のタイトル・説明文・カテゴリに当たる語だけ。検索はタイトル＋説明文＋カテゴリの部分一致（`js/column.js`）
   - 記事ページ: 本文は許可タグだけ残してサニタイズ（WP の蛍光ペン `<mark>` は下線マーカーで表示）。**本文のリンクはビルドのたびに行き先を確かめ、404/410 のものはリンクを外して文字だけ残す**（タイムアウト等では外さない。自サイト宛ては同じビルドで作るページかリポ内のファイルがあれば有効）。表は `.rx-cold__table` で包み、スマホ（≤768px）は行ごとのカードに組み替えて列名を添える。他に記事が無いときは「関連するコラム」を枠ごと出さない。og:image はアイキャッチ
   - CTA（一覧・記事共通）はホームの最後のCTA（提案書 最終版 p26）と同じ「まずは、無料の採用力診断から。」→ `contact.html?source=free-consultation`（旧「60分無料」は根拠が無いため 2026-10-19 に差し替え）
