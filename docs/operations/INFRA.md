@@ -20,16 +20,17 @@
 |------|-----|
 | ホスティング | GitHub Pages（既存2サイトと同方式） |
 | ドメイン | `ichioshi.contentsx.jp`（CNAME）— **2026-06-28 改名移行**（DNS追加済 → push/Pages設定/Enforce HTTPS で切替）。旧 `recruitx.contentsx.jp`（2026-06-13開通）は301元として保持 |
-| DNS | お名前.com（CNAME `recruitx`→`josawa2255.github.io`） |
+| リポジトリ | `contents-x/biz-saiyou`（2026-10-30 に個人アカウント `josawa2255` から会社の組織へ移行。旧URLは GitHub が自動転送） |
+| DNS | お名前.com（CNAME `ichioshi`→`josawa2255.github.io` は移行に合わせて `contents-x.github.io` へ変更する。IP は同じなので変更前も配信は続く。旧 `recruitx` は個人アカウントに残る `josawa2255/recruitx-redirect` が配信しているので `josawa2255.github.io` のまま） |
 
 ### サブドメイン開通手順（ランブック・他サービスにも流用可）
 
 GitHub Pages のプロジェクトページに `*.contentsx.jp` サブドメインを割り当てる標準手順。`recruitx.contentsx.jp` 開通（2026-06-13）で実証済み。新サービスでも同じ流れ。
 
 1. **お名前.com で CNAME レコード追加** — ⚠️**入口を間違えやすい（2026-06-28 ハマった）**
-   - ✅ **正しい入口**: [navi.onamae.com](https://navi.onamae.com)（お名前.com Navi）→ **ドメイン** → **DNS（DNS関連機能の設定）** → 対象 `contentsx.jp` → **DNSレコード設定** → 「DNSレコードを追加」。**既存の `recruitx`（CNAME → `josawa2255.github.io`）が一覧に見えれば、その画面が正解。**
+   - ✅ **正しい入口**: [navi.onamae.com](https://navi.onamae.com)（お名前.com Navi）→ **ドメイン** → **DNS（DNS関連機能の設定）** → 対象 `contentsx.jp` → **DNSレコード設定** → 「DNSレコードを追加」。**既存の `recruitx`・`ichioshi`（CNAME → `○○.github.io`）が一覧に見えれば、その画面が正解。**
    - ❌ **罠**: 「**レンタルサーバーコントロールパネル**」側のDNS編集画面は**別物・無効**。contentsx.jp は `dnsv.jp` 管理（レンタルサーバー不使用）のため、そちらでは赤字「**ご利用サービス以外のネームサーバーです**」と表示され、`recruitx` 等の実レコードも一覧に出てこない。**recruitx が見えない画面で追加しても効かない**ので、見えない＝入口違いと判断して Navi 側へ。
-   - 入力値 — ホスト名: `<サブドメイン>`（例 `recruitx`。`.contentsx.jp` は自動付与。フルFQDNを書かない） / TYPE: `CNAME` / VALUE: `<GitHubユーザー名>.github.io`（例 `josawa2255.github.io`。末尾ドット任意） / TTL: `3600` / 状態: 有効
+   - 入力値 — ホスト名: `<サブドメイン>`（例 `recruitx`。`.contentsx.jp` は自動付与。フルFQDNを書かない） / TYPE: `CNAME` / VALUE: `<リポの持ち主>.github.io`（会社の組織のリポなら `contents-x.github.io`。末尾ドット任意） / TTL: `3600` / 状態: 有効
    - 「追加」→「確認画面へ進む」→「設定する」。伝播は数分〜1時間
    - ※ネームサーバーは `01〜04.dnsv.jp`。確認: `dig contentsx.jp NS +short` / レコード存否: `dig <サブドメイン>.contentsx.jp +short`
 2. **GitHub Pages でカスタムドメイン設定**（Settings → Pages）
@@ -41,7 +42,7 @@ GitHub Pages のプロジェクトページに `*.contentsx.jp` サブドメイ�
    - `gh api repos/<owner>/<repo>/pages` → `cname` 一致・`https_enforced: true`・証明書 `state: approved`
    - `curl -sI -o /dev/null -w "%{http_code} -> %{redirect_url}\n" http://<サブドメイン>.contentsx.jp/` → `301 -> https://...`
 
-**注意**: 当リポは相対パス設計のため、サブパス配信（`josawa2255.github.io/recruitx/`）でもルート配信（`ichioshi.contentsx.jp/`）でもリンク・CSSが壊れない。絶対パス（`/css/...`）に戻すとサブパス時に壊れる（→ CLAUDE.md・BUGS.md）。
+**注意**: 当リポは相対パス設計のため、サブパス配信（`contents-x.github.io/biz-saiyou/`）でもルート配信（`ichioshi.contentsx.jp/`）でもリンク・CSSが壊れない。絶対パス（`/css/...`）に戻すとサブパス時に壊れる（→ CLAUDE.md・BUGS.md）。
 
 ## 3. 外部サービス（種別とイチオシ採用方針）
 
@@ -67,7 +68,7 @@ GitHub Pages のプロジェクトページに `*.contentsx.jp` サブドメイ�
   - ⚠️ 公開リポの定期実行は、**60日間リポに動き（コミット等）が無いと GitHub が自動で止める**。記事の更新が長く無い時期のあとは Actions 画面で「Build Column Pages」が無効になっていないか確認し、止まっていたら Enable workflow
   - ⚠️ **事例の `build-cases.yml` は 2026-09-27 から毎日失敗中**（push が 403＝上の permissions が無い）。ただし WP の事例本文はまだ旧名「リクルートX」のため、push が通ると22ページの「ビズ採用」が戻る。**WP 側の表記を直してから permissions を足す**（[ROADMAP](../planning/ROADMAP.md)・[BUGS](../../BUGS.md) 2026-10-19）
 - **ホームの制作実績の読み画面（2026-10-06）はWPの制作事例 works のページ画像を直接表示している**（`js/works-viewer.js` の `MANGA`。対象 `hana` / `gaudia-3` / `birdman`。works はビズマンガ・ContentsX と共有の投稿タイプ）。⚠️ WPでこれらの作品のページ画像（メディア）を削除・差し替えると、ビズ採用のホームで画像が出なくなる／古いままになる。差し替えたら `MANGA` のURLも更新する
-  - 公開API `/contentsx/v1/*` の CORS は `ichioshi.contentsx.jp` のみ許可（`josawa2255.github.io` と `file://` は不可・2026-10-06 確認）。そのためフロントから実行時にAPIを読まず、URLを静的に持つ（`<img>` の読み込みは CORS の影響を受けない。`index.html` の CSP `img-src` は `https://cms.contentsx.jp` を許可済み）
+  - 公開API `/contentsx/v1/*` の CORS は `ichioshi.contentsx.jp` のみ許可（`*.github.io` と `file://` は不可・2026-10-06 確認）。そのためフロントから実行時にAPIを読まず、URLを静的に持つ（`<img>` の読み込みは CORS の影響を受けない。`index.html` の CSP `img-src` は `https://cms.contentsx.jp` を許可済み）
 
 ## 4. 触ってはいけない領域 ⛔（既存資産を参照・流用する際の地雷）
 
