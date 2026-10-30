@@ -50,7 +50,7 @@ GitHub Pages のプロジェクトページに `*.contentsx.jp` サブドメイ�
 | GA4 | 測定ID `G-S2RDKPM1LE`（本番HTMLに露出＝秘匿不要）／プロパティID等は[INFRA-PRIVATE.md](INFRA-PRIVATE.md) | **2026-06-14 全ページ実装済**（自己ホスト `js/ga4.js`＋ライブラリは googletagmanager／strict CSP 維持のため `'unsafe-inline'` は足さず CSP に GA ドメインのみ追記。事例詳細は `tools/templates/case-detail.html.tpl` 経由で22件反映） |
 | Microsoft Clarity | 非公開（同上） | **新規発行** |
 | Google広告タグ | 非公開（同上）／**既存タグを両サイト設置済** | 既存を流用可 |
-| HubSpot | 非公開（同上・[HUBSPOT-CTA-HANDOFF.md](HUBSPOT-CTA-HANDOFF.md) 参照） | **共通フォーム流用**（送信元タグ `ビズ採用` で識別。2026-10-31 のイチ推し採用への改名では変更を保留し旧名のまま） |
+| HubSpot | 非公開（同上・[HUBSPOT-CTA-HANDOFF.md](HUBSPOT-CTA-HANDOFF.md) 参照） | **共通フォーム流用**（送信元タグ `イチ推し採用` で識別。2026-10-31 にビズ採用から変更） |
 | WordPress API | 非公開（同上） | 必要時に利用（コラム/制作事例CMS） |
 | Google Search Console | recruitx を登録済（URL-prefix `https://recruitx.contentsx.jp/`・siteOwner・sitemap送信済 2026-06-14）。**改名移行に伴い `ichioshi.contentsx.jp` を新規プロパティ登録＋sitemap再送信が必要（旧recruitxは301監視用に残す）** | 索引促進は case.html を最優先で手動申請（→22詳細を芋づる発見） |
 
