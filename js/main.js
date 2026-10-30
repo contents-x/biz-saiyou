@@ -228,7 +228,7 @@
 
   var HUBSPOT_PORTAL_ID = '48367061';
   var HUBSPOT_FORM_GUID = 'b6da14d0-d60d-4357-89fc-0015ed32b704';
-  var SERVICE_NAME      = 'イチ推し採用';   // HubSpot へ送るサービス名（2026-10-31 ビズ採用から変更。その前はリクルートX。CRM は公開キーで送信元を判別するので送らない）
+  var SERVICE_NAME      = 'ビズ採用';   // HubSpot へ送るサービス名（2026-09-28 リクルートX から変更。2026-10-31 のイチ推し採用への改名では HubSpot 側の確認待ちのため据え置き。CRM は公開キーで送信元を判別するので送らない）
 
   var form = document.getElementById('rx-contact-form');
   if (!form) return;
