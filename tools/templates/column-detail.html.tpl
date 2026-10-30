@@ -15,7 +15,7 @@
   <meta property="og:description" content="{{seo_description}}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="{{page_url}}">
-  <meta property="og:site_name" content="ビズ採用">
+  <meta property="og:site_name" content="イチ推し採用">
   <meta property="og:locale" content="ja_JP">
   {{og_image}}
   <!-- Twitter Card -->
@@ -46,10 +46,10 @@
        変更するときは全HTMLと tools/templates/*.tpl を同時に直す（テンプレを直さないと再生成で巻き戻る） ===================== -->
   <header class="rx-nav" id="nav">
     <div class="rx-nav__inner">
-      <a class="rx-nav__brand" href="../../index.html" aria-label="ビズ採用 トップへ">
-        <img class="rx-nav__logo" src="../../images/logo/biz-saiyo-logo.webp" alt="ビズ採用" width="540" height="191" decoding="async">
+      <a class="rx-nav__brand" href="../../index.html" aria-label="イチ推し採用 トップへ">
+        <img class="rx-nav__logo" src="../../images/logo/ichioshi-saiyo-logo.webp" alt="イチ推し採用" width="480" height="158" decoding="async">
       </a>
-      <p class="rx-nav__tag">好きがはたらく、をつくる。</p>
+      <p class="rx-nav__tag">採用の新しいスタンダード。</p>
       <nav class="rx-nav__menu" id="navMenu" aria-label="メインナビゲーション">
         <a class="rx-nav__link" href="../../service.html">サービス</a>
         <a class="rx-nav__link" href="../../sample/asobisystem/">採用LP制作例</a>
@@ -140,10 +140,10 @@
     <div class="rx-footer__inner">
       <div class="rx-footer__top">
         <div class="rx-footer__brand">
-          <a class="rx-footer__logo" href="../../index.html" aria-label="ビズ採用 トップへ">
-            <span class="rx-footer__logo-text">ビズ採用</span>
+          <a class="rx-footer__logo" href="../../index.html" aria-label="イチ推し採用 トップへ">
+            <img class="rx-footer__logo-img" src="../../images/logo/ichioshi-saiyo-logo-white.webp" alt="イチ推し採用" width="480" height="158" loading="lazy" decoding="async">
           </a>
-          <p class="rx-footer__tagline">求人広告に頼らない、SNS時代の採用へ。</p>
+          <p class="rx-footer__tagline">採用の新しいスタンダード。</p>
         </div>
         <nav class="rx-footer__nav" aria-label="フッターナビゲーション">
           <ul class="rx-footer__links">
@@ -159,7 +159,7 @@
       </div>
       <div class="rx-footer__bottom">
         <div class="rx-footer__company">
-          <p class="rx-footer__company-service">ビズ採用</p>
+          <p class="rx-footer__company-service">イチ推し採用</p>
           <p class="rx-footer__company-name">運営：コンテンツエックス株式会社 ／ Contents X Co., Ltd.</p>
         </div>
         <p class="rx-footer__copyright"><small>&#169; 2026 Contents X Co., Ltd.</small></p>

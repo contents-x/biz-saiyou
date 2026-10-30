@@ -1,6 +1,6 @@
 name: Build Column Pages
 
-# WP（cms.contentsx.jp）の共有コラムのうち掲載先＝ビズ採用の記事を取り込み、
+# WP（cms.contentsx.jp）の共有コラムのうち掲載先＝イチ推し採用の記事を取り込み、
 # column.html・/column/{slug}/・sitemap.xml を作り直して main に push する（GitHub Pages がそのまま公開）。
 # 変更が無い回は何もしない。WP の API はブラウザから直接読めない（CORS は本番ドメインのみ）ため、静的に書き出している。
 on:

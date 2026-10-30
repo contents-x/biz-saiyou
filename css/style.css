@@ -1,5 +1,5 @@
 /* =========================================================================
-   style.css — イチオシ採用 全ページ共通
+   style.css — イチ推し採用 全ページ共通
    依存: /css/tokens.css（先に読み込む）
    reset / コンテナ / ボタン / 入場アニメ / ヘッダー（全ページ共通） / お問い合わせフォーム / フッター / FAB
    ホーム専用のスタイルは css/home.css（2026-09 リデザインで旧ホームの記述は削除）
@@ -89,8 +89,8 @@ h1, h2, h3, h4, [id]:not(html, body) { scroll-margin-top: calc(var(--rx-header-h
 
 /* =====================================================================
    ヘッダーナビゲーション（全ページ共通・2026-09-28 にホームの見た目へ統一）
-   - 固定・白地（ロゴ画像が白背景・透過なしのため、半透明にすると事例詳細の暗いヒーローの上で
-     ロゴの白い四角が浮く。よって常に不透明の白）。スクロールで下罫線だけ出す
+   - 固定・常に不透明の白（ロゴは紺の文字のため、半透明にすると事例詳細の暗いヒーローの上で
+     読めなくなる）。スクロールで下罫線だけ出す
    - ロゴ画像＋タグライン＋メニュー＋CTA2つ＋SPハンバーガー
    - 実高さ ≈ ロゴ clamp(34→46px) ＋ 上下 padding clamp(12→22px)×2 ＝ 58〜90px
      （tokens.css の --rx-header-h = clamp(68px, 4.2vw + 34px, 92px) の範囲内に収める。
@@ -115,7 +115,7 @@ h1, h2, h3, h4, [id]:not(html, body) { scroll-margin-top: calc(var(--rx-header-h
   min-height: 64px;
 }
 .rx-nav__brand { display: block; flex-shrink: 0; line-height: 0; }
-.rx-nav__logo {                 /* 支給ロゴ（白背景・540×191）。幅は比率で追従 */
+.rx-nav__logo {                 /* 支給ロゴ（透過・480×158）。幅は比率で追従 */
   display: block;
   height: clamp(34px, 2.6vw, 46px);
   width: auto;
@@ -467,23 +467,13 @@ h1, h2, h3, h4, [id]:not(html, body) { scroll-margin-top: calc(var(--rx-header-h
   gap: clamp(28px, 5vw, 48px);
 }
 
-/* --- ブランド（ロゴは明朝・ナビと同書体） --- */
+/* --- ブランド --- */
 .rx-footer__brand { min-width: 0; max-width: 30em; }
 .rx-footer__logo { display: inline-block; text-decoration: none; }
-.rx-footer__logo-text {         /* 支給ロゴが透過なしのため、フッターは白のロゴタイプで表示 */
-  display: block;
-  font-family: var(--rx-font-head);
-  font-weight: 700;
-  font-size: clamp(1.25rem, 1.1rem + .6vw, 1.625rem);
-  letter-spacing: .06em;
-  line-height: 1.2;
-  color: #fff;
-}
-.rx-footer__logo-img {          /* 企業ロゴ画像（濃紺フッター用・白抜き化） */
+.rx-footer__logo-img {          /* 濃紺フッター用のロゴ（紺の文字を白にした書き出し・ピンクはそのまま） */
   display: block;
   height: clamp(40px, 1.9rem + 1.3vw, 52px);
   width: auto;
-  filter: brightness(0) invert(1);
 }
 .rx-footer__logo-name {
   font-family: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', serif;

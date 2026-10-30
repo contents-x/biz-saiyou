@@ -1,5 +1,5 @@
 /* =========================================================================
-   service.css — ビズ採用 サービス（service.html 専用）
+   service.css — イチ推し採用 サービス（service.html 専用）
    依存: tokens.css → style.css（reset / .rx-btn / ヘッダー / フッター / FAB / .rx-anim）の後に読み込む
    構成（2026-10-06 に提案書 最終版・26ページに合わせて組み直し）:
      ヒーロー(p9) / 01 なぜ今(#why p4〜p6・中) / 02 4つの対策(#creative p2・p3・p10・p13・強) /
@@ -520,7 +520,7 @@
 .rx-svc-dot { font-size: 1.125rem; color: #c3c6cf; }
 .rx-svc-dot--main { color: var(--rx-accent); }
 
-/* マトリクス（p3・p13・p22）。AI の列・行と、ビズ採用の列だけ色を変える */
+/* マトリクス（p3・p13・p22）。AI の列・行と、イチ推し採用の列だけ色を変える */
 .rx-svc-matrix { min-width: 680px; }
 .rx-svc-matrix--place { min-width: 820px; }
 .rx-svc-matrix--vs { min-width: 640px; }
