@@ -1,4 +1,4 @@
-# ビズ採用 — 採用LP（リポジトリ名 recruitx）
+# ビズ採用 — 採用LP（リポジトリ `contents-x/biz-saiyou`・旧 `josawa2255/recruitx`）
 
 > **求人広告に頼らない採用へ。** SNS運用・コンテンツ制作・Meta広告運用を通じて、共感から応募へつなげる採用支援サービス**ビズ採用**のランディングページ。
 
@@ -15,7 +15,7 @@
 このサイトは**素のHTML/CSS/JS**で、ビルド不要・依存パッケージ不要です。
 
 ```bash
-git clone https://github.com/josawa2255/recruitx.git
+git clone https://github.com/contents-x/biz-saiyou.git recruitx
 cd recruitx
 # 方法A: ダブルクリックでブラウザに開く
 open index.html

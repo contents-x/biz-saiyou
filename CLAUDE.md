@@ -41,7 +41,7 @@ SEO記事（コラム）・採用事例の本文を書くときは、**必ず7�
 
 ## エンジニアリング規約（Contents X 系共通・厳守）
 
-- **リンクのパス**: 常に**各ページからの相対パス**で書く（ルート直下は `href="css/style.css"`、サブディレクトリ `case/{slug}/` からは `href="../../css/style.css"`）。これで `file://`・ローカルサーバー・GitHub Pages いずれでも解決する。⚠️**ルート絶対パス（`/css/...`・`/case/...`）は使わない**: 本番は GitHub Pages のプロジェクトページ `josawa2255.github.io/recruitx/`（サブパス配信）のため、`/` 始まりだと `/recruitx/` が抜けて全リンク・CSSが壊れる（2026-06-13 事例詳細で発覚・BUGS.md）。相対なら将来 ichioshi.contentsx.jp をルート稼働させても両対応。build-cases.py も相対で出力する
+- **リンクのパス**: 常に**各ページからの相対パス**で書く（ルート直下は `href="css/style.css"`、サブディレクトリ `case/{slug}/` からは `href="../../css/style.css"`）。これで `file://`・ローカルサーバー・GitHub Pages いずれでも解決する。⚠️**ルート絶対パス（`/css/...`・`/case/...`）は使わない**: 本番は GitHub Pages のプロジェクトページ `contents-x.github.io/biz-saiyou/`（サブパス配信）のため、`/` 始まりだと `/biz-saiyou/` が抜けて全リンク・CSSが壊れる（2026-06-13 事例詳細で発覚・BUGS.md）。相対なら将来 ichioshi.contentsx.jp をルート稼働させても両対応。build-cases.py も相対で出力する
 - **HTML/CSS/JS分離**: インラインCSS/JS禁止、最初から外部ファイルに分ける
 - **commit & push は Claude 側で実施**
 - バグを直したら [BUGS.md](BUGS.md) に1行追記
