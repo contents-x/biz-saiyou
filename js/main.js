@@ -1,5 +1,5 @@
 /* =========================================================================
-   main.js — ビズ採用 全ページ共通
+   main.js — イチ推し採用 全ページ共通
    - CTA アンカーのスムーススクロール（scroll-margin-top は CSS §13 で担保）
    - IntersectionObserver による軽い入場アニメ（.rx-anim → .is-in）
    - ヘッダーナビ（スクロール背景 / ハンバーガー / Escで閉じる）
@@ -228,7 +228,7 @@
 
   var HUBSPOT_PORTAL_ID = '48367061';
   var HUBSPOT_FORM_GUID = 'b6da14d0-d60d-4357-89fc-0015ed32b704';
-  var SERVICE_NAME      = 'ビズ採用';   // HubSpot へ送るサービス名（2026-09-28 リクルートX から変更。CRM は公開キーで送信元を判別するので送らない）
+  var SERVICE_NAME      = 'イチ推し採用';   // HubSpot へ送るサービス名（2026-10-31 ビズ採用から変更。その前はリクルートX。CRM は公開キーで送信元を判別するので送らない）
 
   var form = document.getElementById('rx-contact-form');
   if (!form) return;

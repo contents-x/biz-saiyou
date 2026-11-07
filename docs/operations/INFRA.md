@@ -4,7 +4,7 @@
 
 ## TL;DR
 
-イチオシ採用は GitHub Pages + CNAME `ichioshi.contentsx.jp`、DNSはお名前.com。GA4/Clarityは**新規発行**、Google広告タグとHubSpot Portalは既存流用可（実IDは非公開ファイル参照）。
+イチ推し採用は GitHub Pages + CNAME `ichioshi.contentsx.jp`、DNSはお名前.com。GA4/Clarityは**新規発行**、Google広告タグとHubSpot Portalは既存流用可（実IDは非公開ファイル参照）。
 
 ## 1. 会社情報
 
@@ -43,14 +43,14 @@ GitHub Pages のプロジェクトページに `*.contentsx.jp` サブドメイ�
 
 **注意**: 当リポは相対パス設計のため、サブパス配信（`josawa2255.github.io/recruitx/`）でもルート配信（`ichioshi.contentsx.jp/`）でもリンク・CSSが壊れない。絶対パス（`/css/...`）に戻すとサブパス時に壊れる（→ CLAUDE.md・BUGS.md）。
 
-## 3. 外部サービス（種別とイチオシ採用方針）
+## 3. 外部サービス（種別とイチ推し採用方針）
 
-| サービス | 実IDの所在 | イチオシ採用方針 |
+| サービス | 実IDの所在 | イチ推し採用方針 |
 |----------|---------|----------------|
 | GA4 | 測定ID `G-S2RDKPM1LE`（本番HTMLに露出＝秘匿不要）／プロパティID等は[INFRA-PRIVATE.md](INFRA-PRIVATE.md) | **2026-06-14 全ページ実装済**（自己ホスト `js/ga4.js`＋ライブラリは googletagmanager／strict CSP 維持のため `'unsafe-inline'` は足さず CSP に GA ドメインのみ追記。事例詳細は `tools/templates/case-detail.html.tpl` 経由で22件反映） |
 | Microsoft Clarity | 非公開（同上） | **新規発行** |
 | Google広告タグ | 非公開（同上）／**既存タグを両サイト設置済** | 既存を流用可 |
-| HubSpot | 非公開（同上・[HUBSPOT-CTA-HANDOFF.md](HUBSPOT-CTA-HANDOFF.md) 参照） | **共通フォーム流用**（送信元タグ `リクルートX` で識別） |
+| HubSpot | 非公開（同上・[HUBSPOT-CTA-HANDOFF.md](HUBSPOT-CTA-HANDOFF.md) 参照） | **共通フォーム流用**（送信元タグ `イチ推し採用` で識別。2026-10-31 にビズ採用から変更） |
 | WordPress API | 非公開（同上） | 必要時に利用（コラム/制作事例CMS） |
 | Google Search Console | recruitx を登録済（URL-prefix `https://recruitx.contentsx.jp/`・siteOwner・sitemap送信済 2026-06-14）。**改名移行に伴い `ichioshi.contentsx.jp` を新規プロパティ登録＋sitemap再送信が必要（旧recruitxは301監視用に残す）** | 索引促進は case.html を最優先で手動申請（→22詳細を芋づる発見） |
 
@@ -61,11 +61,12 @@ GitHub Pages のプロジェクトページに `*.contentsx.jp` サブドメイ�
   - フィールド: 会社名（タイトル）/ タグ（`rx_case_tag`・チェックボックス選択）/ 成果概要 / メイン画像（アイキャッチ＋フォーカルポイント `focal.x/y` → フロントは `object-position: x% y%` で再現）/ 実績数値 `stats[{label,value,unit,arrow:up|down|none}]` 最大3個可変
   - 詳細ページURLは `/case/{slug}` 予定（サブディレクトリ化に伴い、該当ページはパス規約を絶対パスへ切替）
   - フロント実装（fetch JS・静的ビルド・日次cron）は未着手。WP側手順の正本は ContentX_HP 側 `docs/operations/WP-SERVICE-ONBOARDING.md`
-- **コラムの自動取り込み（2026-10-19）**: WP の共有コラム `cx_column` のうち掲載先「リクルートX」の記事を、GitHub Actions `.github/workflows/build-columns.yml` が**1時間ごと（毎時17分）**に `tools/build-columns.py` で静的ページに書き出し、差分があれば `github-actions[bot]` が main に push → GitHub Pages が公開する。WP で公開・修正・非公開にした内容は最大1時間ほどで反映。すぐ反映したいときは GitHub の Actions 画面 →「Build Column Pages」→「Run workflow」
+- **コラムの自動取り込み（2026-10-19）**: WP の共有コラム `cx_column` のうち掲載先「リクルートX」の記事を、GitHub Actions `.github/workflows/build-columns.yml` が**15分ごと（毎時7・22・37・52分）**に `tools/build-columns.py` で静的ページに書き出し、差分があれば `github-actions[bot]` が main に push → GitHub Pages が公開する。WP で公開・修正・非公開にした内容は通常15分〜数十分で反映（GitHub の混雑で遅れることがある。2026-10-27 までの1時間ごとの設定では、実際は2〜7時間おきにしか動いていなかった）。すぐ反映したいときは GitHub の Actions 画面 →「Build Column Pages」→「Run workflow」
   - push のためワークフローに `permissions: contents: write` を明示している（このリポの既定トークンは読み取り専用）
+  - 2026-10-22 19:10〜10-23 10:30（JST）の約15時間、WP の API が GitHub Actions からの取得を **403** で拒否し、5回失敗した（その後は自然に回復。サーバー側のアクセス制限と推定・原因は未確認）。失敗中はサイトが前回の内容のまま止まるだけで、壊れはしない。続くようならサーバー側の設定を WP 担当に確認する
   - ⚠️ 公開リポの定期実行は、**60日間リポに動き（コミット等）が無いと GitHub が自動で止める**。記事の更新が長く無い時期のあとは Actions 画面で「Build Column Pages」が無効になっていないか確認し、止まっていたら Enable workflow
-  - ⚠️ **事例の `build-cases.yml` は 2026-09-27 から毎日失敗中**（push が 403＝上の permissions が無い）。ただし WP の事例本文はまだ旧名「リクルートX」のため、push が通ると22ページの「ビズ採用」が戻る。**WP 側の表記を直してから permissions を足す**（[ROADMAP](../planning/ROADMAP.md)・[BUGS](../../BUGS.md) 2026-10-19）
-- **ホームの制作実績の読み画面（2026-10-06）はWPの制作事例 works のページ画像を直接表示している**（`js/works-viewer.js` の `MANGA`。対象 `hana` / `gaudia-3` / `birdman`。works はビズマンガ・ContentsX と共有の投稿タイプ）。⚠️ WPでこれらの作品のページ画像（メディア）を削除・差し替えると、ビズ採用のホームで画像が出なくなる／古いままになる。差し替えたら `MANGA` のURLも更新する
+  - ⚠️ **事例の `build-cases.yml` は 2026-09-27 から毎日失敗中**（push が 403＝上の permissions が無い）。ただし WP の事例本文はまだ旧名「リクルートX」のため、push が通ると22ページの「イチ推し採用」が戻る。**WP 側の表記を直してから permissions を足す**（[ROADMAP](../planning/ROADMAP.md)・[BUGS](../../BUGS.md) 2026-10-19）
+- **ホームの制作実績の読み画面（2026-10-06）はWPの制作事例 works のページ画像を直接表示している**（`js/works-viewer.js` の `MANGA`。対象 `hana` / `gaudia-3` / `birdman`。works はビズマンガ・ContentsX と共有の投稿タイプ）。⚠️ WPでこれらの作品のページ画像（メディア）を削除・差し替えると、イチ推し採用のホームで画像が出なくなる／古いままになる。差し替えたら `MANGA` のURLも更新する
   - 公開API `/contentsx/v1/*` の CORS は `ichioshi.contentsx.jp` のみ許可（`josawa2255.github.io` と `file://` は不可・2026-10-06 確認）。そのためフロントから実行時にAPIを読まず、URLを静的に持つ（`<img>` の読み込みは CORS の影響を受けない。`index.html` の CSP `img-src` は `https://cms.contentsx.jp` を許可済み）
 
 ## 4. 触ってはいけない領域 ⛔（既存資産を参照・流用する際の地雷）

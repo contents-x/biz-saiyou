@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-tools/build-cases.py  —  イチオシ採用 (recruitx) case studies builder
+tools/build-cases.py  —  イチ推し採用 (recruitx) case studies builder
 Fetch rx_case posts from WP REST API:
   1. case.html のカードグリッドを更新（BUILD markers 間を差し替え）
   2. /case/{slug}/index.html を静的生成
@@ -338,7 +338,7 @@ def update_case_html(cases: list) -> None:
 
 def _make_jsonld(detail: dict, page_url: str) -> tuple:
     company = detail.get("company", "")
-    seo_title = detail.get("seo_title") or f"{company}の採用成功事例｜イチオシ採用"
+    seo_title = detail.get("seo_title") or f"{company}の採用成功事例｜イチ推し採用"
     seo_desc = detail.get("seo_description") or detail.get("summary", "")
     image = detail.get("image", "")
 
@@ -350,7 +350,7 @@ def _make_jsonld(detail: dict, page_url: str) -> tuple:
         "url": page_url,
         "publisher": {
             "@type": "Organization",
-            "name": "イチオシ採用",
+            "name": "イチ推し採用",
             "url": SITE_URL,
         },
     }
@@ -386,7 +386,7 @@ def _generate_one(case: dict, template: str, all_cases: list) -> str:
     stats = detail.get("stats", [])
     content_html = sanitize_html(detail.get("content", ""))
 
-    seo_title = detail.get("seo_title") or f"{company}の採用成功事例｜イチオシ採用"
+    seo_title = detail.get("seo_title") or f"{company}の採用成功事例｜イチ推し採用"
     seo_desc = detail.get("seo_description") or detail.get("summary", "")
     page_url = f"{SITE_URL}/case/{slug}/"
 

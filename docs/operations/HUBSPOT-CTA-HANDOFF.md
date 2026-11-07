@@ -1,6 +1,6 @@
 # HUBSPOT-CTA-HANDOFF — お問い合わせのHubSpot連携仕様
 
-> イチオシ採用のお問い合わせフォームを、既存の姉妹サイト（Contents X / BizManga）と同じHubSpotアカウントに送信する実装仕様。**実IDは非公開**（[INFRA-PRIVATE.md](INFRA-PRIVATE.md) 参照）。
+> イチ推し採用のお問い合わせフォームを、既存の姉妹サイト（Contents X / BizManga）と同じHubSpotアカウントに送信する実装仕様。**実IDは非公開**（[INFRA-PRIVATE.md](INFRA-PRIVATE.md) 参照）。
 
 ## TL;DR
 
@@ -15,7 +15,7 @@ HubSpot Forms API v3 のサブミットエンドポイントに、`fetch()` で�
 | エンドポイント | `https://api.hsforms.com/submissions/v3/integration/submit/{PORTAL_ID}/{FORM_GUID}` |
 | メソッド | POST / Content-Type: application/json |
 | CORS | 公開サブミット用なので別ドメイン可（設定不要） |
-| 識別 | `SERVICE_NAME = "リクルートX"` ＋ `context.pageName` でHubSpot側がフィルタ可 |
+| 識別 | `SERVICE_NAME = "イチ推し採用"`（2026-10-31〜。それ以前は「ビズ採用」、その前は「リクルートX」）＋ `context.pageName` でHubSpot側がフィルタ可。どちらも自由記述の文字列なので、変えても送信の可否には影響しない |
 
 **完全に別フォームに分けたい時のみ**、HubSpot側で新規フォーム作成が必要（その際は Form GUID を新IDに置換）。
 
@@ -64,7 +64,7 @@ HubSpot Forms API v3 のサブミットエンドポイントに、`fetch()` で�
   // 実IDは INFRA-PRIVATE.md / 公開リポでは下記は ENV や非公開設定から注入する想定
   var HUBSPOT_PORTAL_ID = '<REDACTED>';
   var HUBSPOT_FORM_GUID = '<REDACTED>';
-  var SERVICE_NAME      = 'リクルートX';
+  var SERVICE_NAME      = 'イチ推し採用';
 
   var form = document.getElementById('rx-contact-form');
   if (!form) return;
@@ -154,17 +154,17 @@ HubSpot Forms API v3 のサブミットエンドポイントに、`fetch()` で�
 
 ## 実装時の判断ポイント
 
-- **送信元の識別必須**: `SERVICE_NAME` と `context.pageName` に必ず「リクルートX」を入れる（既存2サイトとの識別）
-- **Google広告CV計測**: 既存サイトのCV IDはイチオシ採用用ではない → そのままコピー禁止
+- **送信元の識別必須**: `SERVICE_NAME` と `context.pageName` に必ずサービス名（現在「イチ推し採用」）を入れる（既存2サイトとの識別）。サービス名を変えると HubSpot 上の識別文字列も変わるので、HubSpot 側で旧名で絞り込んでいるビュー・ワークフローがあれば合わせて直す
+- **Google広告CV計測**: 既存サイトのCV IDはイチ推し採用用ではない → そのままコピー禁止
 - **HubSpotトラッキングスクリプト**（任意）: 既存BizMangaは「初操作 or 4秒後に遅延ロード」で最適化済み。送信自体はAPI直叩きなので無くても動く
 - **HTML/CSS/JS分離**: 送信処理は外部JSに分ける（プロジェクト規約・[CLAUDE.md](../../CLAUDE.md)）
 - **innerHTML 禁止**: 成功表示は `createElement` + `textContent` で組み立てる（セキュリティフック警告対象）
 
 ## 完了後にやること
 
-1. 1件テスト送信し、HubSpot該当フォームの送信履歴にリクルートXタグ付きで記録されるか確認
+1. 1件テスト送信し、HubSpot該当フォームの送信履歴に「[イチ推し採用経由のお問い合わせ]」付きで記録されるか確認（識別名を変えたら毎回）
 2. [SPEC.md](../specs/SPEC.md) / [INFRA.md](INFRA.md) に「お問い合わせ＝HubSpot（IDは INFRA-PRIVATE.md）に送信」と追記
 
 ## ユーザーに確認するべきこと
 
-お問い合わせ通知の宛先メールは、**既存フォーム再利用の場合、通知先も既存と同じ**になる。イチオシ採用専用通知先に分けたい場合は、HubSpot側でフォーム分割 or ワークフロー条件分岐の設定が別途必要。
+お問い合わせ通知の宛先メールは、**既存フォーム再利用の場合、通知先も既存と同じ**になる。イチ推し採用専用通知先に分けたい場合は、HubSpot側でフォーム分割 or ワークフロー条件分岐の設定が別途必要。

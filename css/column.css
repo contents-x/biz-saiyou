@@ -1,5 +1,5 @@
 /* =========================================================================
-   column.css — ビズ採用 コラムページ（column.html / column/{slug}/ 一覧部）
+   column.css — イチ推し採用 コラムページ（column.html / column/{slug}/ 一覧部）
    依存: css/tokens.css → css/style.css の後に読み込む
    デザイン: 「デザイン候補/コラム/heroPC.png・heroスマホ.png」を忠実に再現
    ブレークポイント（DEVICE-RULES §3）: SP ≤768 / TAB 769–1024 / PC ≥1025

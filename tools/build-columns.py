@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
-tools/build-columns.py  —  ビズ採用 (recruitx) コラムビルダー
+tools/build-columns.py  —  イチ推し採用 (recruitx) コラムビルダー
 共有コラム cx_column の掲載先=recruitx（/contentsx/v1/columns?site=recruitx）を取得し:
   1. column.html の新着 / 検索キーワード / PICK UP / カテゴリタブ / カード一覧を更新（BUILD markers 間を差し替え）
   2. /column/{slug}/index.html を静的生成（WP で非公開にした記事のページは削除）
   3. sitemap.xml の /column/ エントリを更新（存在する場合）
 
-GitHub Actions（.github/workflows/build-columns.yml）が1時間ごとに実行し、差分があれば main に push する。
+GitHub Actions（.github/workflows/build-columns.yml）が15分ごとに実行し、差分があれば main に push する
+（GitHub の混雑で実行が遅れたり間引かれたりすることがある）。
 全記事の本文が取れたときだけファイルを書き換える（途中で失敗したら何も書かずに exit 1）。
 
 ⚠️ 公開コラムが 0 件のときは column.html を今のまま保持して終了する
@@ -462,7 +463,7 @@ def render_column_html(columns: list) -> str:
 # ---- 詳細ページ生成 ----
 def _make_jsonld(d: dict, page_url: str) -> tuple:
     title = d.get("title", "")
-    seo_title = d.get("seo_title") or f"{title}｜ビズ採用 コラム"
+    seo_title = d.get("seo_title") or f"{title}｜イチ推し採用 コラム"
     seo_desc = d.get("seo_description") or d.get("excerpt", "")
     image = d.get("thumbnail", "")
     article = {
@@ -470,7 +471,7 @@ def _make_jsonld(d: dict, page_url: str) -> tuple:
         "headline": seo_title, "description": seo_desc, "url": page_url,
         "datePublished": d.get("date_ymd", ""),
         "dateModified": d.get("modified_ymd", "") or d.get("date_ymd", ""),
-        "publisher": {"@type": "Organization", "name": "ビズ採用", "url": SITE_URL},
+        "publisher": {"@type": "Organization", "name": "イチ推し採用", "url": SITE_URL},
     }
     if image:
         article["image"] = image
@@ -505,7 +506,7 @@ def render_detail(c: dict, detail: dict, template: str, all_cols: list, slugs: s
     for h in sorted(dead):
         print(f"[INFO] {slug}: 行き先が無いリンクを外しました → {h}")
     content_html = sanitize_html(raw, dead)
-    seo_title = detail.get("seo_title") or f"{title}｜ビズ採用 コラム"
+    seo_title = detail.get("seo_title") or f"{title}｜イチ推し採用 コラム"
     seo_desc = detail.get("seo_description") or detail.get("excerpt", "")
     page_url = f"{SITE_URL}/column/{slug}/"
     article_jsonld, breadcrumb_jsonld = _make_jsonld(detail, page_url)

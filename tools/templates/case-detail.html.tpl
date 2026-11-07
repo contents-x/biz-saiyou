@@ -15,7 +15,7 @@
   <meta property="og:description" content="{{seo_description}}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="{{page_url}}">
-  <meta property="og:site_name" content="ビズ採用">
+  <meta property="og:site_name" content="イチ推し採用">
   <meta property="og:image" content="{{image}}">
   <meta property="og:locale" content="ja_JP">
   <!-- Twitter Card -->
@@ -42,17 +42,18 @@
 <body class="rx-jp-body">
 
   <!-- ===================== 共通ヘッダー（全ページ同一・ホーム基準で 2026-09-28 に統一）
-       ロゴ画像＋タグライン＋メニュー3項目（サービス／料金プラン／コラム。事例は非表示）＋CTA2つ（無料診断／お問い合わせ）＋SPハンバーガー。
+       ロゴ画像＋タグライン＋メニュー4項目（サービス／採用LP制作例／料金プラン／コラム。事例は非表示）＋CTA2つ（無料診断／お問い合わせ）＋SPハンバーガー。
        スタイルは css/style.css の .rx-nav、開閉は js/main.js。共通コンポーネント化していないため、
        変更するときは全HTMLと tools/templates/*.tpl を同時に直す（テンプレを直さないと再生成で巻き戻る） ===================== -->
   <header class="rx-nav" id="nav">
     <div class="rx-nav__inner">
-      <a class="rx-nav__brand" href="../../index.html" aria-label="ビズ採用 トップへ">
-        <img class="rx-nav__logo" src="../../images/logo/biz-saiyo-logo.webp" alt="ビズ採用" width="540" height="191" decoding="async">
+      <a class="rx-nav__brand" href="../../index.html" aria-label="イチ推し採用 トップへ">
+        <img class="rx-nav__logo" src="../../images/logo/ichioshi-saiyo-logo.webp" alt="イチ推し採用" width="480" height="158" decoding="async">
       </a>
-      <p class="rx-nav__tag">好きがはたらく、をつくる。</p>
+      <p class="rx-nav__tag">採用の新しいスタンダード。</p>
       <nav class="rx-nav__menu" id="navMenu" aria-label="メインナビゲーション">
         <a class="rx-nav__link" href="../../service.html">サービス</a>
+        <a class="rx-nav__link" href="../../sample/asobisystem/">採用LP制作例</a>
         <a class="rx-nav__link" href="../../price.html">料金プラン</a>
         <a class="rx-nav__link" href="../../column.html">コラム</a>
         <!-- 事例は 2026-09-28 から非表示（case.html 自体は残置。再表示時はここに <a> を戻す）。コラムは 2026-10-19 に再表示 -->
@@ -124,14 +125,15 @@
     <div class="rx-footer__inner">
       <div class="rx-footer__top">
         <div class="rx-footer__brand">
-          <a class="rx-footer__logo" href="../../index.html" aria-label="ビズ採用 トップへ">
-            <span class="rx-footer__logo-text">ビズ採用</span>
+          <a class="rx-footer__logo" href="../../index.html" aria-label="イチ推し採用 トップへ">
+            <img class="rx-footer__logo-img" src="../../images/logo/ichioshi-saiyo-logo-white.webp" alt="イチ推し採用" width="480" height="158" loading="lazy" decoding="async">
           </a>
-          <p class="rx-footer__tagline">求人広告に頼らない、SNS時代の採用へ。</p>
+          <p class="rx-footer__tagline">採用の新しいスタンダード。</p>
         </div>
         <nav class="rx-footer__nav" aria-label="フッターナビゲーション">
           <ul class="rx-footer__links">
             <li><a class="rx-footer__link" href="../../service.html">サービス</a></li>
+            <li><a class="rx-footer__link" href="../../sample/asobisystem/">採用LP制作例</a></li>
             <li><a class="rx-footer__link" href="../../price.html">料金プラン</a></li>
             <li><a class="rx-footer__link" href="../../column.html">コラム</a></li>
             <li><a class="rx-footer__link" href="../../contact.html">お問い合わせ</a></li>
@@ -142,7 +144,7 @@
       </div>
       <div class="rx-footer__bottom">
         <div class="rx-footer__company">
-          <p class="rx-footer__company-service">ビズ採用</p>
+          <p class="rx-footer__company-service">イチ推し採用</p>
           <p class="rx-footer__company-name">運営：コンテンツエックス株式会社 ／ Contents X Co., Ltd.</p>
         </div>
         <p class="rx-footer__copyright"><small>&#169; 2026 Contents X Co., Ltd.</small></p>
