@@ -66,7 +66,7 @@ section { padding: clamp(48px, 8vw, 160px) 0; }
 これを 1 箇所のトークン `--rx-header-h: clamp(68px, 4.2vw + 34px, 92px)`（[DESIGN.md](DESIGN.md) レイアウト・トークン）に集約し、ハードコードの `72px`/`64px` 等を散らさない。
 
 - **各ページ最初のセクション（ヒーロー）は `padding-top` に `--rx-header-h`（＋デザイン余白）を必ず確保する。** 特に2カラムヒーローの画像側カラムや、SPで画像が上に来る（`order:-1`）構成は余白を忘れやすく、ヘッダーと画像が重なる（2026-06-14 事例詳細 `.rx-cdtl-hero` で発生・修正、BUGS.md）。
-- 既存の妥当値を尊重しつつ最低限を保証したい場合は `padding-top: max(var(--rx-header-h), <従来値>)`（例: price.html `.rx-phero2`）。
+- 既存の妥当値を尊重しつつ最低限を保証したい場合は `padding-top: max(var(--rx-header-h), <従来値>)`（例: 旧 price.html `.rx-phero2`）。
 - ページ内アンカーは `scroll-margin-top: calc(var(--rx-header-h) + 16px)` で見出しがヘッダー下に隠れないようにする。
 
 ```css
@@ -83,7 +83,7 @@ h1,h2,h3,h4,[id]:not(html,body){ scroll-margin-top: calc(var(--rx-header-h) + 16
 | index.html | `.rx-home-hero` | `calc(var(--rx-header-h) + clamp(20→36px))`（PC `+clamp(8→14px)`）。高さは内容なり（`min-height` 指定なし・2026-09-28） |
 | case.html | `.rx-chero` | `calc(64px + clamp(40→80px))`＝104px〜 |
 | contact.html | `.rx-contact` | `clamp(80→200px)` |
-| price.html | `.rx-phero2` | PC `max(var(--rx-header-h), clamp(80→116px))` / SP `60+28px` |
+| price.html | `.rx-price-hero` | `var(--rx-header-h)`。中身はSPはビジュアルが真下から、PCは `calc(var(--p) * 36)` をあけて PRICE から始まる（`--p` は画面の高さにも追従）。PCの人物・漫画カード・手書き風コピーも `top: calc(var(--rx-header-h) + …)` でヘッダーより下から始まる（2026-10-30） |
 | case/{slug}/ | `.rx-cdtl-hero` | `var(--rx-header-h)`（＋inner余白） |
 | company.html / privacy.html | `.rx-lhero`（`css/legal.css`） | `calc(var(--rx-header-h) + clamp(36→64px))` |
 

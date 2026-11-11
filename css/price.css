@@ -1,1096 +1,2704 @@
 /* =========================================================================
    price.css — 料金プランページ専用スタイル
-   出典モック: 資料/デザイン候補/料金ページ/1〜5.png（2026-06-12）
-   - ページ専用トークンは --rxp-* プレフィックス（グローバル --rx-* と分離）
-   - モックのピンクは #ea2560〜#ed3670 帯。サイト共通の --rx-accent とは別系統
+   - 構成: 1. ヒーロー（.rx-price-hero・--ph-*）→ 01〜05 の共通の地（.rx-price-body）→
+     01 料金の仕組み（.rx-price-guide・--pg-*）→ 02 つくる・03 届ける（.rx-price-detail・--pd-*）→
+     04 制作・公開までの流れ（.rx-price-flow・--pf-*）→ 05 お問い合わせ・お見積もり（.rx-price-contact・--pi-*）
+   - 色・書体はセクションごとのトークンで持ち、サイト共通の --rx-* は変えない
+   - 2026-11-11: 旧「料金プラン（月額3プラン・採用AIO・スポット制作パック）／費用の考え方／無料診断からの流れ／最終CTA」と
+     その専用トークン（--rxp-*）・共通部品（.rx-p-*）を削除
    ========================================================================= */
 
-:root {
-  --rxp-pink:        #eb2a63;
-  --rxp-pink-soft:   #ee417b;
-  --rxp-grad:        linear-gradient(95deg, #e8205c 0%, #ee316b 55%, #f24a80 100%);
-  --rxp-pink-pale:   #fdeef4;   /* 薄ピンク面 */
-  --rxp-pink-faint:  #fdf5f8;   /* さらに薄いピンク面 */
-  --rxp-dark:        #1a191c;   /* プラン頭帯・期タグの黒 */
-  --rxp-text:        #232227;
-  --rxp-muted:       #5d5c66;
-  --rxp-bg-gray:     #f7f7f5;   /* ヒーロー・ステップパネルの薄グレー */
-  --rxp-border:      #ececec;
-  --rxp-card-shadow: 0 10px 36px rgba(40, 30, 40, .07);
-  --rxp-font:        'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', sans-serif;
-  --rxp-font-num:    'Inter', 'Noto Sans JP', sans-serif;
+/* 和文の折り返し: `.rx-jp-body` の `word-break: keep-all` + `overflow-wrap: anywhere`
+   （tokens.css）は、1行に収まらないとき禁則を無視して任意の位置で割れる（語中改行や、行頭に「。」だけが落ちる）。
+   ヒーローの本文はブラウザ標準の折り返し＋禁則に戻す */
+.rx-price-hero__lead,
+.rx-price-hero__extra {
+  word-break: normal;
+  overflow-wrap: normal;
+  line-break: strict;
 }
 
-/* ---------------------------------------------------------------- 共通 */
-.rx-p-pink { color: var(--rxp-pink); font-style: normal; }
+/* =========================================================================
+   1. ヒーロー（2026-10-30 リデザイン・完成図 PC 1672×941 / SP 390幅 準拠）
+   - 主役は「基本セット 69.8万円（税別・買い切り）」。月額プランはHEROに出さない（料金の仕組みは次のセクション以降）
+   - 見出し・料金・制作物名・注記・CTA・手書き風コピーはすべてHTMLテキスト。画像は背景（CSS background）・
+     人物・漫画カード2枚・制作物アイコン4つだけ
+   - 色はこのセクションだけの --ph-*。ピンクは料金・料金カードの枠・メインCTAだけ。
+     サイト共通の --rx-* は変えない
+   - SP・狭いタブレット（〜900px）: 人物と漫画のビジュアル（合成済みの1枚）→ 見出し → 料金カード → 運用の追記 →
+     CTA 2つ（縦並び）→ 注記。制作物は2列×2行。手書き風コピーはビジュアルの左上に重ねる
+   - PC（901px〜）: 左＝見出し・料金カード・CTA / 右＝人物・漫画カード2枚・手書き風コピー（別々の画像を重ねる）。
+     寸法は完成図の px × --p（完成図の幅1672pxのとき 1px）。--p は「画面幅 ÷ 1672」と
+     「（画面の高さ − ヘッダー）÷ 846」の小さい方（上限 1.3px）なので、背の低い画面でも注記まで1画面に収まる。
+     右側の画像は画面の右端を基準に置く（画面が横長でも人物は右端に付く）
+   ========================================================================= */
+.rx-price-hero {
+  --ph-bg:          #f3f8fd;            /* PC背景画像の左端の色 */
+  --ph-ink:         #0b1a36;            /* 見出し・料金カードの文字 */
+  --ph-sub:         #1f2b45;            /* リード文 */
+  --ph-muted:       #4d5b74;            /* 追記・注記 */
+  --ph-line:        #e3e7ef;            /* 制作物の区切り線 */
+  --ph-blue:        #3a6fd2;            /* PRICE の文字 */
+  --ph-blue-line:   #a8bef0;            /* PRICE 横の線 */
+  --ph-catch:       #16223d;            /* 手書き風コピー */
+  --ph-catch-em:    #2565cf;            /* 手書き風コピーの3行目と下線 */
+  --ph-pink:        #f62878;            /* 料金の数字 */
+  --ph-pink-border: #f7bed2;            /* 料金カードの枠 */
+  --ph-cta:         linear-gradient(100deg, #f93a7a 0%, #f32b89 55%, #ed269e 100%);
+  --ph-serif: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif;
+  --ph-sans:  'Zen Kaku Gothic Antique', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+  --ph-hand:  'Zen Kurenaido', var(--ph-sans);
+  --ph-gutter: clamp(18px, 6vw, 24px);
 
-.rx-p-eyebrow {
-  font-family: var(--rxp-font-num);
-  font-weight: 700;
-  font-size: clamp(.8125rem, .76rem + .25vw, .9375rem);
-  letter-spacing: .28em;
-  color: var(--rxp-pink);
+  position: relative;
+  overflow: hidden;                     /* 人物を右端・下端で切る（横スクロールを出さない） */
+  background: linear-gradient(to bottom, #f6faff 0%, #fff 55%, #f8f9fe 100%);
+  color: var(--ph-ink);
+  padding-top: var(--rx-header-h);
 }
-.rx-p-eyebrow--center { text-align: center; }
-
-.rx-p-h2 {
-  font-family: var(--rxp-font);
-  font-weight: 900;
-  font-size: clamp(1.75rem, 1.3rem + 2vw, 2.875rem);
-  line-height: 1.35;
-  letter-spacing: .02em;
-  color: var(--rxp-text);
-  text-align: center;
-  margin-top: .5em;
+.rx-price-hero__inner {
+  display: flex;
+  flex-direction: column;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
-.rx-p-sublead {
-  font-family: var(--rxp-font);
-  font-size: clamp(.9375rem, .9rem + .2vw, 1.0625rem);
-  color: var(--rxp-text);
-  text-align: center;
-  margin-top: 1.1em;
+/* ---- ビジュアル（SP: 合成済みの1枚。左上に手書き風コピー） ---- */
+.rx-price-hero__visual {
+  order: -1;                            /* 見た目は見出しより上。読み上げ順は見出しが先 */
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 780 / 560;              /* 合成済みの画像と同じ比率（歪ませず、下の漫画カードまで見せる） */
+  overflow: hidden;
+  background: url("../images/price/price-hero-sky-sp.webp") 56% center / cover no-repeat, #eef5fd;
+  pointer-events: none;
+}
+.rx-price-hero__visual::before {        /* 人物の頭の後ろの細いラベンダーの輪 */
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: -37px;
+  left: 53%;
+  width: 350px;
+  height: 150px;
+  border: 1.4px solid rgba(146, 120, 250, .45);
+  border-radius: 50%;
+  transform: rotate(-15deg);
+}
+.rx-price-hero__visual::after {         /* 左（コピーの下）と下端（見出しへのつなぎ）を白くかすませる */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(90deg, rgba(250, 252, 255, .75) 0%, rgba(255, 255, 255, 0) 80%),
+    linear-gradient(0deg, #f9fbff 0%, rgba(249, 251, 255, 0) 25%);
+}
+.rx-price-hero__visual picture { display: contents; }
+.rx-price-hero__person {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right top;
+  filter: drop-shadow(0 6px 8px rgba(38, 54, 95, .1));
+}
+.rx-price-hero__story,
+.rx-price-hero__manga { display: none; }   /* PCだけ（SPは合成済みの1枚に含まれる） */
+
+.rx-price-hero__catch {
+  position: absolute;
+  z-index: 3;
+  top: 30px;
+  left: 18px;
+  font-family: var(--ph-hand);
+  font-weight: 400;
+  font-size: clamp(15px, 4.1vw, 19px);
+  line-height: 1.55;
+  letter-spacing: .06em;
+  color: var(--ph-catch);
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, .95);
+  transform: rotate(-8deg);
+  transform-origin: 0 0;
+}
+.rx-price-hero__catch-em {
+  position: relative;
+  display: inline-block;
+  color: var(--ph-catch-em);
+}
+.rx-price-hero__catch-em::after {       /* 3行目の下のひと筆の線 */
+  content: "";
+  position: absolute;
+  left: .1em;
+  right: -.4em;
+  bottom: -.45em;
+  height: .4em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M2 15 C60 10 130 6 198 4' fill='none' stroke='%232565cf' stroke-width='3.2' stroke-linecap='round'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  transform: rotate(-2deg);
+}
+
+/* ---- 見出し・リード文 ---- */
+.rx-price-hero__body {
+  position: relative;
+  z-index: 2;
+  padding: 18px var(--ph-gutter) 40px;
+}
+.rx-price-hero__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-family: var(--ph-serif);
+  font-weight: 500;
+  font-size: .75rem;
+  line-height: 1.4;
+  letter-spacing: .18em;
+  color: var(--ph-blue);
+}
+.rx-price-hero__eyebrow::after {
+  content: "";
+  width: 53px;
+  height: 1px;
+  background: var(--ph-blue-line);
+}
+.rx-price-hero__title {
+  font-family: var(--ph-serif);
+  font-weight: 600;
+  font-size: clamp(2.375rem, 11.3vw, 3rem);
+  line-height: 1.26;
+  letter-spacing: .055em;
+  color: var(--ph-ink);
+  margin-top: 4px;
+}
+.rx-price-hero__lead {
+  font-family: var(--ph-sans);
+  font-weight: 500;
+  font-size: .875rem;
   line-height: 1.9;
+  letter-spacing: .02em;
+  color: var(--ph-sub);
+  margin-top: 8px;
 }
 
-/* CTAボタン（モック準拠のピンクグラデ pill） */
-.rx-p-btn {
+/* ---- 料金カード（基本セット｜69.8万円｜税別・買い切り → 説明 → 制作物4つ） ---- */
+.rx-price-hero__card {
+  margin-top: 20px;
+  padding: 16px 10px 12px;
+  border: 1.5px solid var(--ph-pink-border);
+  border-radius: 14px;
+  background: linear-gradient(155deg, #fff8fb 0%, #fff 62%, #fff8fb 100%);
+  box-shadow: 0 7px 25px rgba(236, 68, 131, .1);
+}
+.rx-price-hero__card-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "set terms" "price price";
+  align-items: center;
+  padding: 0 6px;
+}
+.rx-price-hero__set {
+  grid-area: set;
+  font-family: var(--ph-sans);
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.4;
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
+.rx-price-hero__terms {
+  grid-area: terms;
+  padding: .35em .9em;
+  border: 1px solid #dccbe8;
+  border-radius: var(--rx-radius-pill);
+  background: rgba(255, 255, 255, .95);
+  font-family: var(--ph-sans);
+  font-weight: 700;
+  font-size: .75rem;
+  line-height: 1.4;
+  letter-spacing: .04em;
+  color: #34496b;
+  white-space: nowrap;
+}
+.rx-price-hero__price {
+  grid-area: price;
+  justify-self: center;
+  margin-top: 6px;
+  font-family: var(--ph-serif);
+  font-weight: 600;
+  font-size: clamp(1.625rem, 7.7vw, 2rem);   /* ＝「万円」。数字はこれを基準にした倍率 */
+  line-height: 1;
+  color: var(--ph-pink);
+  white-space: nowrap;
+}
+.rx-price-hero__price b {
+  font-weight: 500;
+  font-size: 2.55em;
+  letter-spacing: -.03em;
+  margin-right: .05em;
+}
+.rx-price-hero__set-desc {
+  margin-top: 10px;
+  font-family: var(--ph-sans);
+  font-weight: 700;
+  font-size: .875rem;
+  line-height: 1.5;
+  letter-spacing: .02em;
+  text-align: center;
+}
+.rx-price-hero__items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 14px;
+}
+.rx-price-hero__item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 74px;
+  padding: 8px 5px;
+  background: #fff;
+  border: 1px solid #eef0f5;
+  border-radius: 9px;
+  box-shadow: 0 3px 10px rgba(27, 44, 70, .04);
+  font-family: var(--ph-sans);
+  font-weight: 700;
+  font-size: .78125rem;
+  line-height: 1.4;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+}
+.rx-price-hero__item img {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 34px;
+  object-fit: contain;
+}
+
+/* ---- 運用の追記（料金カードの下） ---- */
+.rx-price-hero__extra {
+  margin-top: 16px;
+  font-family: var(--ph-sans);
+  font-weight: 500;
+  font-size: .78125rem;
+  line-height: 1.75;
+  letter-spacing: .02em;
+  text-align: center;
+  color: var(--ph-muted);
+}
+.rx-price-hero__extra-em { font-weight: 700; color: #334a73; }
+.rx-price-hero__nw { white-space: nowrap; }
+.rx-price-hero__extra-br { display: none; }
+@media (min-width: 385px) and (max-width: 768px) { .rx-price-hero__extra-br { display: inline; } }
+
+/* ---- CTA（メイン＝ピンクのグラデーション / サブ＝白・細い枠） ---- */
+.rx-price-hero__actions {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 14px;
+}
+.rx-price-hero__cta,
+.rx-price-hero__more {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 52px;
+  border-radius: var(--rx-radius-pill);
+  font-family: var(--ph-sans);
+  font-weight: 700;
+  font-size: .9375rem;
+  line-height: 1.3;
+  letter-spacing: .06em;
+  text-align: center;
+  transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+}
+.rx-price-hero__cta {
+  background: var(--ph-cta);
+  color: #fff;
+  box-shadow: 0 9px 16px rgba(241, 48, 115, .22);
+}
+.rx-price-hero__cta:hover { box-shadow: 0 12px 22px rgba(241, 48, 115, .32); transform: translateY(-1px); }
+.rx-price-hero__more {
+  background: #fff;
+  color: var(--ph-ink);
+  border: 1px solid #d5e0ee;
+  box-shadow: 0 4px 12px rgba(37, 63, 101, .055);
+}
+.rx-price-hero__more:hover { border-color: #aebdd6; }
+.rx-price-hero__cta:focus-visible,
+.rx-price-hero__more:focus-visible {
+  outline: 2px solid var(--ph-blue);
+  outline-offset: 3px;
+}
+.rx-price-hero__arrow {
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  width: 20px;
+  height: auto;
+  transform: translateY(-50%);
+  transition: transform .2s ease;
+}
+.rx-price-hero__cta:hover .rx-price-hero__arrow { transform: translate(3px, -50%); }
+.rx-price-hero__arrow--more { width: 18px; transform: translateY(-50%) rotate(90deg); }   /* SP: 下向き（同じページの下へ移動） */
+.rx-price-hero__more:hover .rx-price-hero__arrow--more { transform: translateY(calc(-50% + 3px)) rotate(90deg); }
+
+/* ---- 注記（SP: ※つきで2行 / PC: 1行を「／」で区切る） ---- */
+.rx-price-hero__notes {
+  margin-top: 14px;
+  padding: 0 2px;
+  font-family: var(--ph-sans);
+  font-weight: 500;
+  font-size: .75rem;
+  line-height: 1.75;
+  letter-spacing: .01em;
+  color: var(--ph-muted);
+}
+.rx-price-hero__notes li::before { content: "※"; }
+
+/* 小さいSP（〜380px）: 制作物のタイルはアイコンを上・名前を下に（横並びだと名前が入りきらない） */
+@media (max-width: 380px) {
+  .rx-price-hero__item { flex-direction: column; gap: 4px; padding: 10px 4px 8px; }
+  .rx-price-hero__item img { width: 40px; height: 30px; }
+}
+@media (max-width: 359px) {
+  .rx-price-hero__lead { font-size: .8125rem; }
+  .rx-price-hero__catch { top: 24px; }
+}
+
+/* ---- PC（901px〜）: 左＝料金とCTA / 右＝人物・漫画カード・手書き風コピー ---- */
+@media (min-width: 901px) {
+  .rx-price-hero {
+    --p: min(calc(100vw / 1672), calc((100vh - var(--rx-header-h)) / 846), 1.3px);
+    --p: min(calc(100vw / 1672), calc((100svh - var(--rx-header-h)) / 846), 1.3px);
+    --ph-left: max(32px, calc(100vw * 85 / 1672));
+    --ph-body-w: max(calc(var(--p) * 794), 500px);   /* 最低幅は制作物4つ・CTA2つが1行に収まる幅 */
+    --ph-body-r: calc(var(--ph-left) + var(--ph-body-w) + 12px);   /* 漫画カード・コピーを置いてよい左端 */
+    min-height: calc(var(--rx-header-h) + var(--p) * 846);
+    background: url("../images/price/price-hero-sky-pc.webp") right top / calc(var(--p) * 1672) auto no-repeat, var(--ph-bg);
+  }
+  .rx-price-hero__inner {
+    display: block;
+    max-width: none;
+    margin: 0;
+    padding: calc(var(--p) * 36) 0 calc(var(--p) * 56) var(--ph-left);
+  }
+  .rx-price-hero__body {
+    z-index: 3;                         /* 漫画カード・人物より手前（料金とボタンを隠さない） */
+    width: var(--ph-body-w);
+    padding: 0;
+  }
+
+  .rx-price-hero__eyebrow { gap: max(12px, calc(var(--p) * 24)); font-size: max(12px, calc(var(--p) * 19)); letter-spacing: .12em; }
+  .rx-price-hero__eyebrow::after { width: max(48px, calc(var(--p) * 73)); }
+  .rx-price-hero__title {
+    font-size: max(3.25rem, calc(var(--p) * 93));
+    line-height: 1.12;
+    letter-spacing: .025em;
+    margin-top: calc(var(--p) * 8);
+  }
+  .rx-price-hero__lead {
+    font-size: max(15px, calc(var(--p) * 21));
+    line-height: 1.85;
+    letter-spacing: .085em;
+    margin-top: calc(var(--p) * 14);
+  }
+
+  .rx-price-hero__card {
+    margin-top: calc(var(--p) * 18);
+    padding: calc(var(--p) * 17) calc(var(--p) * 16) calc(var(--p) * 10) calc(var(--p) * 13);
+    border-radius: max(10px, calc(var(--p) * 12));
+    background: linear-gradient(180deg, #fdf3f7 0%, #fdf6f9 55%, #fefcfd 100%);
+    box-shadow: 0 calc(var(--p) * 10) calc(var(--p) * 30) rgba(236, 68, 131, .08);
+  }
+  .rx-price-hero__card-head {
+    display: flex;
+    align-items: flex-start;
+    padding: 0 0 0 calc(var(--p) * 21);
+  }
+  .rx-price-hero__set {
+    flex-shrink: 0;
+    margin-top: calc(var(--p) * 14);
+    font-size: max(16px, calc(var(--p) * 28));
+    letter-spacing: .06em;
+  }
+  .rx-price-hero__price {
+    margin: calc(var(--p) * -20) 0 0 calc(var(--p) * 16);
+    font-size: max(30px, calc(var(--p) * 70));   /* 「万円」。数字（b）はその 1.92倍 */
+  }
+  .rx-price-hero__price b { font-size: 1.92em; font-weight: 600; }
+  .rx-price-hero__price-dec { font-size: .72em; letter-spacing: -.02em; }
+  .rx-price-hero__terms {
+    flex-shrink: 0;
+    margin: calc(var(--p) * 50) 0 0 calc(var(--p) * 18);
+    padding: .42em 1.15em;
+    border-width: 1.5px;
+    border-color: #e4d6f1;
+    font-size: max(12px, calc(var(--p) * 18));
+    font-weight: 500;
+    color: var(--ph-ink);
+  }
+  .rx-price-hero__set-desc {
+    margin-top: calc(var(--p) * 3);
+    font-family: var(--ph-serif);
+    font-weight: 600;
+    font-size: max(16px, calc(var(--p) * 25.5));
+    letter-spacing: .1em;
+  }
+  .rx-price-hero__items {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: calc(var(--p) * 36);
+    margin-top: calc(var(--p) * 20);
+  }
+  .rx-price-hero__item {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: calc(var(--p) * 12);
+    min-height: calc(var(--p) * 121);
+    padding: calc(var(--p) * 18) 4px calc(var(--p) * 14);
+    border-color: transparent;
+    border-radius: max(6px, calc(var(--p) * 8));
+    box-shadow: 0 calc(var(--p) * 4) calc(var(--p) * 14) rgba(27, 44, 70, .05);
+    font-size: max(12px, calc(var(--p) * 16));
+    letter-spacing: .02em;
+  }
+  .rx-price-hero__item + .rx-price-hero__item::before {   /* タイルの間の細い縦線 */
+    content: "";
+    position: absolute;
+    left: calc(var(--p) * -18 - .5px);
+    top: 20%;
+    bottom: 20%;
+    width: 1px;
+    background: var(--ph-line);
+  }
+  .rx-price-hero__item img { width: max(52px, calc(var(--p) * 80)); height: max(36px, calc(var(--p) * 55)); }
+
+  .rx-price-hero__extra {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--p) * 18);
+    margin-top: calc(var(--p) * 17);
+    font-size: max(13px, calc(var(--p) * 17));
+    letter-spacing: .06em;
+    white-space: nowrap;
+    color: #3b4a63;
+  }
+  .rx-price-hero__extra::before,
+  .rx-price-hero__extra::after {
+    content: "";
+    flex: 1 1 0;
+    height: 1px;
+    background: #cfd9ea;
+  }
+  .rx-price-hero__extra-em { font-weight: 500; color: inherit; }
+
+  .rx-price-hero__actions {
+    flex-direction: row;
+    align-items: center;
+    width: max-content;
+    gap: calc(var(--p) * 25);
+    margin-top: calc(var(--p) * 20);
+  }
+  .rx-price-hero__actions::after {      /* ボタンの右のドット（装飾） */
+    content: "";
+    position: absolute;
+    left: calc(100% + var(--p) * 14);
+    top: calc(var(--p) * 30);
+    width: calc(var(--p) * 112);
+    height: calc(var(--p) * 84);
+    background: radial-gradient(circle, rgba(150, 140, 235, .5) 0 calc(var(--p) * 2.2), transparent calc(var(--p) * 2.8)) 0 0 / calc(var(--p) * 18) calc(var(--p) * 18);
+    -webkit-mask-image: radial-gradient(closest-side, #000 40%, transparent);
+    mask-image: radial-gradient(closest-side, #000 40%, transparent);
+    pointer-events: none;
+  }
+  .rx-price-hero__cta,
+  .rx-price-hero__more { gap: .6em; padding: 0 1.4em; white-space: nowrap; }
+  .rx-price-hero__cta {
+    min-width: max(250px, calc(var(--p) * 417));
+    min-height: max(52px, calc(var(--p) * 75));
+    font-size: max(15px, calc(var(--p) * 20));
+    letter-spacing: .1em;
+    box-shadow: 0 calc(var(--p) * 10) calc(var(--p) * 24) rgba(241, 48, 115, .28);
+  }
+  .rx-price-hero__more {
+    min-width: max(220px, calc(var(--p) * 298));
+    min-height: max(48px, calc(var(--p) * 68));
+    border-color: var(--ph-line);
+    font-size: max(14px, calc(var(--p) * 18));
+    letter-spacing: .08em;
+    box-shadow: 0 calc(var(--p) * 6) calc(var(--p) * 18) rgba(30, 50, 90, .07);
+  }
+  .rx-price-hero__arrow,
+  .rx-price-hero__arrow--more {          /* PC: 文字のすぐ右の → */
+    position: static;
+    flex-shrink: 0;
+    width: .95em;
+    transform: none;
+  }
+  .rx-price-hero__cta:hover .rx-price-hero__arrow,
+  .rx-price-hero__more:hover .rx-price-hero__arrow--more { transform: translateX(3px); }
+
+  .rx-price-hero__notes {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(var(--p) * 14);
+    padding: 0;
+    font-size: max(12px, calc(var(--p) * 15));
+    letter-spacing: .03em;
+  }
+  .rx-price-hero__notes li::before { content: none; }
+  .rx-price-hero__notes li + li::before { content: "／"; margin: 0 .45em; }
+
+  /* 右側: 人物・漫画カード2枚・手書き風コピー（完成図の位置。画面の右端が基準）。
+     漫画カードとコピーは、狭い画面（〜1100px前後）では「料金カードの右」まで右へずらし、料金カードに重ねない */
+  .rx-price-hero__visual {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    order: 0;
+    height: auto;
+    overflow: visible;
+    background: none;
+  }
+  .rx-price-hero__visual::before,
+  .rx-price-hero__visual::after { content: none; }
+  .rx-price-hero__person {
+    inset: auto;
+    top: calc(var(--rx-header-h) + var(--p) * 45);
+    right: calc(var(--p) * -14);
+    width: calc(var(--p) * 647);
+    height: auto;
+    object-fit: fill;
+    filter: none;
+  }
+  .rx-price-hero__story,
+  .rx-price-hero__manga {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    height: auto;
+  }
+  .rx-price-hero__story {
+    left: max(calc(100% - var(--p) * 760), var(--ph-body-r));
+    top: calc(var(--rx-header-h) + var(--p) * 285);
+    width: calc(var(--p) * 370);
+    transform: rotate(2deg);
+  }
+  .rx-price-hero__manga {
+    left: max(calc(100% - var(--p) * 696), calc(var(--ph-body-r) + var(--p) * 64));
+    top: calc(var(--rx-header-h) + var(--p) * 461);
+    width: calc(var(--p) * 362);
+    transform: rotate(-6deg);
+  }
+  .rx-price-hero__catch {
+    left: max(calc(100% - var(--p) * 695), calc(var(--ph-body-r) + var(--p) * 65));
+    top: calc(var(--rx-header-h) + var(--p) * 94);
+    font-size: calc(var(--p) * 33);
+    line-height: 1.66;
+    letter-spacing: .06em;
+    text-shadow: 0 1px 3px rgba(255, 255, 255, .9);
+    transform: rotate(-15deg);
+  }
+  .rx-price-hero__catch-em { margin-left: -1.5em; }
+  .rx-price-hero__catch-em::after {
+    left: 2.2em;
+    right: auto;
+    bottom: -.6em;
+    width: 5.2em;
+    height: .5em;
+    transform: rotate(-5deg);
+  }
+}
+/* 狭いPC（901〜1000px）: 漫画カードとコピーを料金カードの右へずらすとコピーが人物の顔にかかるので、コピーは出さない */
+@media (min-width: 901px) and (max-width: 1000px) {
+  .rx-price-hero__catch { display: none; }
+}
+
+/* =========================================================================
+   01〜05 の共通の地（2026-11-11）
+   - 料金の仕組み〜お問い合わせの5つを <div class="rx-price-body"> でくるみ、地はここだけで持つ。
+     各セクションの背景は透明なので、境目で色が変わらない（地は横方向だけのグラデーション＝縦にはどこでも同じ色）
+   - 線: 各セクションの下の余白（固定の相談バーのぶん空けている所）に、同じ波線を1本ずつ。
+     波線は左右の端から出入りし、上下の端には触れない形なので、セクションの境目で途切れない
+   - ドット: 各セクションの右上と左下に同じもの。左下は SP では波線と注記の間、PC では注記の左横
+   - 面を塗る飾り（端まで届く淡い面・ぼかし）は、境目で切れて見えるので置かない
+   ========================================================================= */
+.rx-price-body {                        /* position は付けない（各セクションの offsetTop をページ基準のままにする） */
+  background: linear-gradient(90deg, #eef1ff 0%, #f7f8ff 24%, #fdfdff 50%, #f7f8ff 76%, #edf1ff 100%);
+}
+.rx-price-body > section {              /* 波線は高さを決めて横に伸ばす（下の余白より低いので、注記・ボタンにかからない） */
+  background: url("../images/price/price-body-wave.svg") left 38% bottom 4px / 230% 72px no-repeat;
+}
+.rx-price-body > section::before,
+.rx-price-body > section::after {       /* 右上と左下の紫のドット */
+  content: "";
+  position: absolute;
+  z-index: 0;
+  width: 56px;
+  height: 44px;
+  background: url("../images/price/price-body-dots.svg") left top / contain no-repeat;
+  pointer-events: none;
+}
+.rx-price-body > section::before { top: 14px; right: 12px; }
+.rx-price-body > section::after  { bottom: 28px; left: 10px; }   /* SP: 左寄せの注記にかからないよう、波線と注記の間に */
+/* 05 のすぐ下がフッター。共通のフッターの上の余白（白い帯になる）をこのページだけ0にして、淡いブルーの地からそのままつなぐ
+   （price.css は price.html だけが読み込む。05 の下の余白は固定の相談バーのぶん取ってある） */
+.rx-footer { margin-top: 0; }
+@media (min-width: 901px) {
+  .rx-price-body > section { background-position: center bottom 4px; background-size: 100% 88px; }
+  .rx-price-body > section::before,
+  .rx-price-body > section::after { width: 88px; height: 69px; }
+  .rx-price-body > section::before { top: 20px; right: 40px; }
+  .rx-price-body > section::after  { bottom: calc(var(--rx-fixcta-h, 72px) - 14px); left: 28px; }
+}
+
+/* =========================================================================
+   1-2. 料金の仕組み（2026-11-07・完成図 PC 1672×941 / SP 941×1672 準拠。素材ZIP biz_recruit_section01_price_guide_PC_SP_20261107）
+   - 料金は「つくる」（基本セット 69.8万円・税別・買い切り＝制作のみで導入できる）と「届ける」（必要に応じて追加する運用）の2つ
+   - 見出し・料金・制作物名・運用メニュー・注記はすべてHTMLテキスト。画像は
+     カード右上の波（SVG）・人物2人（フェード付きの切り出し）・アイコン（SVG）だけ
+   - 色・書体はこのセクションだけの --pg-*（紺・鮮やかなピンク・淡いブルー・ラベンダーの細い線）
+   - SP（〜599px）: 見出し → つくる（制作物は2列×2行・アイコンが左）→ 下向きの矢羽根 → 届ける（運用は縦に3件）→ 注記。
+     完成図のSPは文字が小さく描かれているので、並び方だけを写し、文字は12px以上にする
+   - タブレット（600〜1099px）: 同じ縦積みで幅660px。料金は1行、制作物は横4つ、運用は上段2列＋下段横長
+   - PC（1100px〜）: 左「つくる」｜右向きの矢羽根｜右「届ける」。寸法は完成図の px × --g（幅1672pxのとき 1px・上限 1.1px）
+   - 画面下に固定の相談バー（.rx-fixcta。高さは main.js が --rx-fixcta-h に書く）があるので、
+     セクションの下の余白はバーの高さより広くとり、注記がバーに隠れないようにする
+   ========================================================================= */
+.rx-price-guide {
+  --pg-ink:         #0a1d3c;            /* 文字の紺 */
+  --pg-pink:        #ff2580;            /* 吹き出し・下線・矢印 */
+  --pg-price:       #f9277c;            /* 料金の数字 */
+  --pg-blue:        #3869e1;            /* PRICE GUIDE */
+  --pg-blue-line:   #97afff;
+  --pg-card-border: #ffabd0;            /* カードの枠 */
+  --pg-line:        #e6eaf9;            /* 小カードの枠・区切り線 */
+  --pg-serif: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif;
+  --pg-sans:  'Zen Kaku Gothic Antique', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+
+  position: relative;
+  overflow: hidden;
+  color: var(--pg-ink);
+  font-family: var(--pg-sans);
+  /* 地・線・ドットは 01〜05 共通（.rx-price-body）。このセクション自体は透明 */
+}
+.rx-price-guide__inner {
+  position: relative;
+  z-index: 1;                            /* 共通のドット（::before / ::after）より前に */
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 46px 18px max(56px, calc(var(--rx-fixcta-h, 72px) + 28px));
+}
+.rx-price-guide__nw { display: inline-block; }   /* 語句の途中で折り返さない（足りないときは語句の切れ目で折り返す） */
+
+/* ---- 見出し ---- */
+.rx-price-guide__head { text-align: center; }
+.rx-price-guide__eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-family: var(--pg-serif);
+  font-weight: 500;
+  font-size: .875rem;
+  line-height: 1.4;
+  letter-spacing: .14em;
+  color: var(--pg-blue);
+}
+.rx-price-guide__eyebrow::before,
+.rx-price-guide__eyebrow::after {
+  content: "";
+  width: 40px;
+  height: 1px;
+  background: var(--pg-blue-line);
+}
+.rx-price-guide__title {
+  margin-top: 16px;
+  font-family: var(--pg-serif);
+  font-weight: 600;
+  font-size: clamp(1.625rem, 7.3vw, 2.0625rem);
+  line-height: 1.5;
+  letter-spacing: .01em;
+}
+.rx-price-guide__lead {
+  margin: 8px auto 0;
+  font-weight: 500;
+  font-size: .8125rem;
+  line-height: 1.8;
+  letter-spacing: .01em;
+}
+
+/* ---- カード（つくる / 届ける） ---- */
+.rx-price-guide__stages {
+  display: flex;
+  flex-direction: column;
+  margin-top: 46px;
+}
+.rx-price-guide__card {
+  position: relative;
+  min-width: 0;
+  padding: 21px 13px 16px;
+  border: 1.5px solid var(--pg-card-border);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .73);
+  box-shadow: 0 7px 18px rgba(54, 65, 120, .08);
+}
+.rx-price-guide__card::before {         /* カード右上の淡いブルーの波（人物の後ろ） */
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 56%;
+  height: 167px;
+  border-radius: 0 19px 0 0;
+  background: url("../images/price/price-guide-card-wave.svg") center / cover no-repeat;
+  pointer-events: none;
+}
+.rx-price-guide__person {               /* 人物（背景を少し含むフェード付きの切り出し。下端をさらに消す） */
+  position: absolute;
+  z-index: 1;
+  top: -27px;
+  right: 1px;
+  width: min(169px, 44%);               /* 狭い画面でも「つくる」「届ける」に重ねない */
+  height: auto;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, #000 73%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 73%, transparent 100%);
+}
+.rx-price-guide__person--man { top: -32px; right: -1px; width: min(173px, 45%); }
+
+.rx-price-guide__pop {                  /* 「制作のみもOK」の吹き出し */
+  position: absolute;
+  z-index: 3;
+  top: -31px;
+  left: 14px;
+  padding: 9px 14px;
+  border-radius: 34px 34px 30px 8px;
+  background: linear-gradient(110deg, #ff5a83, #ff1f7d);
+  box-shadow: 0 8px 14px rgba(226, 56, 122, .14);
+  font-weight: 700;
+  font-size: .875rem;
+  line-height: 1.3;
+  letter-spacing: .02em;
+  color: #fff;
+  white-space: nowrap;
+  transform: rotate(-5deg);
+}
+.rx-price-guide__pop::after {           /* 吹き出しのしっぽ */
+  content: "";
+  position: absolute;
+  right: 26%;
+  bottom: -9px;
+  border-style: solid;
+  border-width: 10px 3px 0 8px;
+  border-color: #ff2580 transparent transparent;
+}
+.rx-price-guide__pop::before {          /* 吹き出しの左上のきらめき（3本線） */
+  content: "";
+  position: absolute;
+  left: -1.3em;
+  top: -.9em;
+  width: 1.5em;
+  height: 1.4em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 28'%3E%3Cpath d='M4 26 1 16M15 14 13 3M27 23 21 15' stroke='%23ff2580' stroke-width='2.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.rx-price-guide__intro {
+  position: relative;
+  z-index: 2;
+  min-height: 113px;
+  padding-left: 9px;
+}
+.rx-price-guide__name {
+  position: relative;
+  display: inline-block;
+  margin: 9px 0 13px;
+  font-family: var(--pg-serif);
+  font-weight: 600;
+  font-size: 2.75rem;
+  line-height: 1.14;
+  letter-spacing: .04em;
+}
+.rx-price-guide__name::after {          /* 見出しの下のピンクの斜線 */
+  content: "";
+  position: absolute;
+  left: 6%;
+  bottom: -4px;
+  width: 88%;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--pg-pink);
+  transform: rotate(-6deg);
+}
+.rx-price-guide__desc {
+  max-width: calc(100% - min(178px, 48%));   /* 人物の左端より手前で、語句の切れ目で折り返す */
+  font-weight: 700;
+  font-size: .75rem;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* つくる: 基本セットの料金（SP: 「基本セット」と「税別・買い切り」の下に料金。600px〜は1行） */
+.rx-price-guide__price-box {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "set terms" "price price";
+  align-items: center;
+  min-height: 100px;
+  padding: 11px 11px 12px;
+  border-radius: 15px;
+  background: linear-gradient(90deg, rgba(255, 239, 246, .91), rgba(255, 222, 233, .78));
+}
+.rx-price-guide__set {
+  grid-area: set;
+  font-weight: 700;
+  font-size: .9375rem;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+.rx-price-guide__terms {
+  grid-area: terms;
+  justify-self: end;
+  padding: .4em .85em;
+  border: 1px solid #d6afea;
+  border-radius: var(--rx-radius-pill);
+  background: #fffdfd;
+  font-weight: 700;
+  font-size: .75rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  color: #142746;
+}
+.rx-price-guide__price {
+  grid-area: price;
+  justify-self: center;
+  margin-top: 2px;
+  font-family: var(--pg-serif);
+  font-weight: 600;
+  font-size: 1.9375rem;                 /* ＝「万円」。数字（b）はその倍率 */
+  line-height: 1;
+  color: var(--pg-price);
+  white-space: nowrap;
+}
+.rx-price-guide__price b { font-weight: 600; font-size: 2.13em; letter-spacing: -.03em; margin-right: .04em; }
+
+/* つくる: 4つの制作物（SP: 2列×2行、アイコンが左・名前が右） */
+.rx-price-guide__sub {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 14px 0 11px;
+  font-family: var(--pg-serif);
+  font-weight: 500;
+  font-size: .875rem;
+  letter-spacing: .06em;
+}
+.rx-price-guide__sub::before,
+.rx-price-guide__sub::after {
+  content: "";
+  width: 19px;
+  height: 1px;
+  background: #afc2ee;
+}
+.rx-price-guide__items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.rx-price-guide__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 58px;
+  padding: 8px 6px;
+  border: 1px solid #e9ecf9;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 3px 7px rgba(35, 48, 100, .06);
+  font-weight: 700;
+  font-size: clamp(.75rem, 3.4vw, .8125rem);
+  line-height: 1.35;
+}
+.rx-price-guide__item img { flex-shrink: 0; width: clamp(30px, 9vw, 36px); height: clamp(30px, 9vw, 36px); }
+
+/* つくる: 単品制作にも対応 → 次のセクション（#basic-set） */
+.rx-price-guide__single {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+  margin: 12px auto 0;
+  padding: 6px 16px;
+  border: 1px solid #f4b6d0;
+  border-radius: var(--rx-radius-pill);
+  background: rgba(255, 255, 255, .92);
+  font-weight: 700;
+  font-size: .78125rem;
+  line-height: 1.4;
+  letter-spacing: .02em;
+  text-align: center;
+  color: var(--pg-ink);
+  text-decoration: none;
+  transition: border-color .2s ease, background-color .2s ease;
+}
+.rx-price-guide__single-sub { font-weight: 500; }
+.rx-price-guide__single svg { flex-shrink: 0; width: 18px; height: 18px; color: var(--pg-pink); transition: transform .2s ease; }
+.rx-price-guide__single:hover { border-color: var(--pg-pink); background: #fff; }
+.rx-price-guide__single:hover svg { transform: translateX(3px); }
+.rx-price-guide__single:focus-visible { outline: 3px solid rgba(255, 37, 128, .45); outline-offset: 2px; }
+
+/* 中央: 必要に応じて追加（SP: 下向きの矢羽根 / PC: 右向きの矢羽根。どちらもピンクの枠と白〜淡いピンクの面） */
+.rx-price-guide__connect {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2px;
+  width: min(100%, 236px);
+  height: 80px;
+  margin: 12px auto;
+  padding-top: 14px;
+  font-weight: 700;
+  font-size: .9375rem;
+  line-height: 1.35;
+  text-align: center;
+  filter: drop-shadow(0 4px 6px rgba(115, 50, 75, .1));
+}
+.rx-price-guide__connect::before,
+.rx-price-guide__connect::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: 14px 14px 0 0;
+  background: #ffb3d3;
+  clip-path: polygon(0 0, 100% 0, 100% 56%, 50% 100%, 0 56%);
+}
+.rx-price-guide__connect::after {
+  inset: 1.5px 1.5px 2px;
+  background: linear-gradient(110deg, #fffafb, #fff0f6);
+}
+.rx-price-guide__connect-text { position: relative; }
+.rx-price-guide__connect-text::before { /* きらめき（3本線）。SPは文字の左上、PCは文字の上 */
+  content: "";
+  position: absolute;
+  left: -1.9em;
+  top: -.85em;
+  width: 1.4em;
+  height: 1.2em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 28'%3E%3Cpath d='M4 26 1 16M15 14 13 3M27 23 21 15' stroke='%23ff2580' stroke-width='2.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.rx-price-guide__pc-br { display: none; }
+.rx-price-guide__connect-arrow {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  color: var(--pg-pink);
+  transform: rotate(90deg);              /* SP: 下向き */
+}
+
+/* 届ける: 運用メニュー（任意で追加。SP: 縦に3件、左に名前・右に料金） */
+.rx-price-guide__ops {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  gap: 9px;
+}
+.rx-price-guide__op {                  /* SP: 左半分に名前、右半分に料金（区切り線の位置を3件でそろえる） */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 74px;
+  padding: 10px 12px;
+  border: 1px solid #e1e6fb;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 3px 9px rgba(43, 63, 122, .08);
+}
+.rx-price-guide__op-name {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+  font-weight: 700;
+  font-size: .84375rem;
+  line-height: 1.4;
+}
+.rx-price-guide__op-name img { flex-shrink: 0; width: 36px; height: 36px; }
+.rx-price-guide__op-label { white-space: nowrap; }
+.rx-price-guide__op-fee {
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding-left: 12px;
+  border-left: 1px solid var(--pg-line);
+  text-align: center;
+}
+.rx-price-guide__op-price {
+  display: flex;
+  align-items: baseline;
+  font-family: var(--pg-serif);
+  font-weight: 600;
+  font-size: .9375rem;                   /* ＝「万円〜」 */
+  line-height: 1;
+  color: var(--pg-price);
+  white-space: nowrap;
+}
+.rx-price-guide__op-price small { margin-right: 2px; font-size: 1em; color: var(--pg-ink); }
+.rx-price-guide__op-price b { font-weight: 600; font-size: 2.4em; letter-spacing: -.04em; }
+.rx-price-guide__op-alt {               /* 「または応募1件1万円〜」「初回3か月〜」 */
+  margin-top: 5px;
+  font-weight: 700;
+  font-size: .75rem;
+  line-height: 1.4;
+  color: var(--pg-ink);
+}
+.rx-price-guide__op--aio {
+  border: 0;
+  background: linear-gradient(100deg, #fff0f5, #ffdee9);
+  box-shadow: none;
+}
+.rx-price-guide__op--aio .rx-price-guide__op-label { text-align: center; }
+.rx-price-guide__op--aio .rx-price-guide__nw { display: block; }   /* 「AI検索対策」「（採用AIO）」の2行 */
+.rx-price-guide__op--aio .rx-price-guide__op-fee { border-left-color: #dab9d5; }
+
+/* ---- 注記（制作後に運用を追加できる・LP維持費） ---- */
+.rx-price-guide__foot {
+  display: grid;
+  justify-content: center;
+  gap: 2px;
+  margin-top: 20px;
+}
+.rx-price-guide__note {
+  font-weight: 500;
+  font-size: .75rem;
+  line-height: 1.75;
+  letter-spacing: .02em;
+}
+
+/* 小さいSP（〜359px）: 料金の数字と運用の金額を少し小さく（カードからはみ出さない） */
+@media (max-width: 359px) {
+  .rx-price-guide__price { font-size: 1.75rem; }
+  .rx-price-guide__op-price b { font-size: 2.2em; }
+  .rx-price-guide__name { font-size: 2.5rem; }
+}
+
+/* タブレット（600〜1099px）: 幅660pxで中央寄せ。料金は1行、制作物は横4つ、運用は上段2列＋下段横長 */
+@media (min-width: 600px) and (max-width: 1099px) {
+  .rx-price-guide__inner { max-width: 660px; }
+  .rx-price-guide__title { font-size: 2.25rem; }
+  .rx-price-guide__lead { font-size: .9375rem; }
+  .rx-price-guide__card { padding-left: 22px; padding-right: 22px; }
+  .rx-price-guide__person { width: min(210px, 36%); }
+  .rx-price-guide__intro { min-height: 150px; }   /* 人物の下端が料金・運用メニューの裏に入らない高さ */
+  .rx-price-guide__name { font-size: 3.4375rem; }
+  .rx-price-guide__desc { max-width: none; font-size: .875rem; }
+
+  .rx-price-guide__price-box { display: flex; gap: 16px; min-height: 96px; padding: 12px 18px 12px 26px; }
+  .rx-price-guide__set { padding-right: 18px; border-right: 1px solid rgba(10, 29, 60, .18); font-size: 1.0625rem; }
+  .rx-price-guide__price { margin: 0 auto 0 0; font-size: 2.25rem; }
+  .rx-price-guide__price b { font-size: 2.05em; }
+  .rx-price-guide__terms { font-size: .8125rem; }
+
+  .rx-price-guide__items { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .rx-price-guide__item { flex-direction: column; gap: 6px; min-height: 104px; font-size: .875rem; text-align: center; }
+  .rx-price-guide__item img { width: 52px; height: 52px; }
+  .rx-price-guide__single { margin-top: 14px; font-size: .875rem; }
+
+  .rx-price-guide__connect { width: 270px; height: 86px; font-size: 1rem; }
+
+  .rx-price-guide__ops { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 10px; }
+  .rx-price-guide__op { display: flex; flex-direction: column; align-items: stretch; gap: 0; min-height: 170px; padding: 14px 12px; }
+  .rx-price-guide__op-name { flex: none; justify-content: center; padding-bottom: 10px; border-bottom: 1px solid var(--pg-line); font-size: .9375rem; }
+  .rx-price-guide__op-name img { width: 44px; height: 44px; }
+  .rx-price-guide__op-fee { flex: 1 1 auto; justify-content: flex-start; padding: 22px 0 0; border-left: 0; }   /* 料金の高さを2枚でそろえる */
+  .rx-price-guide__op-price { font-size: 1.0625rem; }
+  .rx-price-guide__op-price b { font-size: 2.6em; }
+  .rx-price-guide__op-alt { font-size: .8125rem; }
+  .rx-price-guide__op--aio { grid-column: 1 / -1; flex-direction: row; align-items: center; min-height: 100px; padding: 12px 22px; }
+  .rx-price-guide__op--aio .rx-price-guide__op-name { flex: 1 1 50%; gap: 18px; padding: 0; border-bottom: 0; }
+  .rx-price-guide__op--aio .rx-price-guide__op-name img { width: 52px; height: 52px; }
+  .rx-price-guide__op--aio .rx-price-guide__op-fee { flex: 1 1 50%; justify-content: center; padding: 0 0 0 22px; border-left: 1px solid #dab9d5; }
+
+  .rx-price-guide__foot { justify-items: center; }
+  .rx-price-guide__note { font-size: .8125rem; }
+}
+
+/* ---- PC（1100px〜）: 左「つくる」｜右向きの矢羽根｜右「届ける」 ---- */
+@media (min-width: 1100px) {
+  .rx-price-guide {
+    --g: min(calc(100vw / 1672), 1.1px);
+  }
+  .rx-price-guide__inner {
+    width: calc(var(--g) * 1482);
+    max-width: none;
+    padding: calc(var(--g) * 34) 0 max(calc(var(--g) * 36), calc(var(--rx-fixcta-h, 72px) + 24px));
+  }
+
+  .rx-price-guide__eyebrow { gap: calc(var(--g) * 26); font-size: max(13px, calc(var(--g) * 22)); }
+  .rx-price-guide__eyebrow::before,
+  .rx-price-guide__eyebrow::after { width: calc(var(--g) * 58); }
+  .rx-price-guide__title {
+    margin-top: calc(var(--g) * 12);
+    font-size: max(2rem, calc(var(--g) * 62));
+    line-height: 1.3;
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
+  .rx-price-guide__br { display: none; }
+  .rx-price-guide__lead {
+    margin-top: calc(var(--g) * 6);
+    font-size: max(14px, calc(var(--g) * 22));
+    letter-spacing: .2em;
+  }
+
+  .rx-price-guide__stages {
+    display: grid;
+    grid-template-columns: minmax(0, 688fr) calc(var(--g) * 120) minmax(0, 674fr);
+    align-items: center;
+    margin-top: calc(var(--g) * 62);
+  }
+  .rx-price-guide__card {
+    display: flex;
+    flex-direction: column;
+    height: calc(var(--g) * 552);
+    padding: 0 calc(var(--g) * 21) calc(var(--g) * 20);
+    border-radius: calc(var(--g) * 22);
+    box-shadow: 0 calc(var(--g) * 10) calc(var(--g) * 22) rgba(65, 87, 145, .09);
+  }
+  .rx-price-guide__card--deliver { padding: 0 calc(var(--g) * 23); }
+  .rx-price-guide__card > * { flex-shrink: 0; }   /* カードの高さが決まっているので、中身は縮ませない */
+  .rx-price-guide__card::before { width: 46%; height: calc(var(--g) * 207); border-radius: 0 calc(var(--g) * 21) 0 0; }
+  .rx-price-guide__person {             /* 完成図と同じ等倍・位置（素材そのものが完成図からの切り出しで、下端はもう消えている） */
+    top: calc(var(--g) * -45);
+    right: calc(var(--g) * 22);
+    width: calc(var(--g) * 292);
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .rx-price-guide__person--man { top: calc(var(--g) * -52); right: calc(var(--g) * 22); width: calc(var(--g) * 283); }
+  .rx-price-guide__pop {
+    top: calc(var(--g) * -52);
+    left: calc(var(--g) * 46);
+    padding: calc(var(--g) * 12) calc(var(--g) * 24);
+    font-size: max(14px, calc(var(--g) * 22));
+  }
+
+  .rx-price-guide__intro {
+    min-height: calc(var(--g) * 195);
+    padding: calc(var(--g) * 31) 0 0 calc(var(--g) * 23);
+  }
+  .rx-price-guide__name {
+    margin: 0 0 0 calc(var(--g) * 22);
+    font-size: max(2.5rem, calc(var(--g) * 74));
+    letter-spacing: 0;
+  }
+  .rx-price-guide__name::after { bottom: calc(var(--g) * -10); height: 3px; }
+  .rx-price-guide__desc {
+    max-width: none;
+    margin-top: calc(var(--g) * 23);
+    font-size: max(13px, calc(var(--g) * 20));
+    letter-spacing: .06em;
+  }
+
+  .rx-price-guide__price-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(var(--g) * 16);
+    min-height: 0;
+    height: calc(var(--g) * 107);
+    padding: 0 calc(var(--g) * 22) 0 calc(var(--g) * 38);
+    border-radius: calc(var(--g) * 15);
+  }
+  .rx-price-guide__set {
+    padding-right: calc(var(--g) * 24);
+    border-right: 1px solid rgba(10, 29, 60, .18);
+    font-size: max(15px, calc(var(--g) * 25));
+  }
+  .rx-price-guide__price { margin: 0 auto 0 0; font-size: max(24px, calc(var(--g) * 42)); }
+  .rx-price-guide__price b { font-size: 2.1em; }
+  .rx-price-guide__dec { font-size: .74em; }
+  .rx-price-guide__terms { font-size: max(12px, calc(var(--g) * 16)); border-width: 1.5px; }
+
+  .rx-price-guide__sub {
+    gap: calc(var(--g) * 20);
+    margin: calc(var(--g) * 12) 0 0;
+    font-size: max(14px, calc(var(--g) * 22));
+  }
+  .rx-price-guide__sub::before,
+  .rx-price-guide__sub::after { width: calc(var(--g) * 55); }
+  .rx-price-guide__items {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: calc(var(--g) * 11);
+    margin-top: calc(var(--g) * 12);
+  }
+  .rx-price-guide__item {
+    flex-direction: column;
+    gap: calc(var(--g) * 9);
+    min-height: 0;
+    height: calc(var(--g) * 108);
+    padding: 0 calc(var(--g) * 4);
+    border-radius: calc(var(--g) * 13);
+    font-size: max(12px, calc(var(--g) * 16));
+    text-align: center;
+  }
+  .rx-price-guide__item img { width: calc(var(--g) * 60); height: calc(var(--g) * 60); }
+  .rx-price-guide__single {
+    gap: calc(var(--g) * 12);
+    min-height: 0;
+    height: calc(var(--g) * 39);
+    margin-top: calc(var(--g) * 18);
+    padding: 0 calc(var(--g) * 34);
+    font-size: max(13px, calc(var(--g) * 17));
+  }
+  .rx-price-guide__single svg { width: max(16px, calc(var(--g) * 22)); height: max(16px, calc(var(--g) * 22)); }
+
+  .rx-price-guide__connect {
+    justify-content: center;
+    gap: calc(var(--g) * 12);
+    width: calc(100% + var(--g) * 8);   /* 矢羽根の先を右のカードに少し重ねる */
+    height: calc(var(--g) * 238);
+    margin: 0;                          /* カードの上下の中央 */
+    padding: 0 calc(var(--g) * 30) 0 0;
+    font-size: max(14px, calc(var(--g) * 24));
+    line-height: 1.4;
+    filter: drop-shadow(0 calc(var(--g) * 4) calc(var(--g) * 6) rgba(115, 50, 75, .1));
+  }
+  .rx-price-guide__connect::before,
+  .rx-price-guide__connect::after {
+    border-radius: calc(var(--g) * 20) 0 0 calc(var(--g) * 20);
+    clip-path: polygon(0 0, 72% 0, 100% 50%, 72% 100%, 0 100%);
+  }
+  .rx-price-guide__connect::after { inset: 1.5px 2px 1.5px 1.5px; }
+  .rx-price-guide__connect-text::before {
+    position: static;
+    display: block;
+    width: 1.6em;
+    height: 1em;
+    margin: 0 auto .5em;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 20'%3E%3Cpath d='M4 4 9 13M16 1v12M28 4l-5 9' stroke='%23ff2580' stroke-width='2.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+  }
+  .rx-price-guide__pc-br { display: inline; }
+  .rx-price-guide__connect-arrow { width: calc(var(--g) * 36); height: calc(var(--g) * 36); transform: none; }
+
+  .rx-price-guide__ops {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: calc(var(--g) * 22) calc(var(--g) * 14);
+  }
+  .rx-price-guide__op {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    min-height: 0;
+    height: calc(var(--g) * 181);
+    padding: 0 calc(var(--g) * 18);
+    border-radius: calc(var(--g) * 14);
+  }
+  .rx-price-guide__op-name {
+    flex: none;
+    justify-content: center;
+    gap: calc(var(--g) * 14);
+    height: calc(var(--g) * 80);
+    border-bottom: 1px solid var(--pg-line);
+    font-size: max(14px, calc(var(--g) * 23));
+    letter-spacing: .04em;
+  }
+  .rx-price-guide__op-name img { width: calc(var(--g) * 56); height: calc(var(--g) * 56); }
+  .rx-price-guide__op-fee { flex: 1 1 auto; justify-content: flex-start; padding: 0; border-left: 0; }   /* 料金の高さを2枚でそろえる（下に「または〜」がある方に合わせて上から置く） */
+  .rx-price-guide__op-price { font-size: max(14px, calc(var(--g) * 26)); }
+  .rx-price-guide__op-price small { margin-right: .3em; font-size: .95em; }
+  .rx-price-guide__op-price b { font-size: 2.35em; }
+  .rx-price-guide__op-alt { margin-top: calc(var(--g) * 4); font-size: max(12px, calc(var(--g) * 17)); letter-spacing: .04em; }
+
+  .rx-price-guide__op--aio {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    height: calc(var(--g) * 112);
+    padding: 0;
+  }
+  .rx-price-guide__op--aio .rx-price-guide__op-name {
+    flex: 1 1 50%;
+    gap: calc(var(--g) * 44);
+    height: auto;
+    border-bottom: 0;
+    font-size: max(13px, calc(var(--g) * 22));
+  }
+  .rx-price-guide__op--aio .rx-price-guide__op-name img { width: calc(var(--g) * 64); height: calc(var(--g) * 64); }
+  .rx-price-guide__op--aio .rx-price-guide__op-fee {
+    flex: 1 1 50%;
+    justify-content: center;
+    height: calc(var(--g) * 66);
+    padding: 0;
+    border-left: 1px solid #dab9d5;
+  }
+  .rx-price-guide__op--aio .rx-price-guide__op-price { font-size: max(13px, calc(var(--g) * 24)); }
+  .rx-price-guide__op--aio .rx-price-guide__op-price b { font-size: 2.15em; }
+  .rx-price-guide__op--aio .rx-price-guide__op-alt { margin-top: calc(var(--g) * 6); }
+
+  .rx-price-guide__foot {
+    justify-items: center;
+    gap: 0;
+    margin-top: calc(var(--g) * 26);
+  }
+  .rx-price-guide__note {
+    font-size: max(13px, calc(var(--g) * 18));
+    line-height: 1.8;
+    letter-spacing: .06em;
+  }
+}
+
+/* =========================================================================
+   1-3. つくる｜制作料金の詳細 ＋ 1-4. 届ける｜運用料金の詳細（2026-11-08。完成図 02_create / 03_deliver の
+        PC・SP_design_approved.png。素材ZIP biz_recruit_02_03_PC_SP_assets_prompt_FINAL_20261107）
+   - 2つのセクションは続けて見たときにひとつのデザインに見えるよう、見出しのカプセル・見出し・リード・注記を
+     .rx-price-detail で共通にする。中身は 02＝.rx-price-create / 03＝.rx-price-deliver
+   - 見出しのカプセルに番号（02・03）は入れない。人物の大きなイラストは置かない
+   - 文字はすべてHTML。画像は02のサンプル4枚（PC/SPを picture で切り替え。説明用の仮画像）・アイコン（SVG）・
+     比較の矢印（SVG）だけ。地・線・ドットは 01〜05 共通（.rx-price-body）
+   - SP・タブレット（〜900px）: 02は比較を縦積み、カード・単品料金を2列×2行。03はカードを縦に3つ。701〜900px は一回り大きく
+   - PC（901px〜）: 02は横長の比較バー、カード・単品料金を横4つ。03はカード横3つ。901〜1120px は詰めた寸法
+   - 完成図のSPは文字がとても小さく描かれているので、並び方だけを写し、文字は12px以上にする
+   - 画面下の固定の相談バー（.rx-fixcta、高さ --rx-fixcta-h）に注記・ボタンが隠れないよう、下の余白はバーの高さより広くとる
+   ========================================================================= */
+.rx-price-detail {
+  --pd-ink:        #0c203f;           /* 文字の紺 */
+  --pd-pink:       #ff0f6f;           /* 価格・強調・比較の価格ボックス */
+  --pd-pink-soft:  #ffe9f2;           /* 数量ピル・単品料金・運用料金の地 */
+  --pd-pink-line:  #ffc3da;           /* カード・カプセルの細い枠 */
+  --pd-line:       #9ca7ff;           /* カプセル・見出しの両脇の線 */
+  --pd-muted:      #4c5b76;           /* 説明・注記 */
+  --pd-serif: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif;
+  --pd-sans:  'Zen Kaku Gothic Antique', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+
+  position: relative;
+  overflow: hidden;
+  color: var(--pd-ink);
+  font-family: var(--pd-sans);
+  font-feature-settings: "palt";
+  line-break: strict;                   /* 句読点で行を始めない */
+  /* 地・線・ドットは 01〜05 共通（.rx-price-body）。このセクション自体は透明 */
+}
+
+.rx-price-detail__inner {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - 32px);
+  margin: 0 auto;
+  padding: 44px 0 max(44px, calc(var(--rx-fixcta-h, 72px) + 28px));
+}
+.rx-price-detail__nw { display: inline-block; }   /* 語句の途中で折り返さない */
+.rx-price-detail__line { display: block; }        /* SP: 見出し・リードを語句の切れ目で2行に */
+
+/* ---- 見出し（カプセル → h2 → リード） ---- */
+.rx-price-detail__head { text-align: center; }
+.rx-price-detail__capsule {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 22px;
+  border: 1.5px solid #f6aac9;
+  border-radius: var(--rx-radius-pill);
+  background: linear-gradient(180deg, #fff8fb, #ffeff6);
+  font-family: var(--pd-serif);
+  font-weight: 700;
+  font-size: .9375rem;
+  line-height: 1.4;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+.rx-price-detail__capsule::before,
+.rx-price-detail__capsule::after {      /* 両脇の線 */
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 34px;
+  height: 1px;
+  background: var(--pd-line);
+}
+.rx-price-detail__capsule::before { right: calc(100% + 12px); }
+.rx-price-detail__capsule::after  { left: calc(100% + 12px); }
+.rx-price-detail__capsule-sub::before {  /* 「つくる」と「制作料金の詳細」の間のピンクの縦線 */
+  content: "";
+  display: inline-block;
+  width: 1.5px;
+  height: 1.05em;
+  margin: 0 .55em;
+  vertical-align: -.15em;
+  background: var(--pd-pink);
+}
+.rx-price-detail__title {
+  margin-top: 16px;
+  font-family: var(--pd-serif);
+  font-weight: 700;
+  font-size: clamp(24px, 6.9vw, 32px);
+  line-height: 1.45;
+  letter-spacing: .01em;
+}
+.rx-price-detail__title em { font-style: normal; color: var(--pd-pink); }
+.rx-price-detail__lead {
+  margin-top: 10px;
+  font-weight: 500;
+  font-size: .8125rem;
+  line-height: 1.8;
+  letter-spacing: .04em;
+}
+.rx-price-detail__notes {
+  display: grid;
+  gap: 2px;
+  margin-top: 18px;
+  font-size: .75rem;
+  line-height: 1.7;
+  color: var(--pd-muted);
+}
+
+/* =========================== 02 つくる =========================== */
+/* 比較（テーマ → 単品合計 → 基本セット）。SPは縦積み、PCは横長のバー */
+.rx-price-create__compare {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+}
+.rx-price-create__theme {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  padding: 9px 12px;
+  border: 1.5px solid #f6b3cf;
+  border-radius: 14px;
+  background: #fff;
+  font-family: var(--pd-serif);
+  font-weight: 600;
+  font-size: .9375rem;
+  line-height: 1.45;
+  text-align: center;
+}
+.rx-price-create__theme em { font-style: normal; color: var(--pd-pink); }
+.rx-price-create__theme b { font-size: 1.3em; line-height: 1; margin-right: .03em; }
+.rx-price-create__sep { display: none; }         /* PCだけの縦の区切り線 */
+.rx-price-create__sum {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 9px 12px 11px;
+  border: 1px solid #f3cadc;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(36, 51, 88, .05);
+  font-family: var(--pd-serif);
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+.rx-price-create__sum-label { font-size: .9375rem; }
+.rx-price-create__sum-price { font-size: .875rem; }
+.rx-price-create__sum-price b { font-weight: 700; font-size: 2.05em; line-height: 1; letter-spacing: -.03em; margin-right: .05em; }
+.rx-price-create__arrow { width: 24px; height: 21px; transform: rotate(90deg); }   /* SP: 下向き */
+.rx-price-create__price { position: relative; width: 90%; margin-top: 24px; }
+.rx-price-create__price-body {          /* ピンク単色のボックス（白文字） */
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  min-height: 64px;
+  padding: 11px 14px 8px;
+  border-radius: 18px;
+  background: var(--pd-pink);
+  box-shadow: 0 10px 22px rgba(255, 15, 111, .2);
+  font-family: var(--pd-serif);
+  font-weight: 600;
+  line-height: 1.2;
+  color: #fff;
+  white-space: nowrap;
+}
+.rx-price-create__price-label { font-size: 1.25rem; letter-spacing: .06em; }
+.rx-price-create__price-num { font-size: 1.25rem; }
+.rx-price-create__price-num b { font-weight: 700; font-size: 2.1em; line-height: 1; letter-spacing: -.03em; margin-right: .04em; }
+.rx-price-create__otoku {               /* 「23.9万円おトク！」の吹き出し（価格ボックスの左上にかぶせる） */
+  position: absolute;
+  z-index: 2;
+  top: -27px;
+  left: 6px;
+  padding: 2px 12px 3px;
+  border: 2px solid var(--pd-pink);
+  border-radius: var(--rx-radius-pill);
+  background: #fff;
+  box-shadow: 0 4px 10px rgba(255, 15, 111, .1);
+  font-family: var(--pd-serif);
+  font-weight: 700;
+  font-size: .8125rem;
+  line-height: 1.3;
+  color: var(--pd-pink);
+  white-space: nowrap;
+  transform: rotate(-6deg);
+}
+.rx-price-create__otoku b { font-size: 1.35em; letter-spacing: -.02em; }
+.rx-price-create__otoku::before {       /* 吹き出しの左上のきらめき（3本線） */
+  content: "";
+  position: absolute;
+  left: -1.4em;
+  top: -.8em;
+  width: 1.3em;
+  height: 1.2em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 28'%3E%3Cpath d='M4 26 1 16M15 14 13 3M27 23 21 15' stroke='%23ff0f6f' stroke-width='2.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.rx-price-create__otoku::after {        /* 吹き出しのしっぽ */
+  content: "";
+  position: absolute;
+  left: 28%;
+  bottom: -.32em;
+  width: .5em;
+  height: .5em;
+  border-right: 2px solid var(--pd-pink);
+  border-bottom: 2px solid var(--pd-pink);
+  background: #fff;
+  transform: rotate(45deg);
+}
+
+/* 基本セットの4つの制作物 */
+.rx-price-create__cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.rx-price-create__card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 12px 8px 10px;
+  border: 1px solid var(--pd-pink-line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 8px 20px rgba(33, 35, 66, .05);
+}
+.rx-price-create__name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 34px;
+  font-family: var(--pd-serif);
+  font-weight: 700;
+  font-size: clamp(14px, 3.9vw, 17px);
+  line-height: 1.3;
+  letter-spacing: -.02em;
+  white-space: nowrap;
+}
+.rx-price-create__name img { flex: none; width: 28px; height: 28px; }
+.rx-price-create__qty {
+  align-self: center;
+  width: min(100%, 150px);
+  margin-top: 6px;
+  border-radius: var(--rx-radius-pill);
+  background: var(--pd-pink-soft);
+  font-family: var(--pd-serif);
+  font-weight: 600;
+  font-size: .8125rem;
+  line-height: 1.75;
+  text-align: center;
+  white-space: nowrap;
+}
+.rx-price-create__qty b { font-weight: 700; font-size: 1.55em; line-height: 1; letter-spacing: -.03em; color: var(--pd-pink); margin: 0 .03em; }
+.rx-price-create__visual {              /* サンプル画像はこの高さの中に収める（切り取らない） */
+  position: relative;
+  display: block;
+  height: clamp(96px, 29vw, 130px);
+  margin-top: 10px;
+}
+.rx-price-create__visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 100%;
+  filter: drop-shadow(0 4px 6px rgba(36, 40, 71, .1));
+}
+.rx-price-create__card--manga .rx-price-create__visual::after,
+.rx-price-create__card--short .rx-price-create__visual::after,
+.rx-price-create__card--lp .rx-price-create__visual::after {   /* 画像の角のきらめき（3本線） */
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: -6px;
+  right: 2px;
+  width: 16px;
+  height: 14px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 26'%3E%3Cpath d='M3 23 11 18M8 9l7 6M21 2l-1 11' stroke='%23ff0f6f' stroke-width='2.6' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.rx-price-create__card--manga .rx-price-create__visual::after { right: auto; left: 0; transform: scaleX(-1); }
+
+/* 単品での制作料金（白い独立カード4枚） */
+.rx-price-create__single { margin-top: 28px; }
+.rx-price-create__single-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.rx-price-create__single-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.45;
+  letter-spacing: .08em;
+}
+.rx-price-create__single-main::before,
+.rx-price-create__single-main::after {  /* 両脇の線 */
+  content: "";
+  flex: 0 1 60px;
+  height: 1px;
+  background: var(--pd-line);
+}
+.rx-price-create__single-sub { margin-top: 2px; font-weight: 500; font-size: .75rem; line-height: 1.5; letter-spacing: .02em; }
+.rx-price-create__single-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.rx-price-create__single-card {
+  min-width: 0;
+  padding: 10px 8px 11px;
+  border: 1px solid #f1d6e3;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(33, 35, 66, .05);
+}
+.rx-price-create__single-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: var(--pd-serif);
+  font-weight: 600;
+  font-size: .875rem;
+  line-height: 1.35;
+  white-space: nowrap;
+}
+.rx-price-create__single-name img { flex: none; width: 24px; height: 24px; }
+.rx-price-create__single-price {
+  margin-top: 7px;
+  padding: 3px 4px 4px;
+  border-radius: var(--rx-radius-pill);
+  background: var(--pd-pink-soft);
+  font-family: var(--pd-serif);
+  font-weight: 700;
+  font-size: .875rem;                   /* ＝「万円」。数字（b）はその倍率 */
+  line-height: 1.35;
+  text-align: center;
+  color: var(--pd-pink);
+  white-space: nowrap;
+}
+.rx-price-create__single-price b { font-size: 1.8em; line-height: 1; letter-spacing: -.02em; margin-right: .04em; }
+
+/* =========================== 03 届ける =========================== */
+.rx-price-deliver__cards {
+  display: grid;
+  gap: 14px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.rx-price-deliver__card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 20px 14px 20px;
+  border: 1.5px solid #f6b5cf;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(33, 35, 66, .05);
+}
+.rx-price-deliver__name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 48px;
+  font-family: var(--pd-serif);
+  font-weight: 700;
+  font-size: 1.3125rem;
+  line-height: 1.3;
+  letter-spacing: .02em;
+  text-align: center;
+}
+.rx-price-deliver__name img { flex: none; width: 46px; height: 46px; }
+.rx-price-deliver__name > span { text-align: left; }   /* 2行になる「AI検索対策／（採用AIO）」は左そろえ */
+.rx-price-deliver__fee {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 104px;
+  margin-top: 14px;
+  padding: 14px 12px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #ffeef5, #ffe4ef);
+}
+.rx-price-deliver__price {
+  font-family: var(--pd-serif);
+  font-weight: 700;
+  font-size: 1.625rem;                  /* ＝「月」「万円〜」。数字（b）はその倍率 */
+  line-height: 1.1;
+  color: var(--pd-pink);
+  white-space: nowrap;
+}
+.rx-price-deliver__price small { margin-right: .08em; font-size: 1em; }
+.rx-price-deliver__price b { font-size: 1.65em; letter-spacing: -.03em; margin-right: .03em; }
+.rx-price-deliver__sub {                /* 「または応募1件1万円〜」「初回3か月〜」の白いピル */
+  padding: 3px 20px 4px;
+  border: 1.5px solid #f6b5cf;
+  border-radius: var(--rx-radius-pill);
+  background: #fff;
+  font-weight: 700;
+  font-size: .8125rem;
+  line-height: 1.5;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+.rx-price-deliver__sub b { font-family: var(--pd-serif); font-size: 1.3em; line-height: 1; color: var(--pd-pink); margin: 0 .08em; }
+.rx-price-deliver__desc {
+  margin-top: 14px;
+  padding: 0 6px;
+  word-break: auto-phrase;              /* 文節の切れ目で折り返す（対応ブラウザ） */
+  text-wrap: pretty;
+  font-weight: 500;
+  font-size: .875rem;
+  line-height: 1.8;
+  letter-spacing: .04em;
+}
+.rx-price-deliver__note {
+  margin-top: 16px;
+  font-size: .75rem;
+  line-height: 1.7;
+  text-align: center;
+  color: var(--pd-muted);
+}
+.rx-price-deliver__cta {                /* 運用内容を相談する（既存の相談フォームへ） */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: min(100%, 380px);
+  min-height: 60px;
+  margin: 18px auto 0;
+  padding: 10px 24px;
+  border-radius: var(--rx-radius-pill);
+  background: linear-gradient(100deg, #ff2a83, #ff0f6c);
+  box-shadow: 0 12px 26px rgba(255, 15, 108, .24);
+  font-family: var(--pd-serif);
+  font-weight: 700;
+  font-size: 1.1875rem;
+  letter-spacing: .06em;
+  color: #fff;
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.rx-price-deliver__cta svg { flex: none; width: 22px; height: 22px; transition: transform .2s ease; }
+.rx-price-deliver__cta:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(255, 15, 108, .3); }
+.rx-price-deliver__cta:hover svg { transform: translateX(3px); }
+.rx-price-deliver__cta:focus-visible { outline: 3px solid rgba(255, 15, 108, .45); outline-offset: 3px; }
+
+/* 狭いSP（〜360px）: カード名・アイコンを少し小さく */
+@media (max-width: 360px) {
+  .rx-price-create__card { padding: 10px 6px; }
+  .rx-price-create__name { font-size: 13.5px; }
+  .rx-price-create__name img { width: 24px; height: 24px; }
+  .rx-price-create__price-num b { font-size: 1.95em; }
+  .rx-price-deliver__name { font-size: 1.1875rem; }
+}
+
+/* タブレット（701〜900px）: 縦積みのまま一回り大きく */
+@media (min-width: 701px) and (max-width: 900px) {
+  .rx-price-detail__inner { width: calc(100% - 60px); padding-top: 56px; }
+  .rx-price-detail__capsule { padding: 9px 30px; font-size: 1.125rem; }
+  .rx-price-detail__capsule::before,
+  .rx-price-detail__capsule::after { width: 70px; }
+  .rx-price-detail__title { font-size: 34px; }
+  .rx-price-detail__lead { font-size: .9375rem; }
+  .rx-price-detail__notes { justify-content: center; text-align: center; font-size: .8125rem; }
+  .rx-price-create__compare { width: min(100%, 600px); margin-left: auto; margin-right: auto; }
+  .rx-price-create__theme { font-size: 1.0625rem; }
+  .rx-price-create__sum-label { font-size: 1.0625rem; }
+  .rx-price-create__sum-price { font-size: 1rem; }
+  .rx-price-create__price-label,
+  .rx-price-create__price-num { font-size: 1.5rem; }
+  .rx-price-create__cards { gap: 16px; }
+  .rx-price-create__card { padding: 18px 14px 14px; }
+  .rx-price-create__name { gap: 8px; font-size: 20px; }
+  .rx-price-create__name img { width: 36px; height: 36px; }
+  .rx-price-create__qty { width: min(100%, 210px); font-size: .9375rem; }
+  .rx-price-create__visual { height: 180px; }
+  .rx-price-create__single-main { font-size: 1.125rem; }
+  .rx-price-create__single-sub { font-size: .875rem; }
+  .rx-price-create__single-list { gap: 12px; }
+  .rx-price-create__single-name { font-size: 1rem; }
+  .rx-price-create__single-price { font-size: 1rem; }
+  .rx-price-deliver__cards { width: min(100%, 600px); margin-left: auto; margin-right: auto; }
+}
+
+/* ---- PC（901px〜） ---- */
+@media (min-width: 901px) {
+  .rx-price-detail__inner {
+    width: min(100% - 64px, 1368px);
+    padding: 40px 0 max(48px, calc(var(--rx-fixcta-h, 72px) + 24px));
+  }
+  .rx-price-deliver .rx-price-detail__inner { padding-top: 66px; }
+  .rx-price-detail__line { display: inline; }
+
+  .rx-price-detail__capsule { padding: 11px 46px 12px; font-size: clamp(1.25rem, 1.95vw, 1.75rem); }
+  .rx-price-detail__capsule::before,
+  .rx-price-detail__capsule::after { width: clamp(80px, 10.8vw, 155px); }
+  .rx-price-detail__capsule::before { right: calc(100% + 30px); }
+  .rx-price-detail__capsule::after  { left: calc(100% + 30px); }
+  .rx-price-detail__title {
+    margin-top: 22px;
+    font-size: clamp(30px, 3.75vw, 56px);
+    line-height: 1.35;
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
+  .rx-price-detail__lead { margin-top: 12px; font-size: clamp(.9375rem, 1.39vw, 1.25rem); letter-spacing: .14em; }
+  .rx-price-detail__notes { display: flex; justify-content: center; gap: 0 2em; margin-top: 22px; font-size: .875rem; }
+
+  /* 02 比較バー */
+  .rx-price-create__compare {
+    flex-direction: row;
+    gap: 0;
+    min-height: 118px;
+    margin-top: 46px;
+    padding: 16px 28px 16px 36px;
+    border: 1.5px solid #ffc6dc;
+    border-radius: 32px;
+    background: linear-gradient(100deg, rgba(255, 244, 249, .9), rgba(255, 236, 245, .8));
+    box-shadow: 0 12px 32px rgba(72, 77, 128, .04);
+  }
+  .rx-price-create__theme {             /* 右が矢羽根の形のラベル（ピンクの枠と白の地を同じ形で重ねる） */
+    flex: 0 0 auto;
+    flex-direction: column;
+    width: clamp(200px, 19.1vw, 276px);
+    min-height: 86px;
+    padding: 10px 30px 10px 16px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+    font-size: clamp(1.0625rem, 1.75vw, 1.5625rem);
+    line-height: 1.38;
+  }
+  .rx-price-create__theme::before,
+  .rx-price-create__theme::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    border-radius: 44px 0 0 44px;
+    background: #f4a5c6;
+    clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 0 100%);
+  }
+  .rx-price-create__theme::after { inset: 1.5px 2px 1.5px 1.5px; background: #fff; }
+  .rx-price-create__sep { display: block; flex: none; width: 1px; height: 64px; margin: 0 clamp(14px, 1.7vw, 24px); background: #f1b6cf; }
+  .rx-price-create__sum {
+    flex: 0 1 auto;
+    width: auto;
+    padding: 12px clamp(14px, 1.4vw, 20px) 13px;
+    border: 0;
+    border-radius: 22px;
+  }
+  .rx-price-create__sum-label { font-size: clamp(1rem, 1.75vw, 1.5625rem); }
+  .rx-price-create__sum-price { font-size: clamp(.9375rem, 1.6vw, 1.4375rem); }
+  .rx-price-create__sum-price b { font-size: 1.9em; }
+  .rx-price-create__arrow { flex: none; width: clamp(28px, 2.5vw, 36px); height: auto; margin: 0 clamp(12px, 1.5vw, 22px); transform: none; }
+  .rx-price-create__price { flex: 1 1 auto; width: auto; margin-top: 0; }
+  .rx-price-create__price-body { min-height: 86px; padding: 8px 26px 6px; border-radius: 30px; gap: clamp(12px, 1.7vw, 24px); }
+  .rx-price-create__price-label { font-size: clamp(1.25rem, 2.3vw, 2.125rem); }
+  .rx-price-create__price-num { font-size: clamp(1.25rem, 2.4vw, 2.25rem); }
+  .rx-price-create__price-num b { font-size: 1.95em; }
+  .rx-price-create__otoku { top: -44px; left: 12px; padding: 3px 20px 4px; font-size: clamp(.875rem, 1.45vw, 1.375rem); }
+
+  /* 02 制作物カード（横4つ） */
+  .rx-price-create__cards { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 20px; }
+  .rx-price-create__card { padding: 26px clamp(12px, 1.25vw, 18px) 18px; border-width: 1.5px; border-radius: 22px; }
+  .rx-price-create__name { gap: clamp(6px, .85vw, 12px); min-height: 50px; font-size: clamp(18px, 2.15vw, 31px); }
+  .rx-price-create__name img { width: clamp(36px, 3.9vw, 56px); height: clamp(36px, 3.9vw, 56px); }
+  .rx-price-create__qty { width: min(100%, 232px); margin-top: 12px; font-size: clamp(.9375rem, 1.55vw, 1.375rem); line-height: 1.85; }
+  .rx-price-create__visual { height: clamp(150px, 14.2vw, 205px); margin-top: 14px; }
+  .rx-price-create__card--manga .rx-price-create__visual::after,
+  .rx-price-create__card--short .rx-price-create__visual::after,
+  .rx-price-create__card--lp .rx-price-create__visual::after { top: -12px; width: 26px; height: 22px; }
+
+  /* 02 単品での制作料金（白いカード横4つ） */
+  .rx-price-create__single { margin-top: 42px; }
+  .rx-price-create__single-title { flex-direction: row; justify-content: center; gap: 0 .2em; }
+  .rx-price-create__single-main { flex: none; width: auto; gap: 0; font-size: clamp(1.25rem, 1.95vw, 1.75rem); white-space: nowrap; }
+  .rx-price-create__single-main::before,
+  .rx-price-create__single-main::after { content: none; }
+  .rx-price-create__single-sub { flex: none; margin: 0; font-size: clamp(.9375rem, 1.5vw, 1.375rem); letter-spacing: .04em; white-space: nowrap; }
+  .rx-price-create__single-title::before,
+  .rx-price-create__single-title::after { content: ""; flex: 0 1 250px; min-width: 16px; height: 1px; margin: 0 clamp(16px, 1.8vw, 26px); background: var(--pd-line); }   /* 幅が足りないときは線が縮む */
+  .rx-price-create__single-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 22px; }
+  .rx-price-create__single-card { padding: 14px clamp(12px, 1.4vw, 20px) 16px; border-radius: 18px; }
+  .rx-price-create__single-name { gap: clamp(6px, .8vw, 12px); font-size: clamp(1rem, 1.8vw, 1.625rem); }
+  .rx-price-create__single-name img { width: clamp(32px, 3.3vw, 48px); height: clamp(32px, 3.3vw, 48px); }
+  .rx-price-create__single-price { margin-top: 8px; padding: 4px 6px 5px; font-size: clamp(1rem, 1.8vw, 1.625rem); }
+  .rx-price-create__single-price b { font-size: 1.55em; }
+
+  /* 03 運用カード（横3つ） */
+  .rx-price-deliver__cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 19px; margin-top: 56px; }
+  .rx-price-deliver__card { padding: 34px clamp(14px, 1.3vw, 18px) 38px; border-radius: 26px; }
+  .rx-price-deliver__name { gap: clamp(12px, 1.3vw, 18px); min-height: 92px; font-size: clamp(1.375rem, 2.4vw, 2.125rem); }
+  .rx-price-deliver__name img { width: clamp(56px, 5.8vw, 84px); height: clamp(56px, 5.8vw, 84px); }
+  .rx-price-deliver__fee { min-height: 172px; margin-top: 26px; padding: 22px 16px; border-radius: 30px; gap: 12px; }
+  .rx-price-deliver__price { font-size: clamp(1.75rem, 3.05vw, 2.75rem); }
+  .rx-price-deliver__price b { font-size: 1.6em; }
+  .rx-price-deliver__sub { padding: 5px 28px 6px; font-size: clamp(.875rem, 1.5vw, 1.375rem); }
+  .rx-price-deliver__desc { margin-top: 28px; padding: 0 10px; font-size: clamp(.9375rem, 1.4vw, 1.25rem); line-height: 1.85; letter-spacing: .06em; }
+  .rx-price-deliver__note { margin-top: 26px; font-size: .875rem; }
+  .rx-price-deliver__cta { width: min(100%, 560px); min-height: 84px; margin-top: 26px; gap: 18px; font-size: clamp(1.375rem, 2.3vw, 2.125rem); }
+  .rx-price-deliver__cta svg { width: 32px; height: 32px; }
+}
+
+/* 小さいPC（901〜1120px）: 比較バーを詰める */
+@media (min-width: 901px) and (max-width: 1120px) {
+  .rx-price-create__compare { padding: 14px 16px 14px 20px; }
+  .rx-price-create__theme { width: 214px; padding-right: 26px; font-size: .96875rem; }   /* 「から1テーマを選択」を1行に */
+  .rx-price-create__price-body { padding: 8px 16px 6px; }
+  .rx-price-create__otoku { top: -38px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rx-price-deliver__cta,
+  .rx-price-deliver__cta svg { transition: none; }
+  .rx-price-deliver__cta:hover { transform: none; }
+}
+
+/* =========================================================================
+   1-5. 制作・公開までの流れ（2026-11-09。完成図 PC/PC_design_reference.png・SP/SP_design_reference.png。
+        素材ZIP biz_recruit_section04_flow_PC_SP_20261108）
+   - 02・03（.rx-price-detail）と同じ色味（白〜淡いブルーの地・紺の文字・ピンクの強調）にそろえつつ、
+     スタイルは .rx-price-flow の中だけで完結させる（02・03・固定の相談バー・ほかのセクションには効かない）
+   - 地・線・ドットは 01〜05 共通（.rx-price-body）。2026-11-11 に、このセクションだけの地（グラデーション・左上と右下の面と線）はやめた
+   - 見出しのカプセル → h2 → リード → 期間のラベル（カレンダー＋約3か月）→ 1〜3か月目のカード3枚 → 注記
+   - SP・タブレット（〜900px）: カードを縦に3つ、間に下向きの矢印丸。701〜900px は一回り大きく、カードの幅を 600px まで
+   - PC（901px〜）: カードを横に3つ、間に右向きの矢印丸。901〜1120px は詰めた寸法
+   - 完成図のSPは文字がとても小さく描かれているので、並び方だけを写し、文字は12px以上にする
+   - 画面下の固定の相談バー（.rx-fixcta、高さ --rx-fixcta-h）に注記が隠れないよう、下の余白はバーの高さより広くとる
+   ========================================================================= */
+.rx-price-flow {
+  --pf-ink:        #0c203f;           /* 文字の紺 */
+  --pf-pink:       #ff0f6f;           /* 強調・月ラベルの文字・箇条書きの点 */
+  --pf-pink-soft:  #ffeaf2;           /* 月ラベル・期間ラベルの地 */
+  --pf-pink-line:  #f6b5cf;           /* カード・ラベルの細い枠 */
+  --pf-line:       #9ca7ff;           /* カプセルの両脇の線 */
+  --pf-muted:      #4c5b76;           /* 注記 */
+  --pf-gap:        18px;              /* カードの間（矢印丸はこの間に重ねる） */
+  --pf-arrow:      30px;              /* 矢印丸の直径 */
+  --pf-serif: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif;
+  --pf-sans:  'Zen Kaku Gothic Antique', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+
+  position: relative;
+  overflow: hidden;
+  color: var(--pf-ink);
+  font-family: var(--pf-sans);
+  font-feature-settings: "palt";
+  line-break: strict;                   /* 句読点で行を始めない */
+  /* 地・線・ドットは 01〜05 共通（.rx-price-body）。このセクション自体は透明 */
+}
+
+.rx-price-flow__inner {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - 32px);
+  margin: 0 auto;
+  padding: 44px 0 max(44px, calc(var(--rx-fixcta-h, 72px) + 28px));
+}
+.rx-price-flow__nw { display: inline-block; }    /* 語句の途中で折り返さない */
+.rx-price-flow__line { display: block; }         /* SP: 見出しを語句の切れ目で2行に */
+
+/* ---- 見出し（カプセル → h2 → リード → 期間のラベル） ---- */
+.rx-price-flow__head { text-align: center; }
+.rx-price-flow__capsule {
+  position: relative;
+  display: inline-block;
+  padding: 7px 26px;
+  border: 1.5px solid #f6aac9;
+  border-radius: var(--rx-radius-pill);
+  background: linear-gradient(180deg, #fff8fb, #ffeef5);
+  font-family: var(--pf-serif);
+  font-weight: 700;
+  font-size: .9375rem;
+  line-height: 1.4;
+  letter-spacing: .06em;
+  white-space: nowrap;
+}
+.rx-price-flow__capsule::before,
+.rx-price-flow__capsule::after {        /* 両脇の線 */
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 34px;
+  height: 1px;
+  background: var(--pf-line);
+}
+.rx-price-flow__capsule::before { right: calc(100% + 12px); }
+.rx-price-flow__capsule::after  { left: calc(100% + 12px); }
+.rx-price-flow__title {
+  margin-top: 14px;
+  font-family: var(--pf-serif);
+  font-weight: 700;
+  font-size: clamp(21px, 6.2vw, 26px);
+  line-height: 1.45;
+  letter-spacing: .01em;
+}
+.rx-price-flow__title em { font-style: normal; color: var(--pf-pink); }
+.rx-price-flow__title b,
+.rx-price-flow__period-value b { font-size: 1.28em; line-height: 1; margin: 0 .02em; }
+.rx-price-flow__lead {
+  margin-top: 8px;
+  font-weight: 500;
+  font-size: clamp(12px, 3.3vw, 14px);
+  line-height: 1.8;
+  letter-spacing: .02em;
+}
+.rx-price-flow__period {                /* 制作期間の目安：約3か月（右上にピンクのきらめき） */
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: .65em;
-  border: 0;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 7px 26px 8px;
+  border: 1.5px solid #ffd2e2;
   border-radius: var(--rx-radius-pill);
-  background: var(--rxp-grad);
-  color: #fff;
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(1rem, .95rem + .35vw, 1.1875rem);
-  line-height: 1.3;
-  padding: clamp(.95rem, .85rem + .5vw, 1.2rem) clamp(1.8rem, 1.4rem + 1.6vw, 2.8rem);
-  min-height: 48px;
-  box-shadow: 0 12px 28px rgba(235, 42, 99, .32);
-  cursor: pointer;
-  transition: transform .15s ease, box-shadow .2s ease;
+  background: linear-gradient(90deg, #fff4f8 0%, #ffe6f0 100%);
+  box-shadow: 0 8px 20px rgba(255, 15, 111, .06);
+  white-space: nowrap;
 }
-.rx-p-btn:hover  { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(235, 42, 99, .42); }
-.rx-p-btn:active { transform: translateY(0); }
-.rx-p-btn__lead    { flex-shrink: 0; width: 1.35em; height: 1.35em; }
-.rx-p-btn__chevron { flex-shrink: 0; width: .8em; height: .8em; margin-left: .15em; }
-
-/* 和文の折り返し: `.rx-jp-body` の `word-break: keep-all` + `overflow-wrap: anywhere`
-   （tokens.css）は、1行に収まらないとき禁則を無視して任意の位置で割れる（「任意オ／プション」
-   のような語中改行や、行頭に「。」だけが落ちる）。本文系はブラウザ標準の折り返し＋禁則に戻す */
-.rx-phero2__plan-list li,
-.rx-p-sublead,
-.rx-pcard__single-note,
-.rx-pcard__foot,
-.rx-pshift__item-desc,
-.rx-pshift__col-foot,
-.rx-pshift__banner-sub,
-.rx-psteps__team-desc,
-.rx-pcta__lead {
-  word-break: normal;
-  overflow-wrap: normal;
-  line-break: strict;
-}
-
-/* スマホでのみ効かせる改行 */
-.rx-p-br-sp { display: none; }
-@media (max-width: 768px) { .rx-p-br-sp { display: inline; } }
-
-/* =========================================================================
-   1. ヒーロー（写真フルブリード背景＋浮遊カード）— 最新版.png 準拠
-   PC: 左コピー / 右半分は写真を上下右の端まで断ち落としで敷き、カードを重ねる
-   SP: コピー → フル幅の写真バナー（カード重ね）の縦積み
-   鮮やかピンクはこのセクション内のみ（--hp / --hp-grad）
-   ========================================================================= */
-.rx-phero2 {
-  --hp: #f00858;
-  --hp-grad: linear-gradient(95deg, #f8246a 0%, #ef0a5a 58%, #e80a64 100%);
-  position: relative;
-  overflow: hidden;
-  background: #ffffff;
-  padding: calc(72px + clamp(24px, 4vw, 56px)) 0 clamp(48px, 6vw, 96px);
-}
-@media (min-width: 961px) {
-  .rx-phero2 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    /* 写真は16:9で全体表示。セクションはコピーに詰めて、写真下に白帯を残さない
-       （下端のピンク波が写真の下端まで覆う高さに収める） */
-    /* 写真を下までしっかり使う。ただし高くしすぎると cover の窓が狭まり顔が切れるため上限を抑える */
-    min-height: clamp(540px, 43vw, 1040px);
-    /* ヘッダー高さ(--rx-header-h)を必ず確保しつつ、足りている幅では従来の詰めた値を維持。
-       コピーを詰めてセクションを低くし、表示窓を広げる */
-    padding: max(var(--rx-header-h), clamp(80px, 5vw, 116px)) 0 clamp(18px, 1.4vw, 32px);
-  }
-}
-@media (max-width: 768px) { .rx-phero2 { padding-top: calc(60px + 28px); } }
-
-/* 下部のピンク波（写真より前面・最前面のコピー/カードより背面） */
-.rx-phero2::before {
+.rx-price-flow__period::after {
   content: "";
   position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: clamp(80px, 18%, 220px);
-  z-index: 1;
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320' preserveAspectRatio='none'%3E%3Cpath fill='%23fdebf3' d='M0,170 C260,110 520,205 760,176 C1000,148 1240,108 1440,156 L1440,320 L0,320 Z'/%3E%3Cpath fill='%23fcd7e6' d='M0,238 C300,196 560,270 880,232 C1120,206 1320,250 1440,236 L1440,320 L0,320 Z'/%3E%3C/svg%3E")
-    bottom center / 100% 100% no-repeat;
+  top: -15px;
+  right: -20px;
+  width: 26px;
+  height: 24px;
+  background: url("../images/price/price-flow-sparkle.svg") center / contain no-repeat;
   pointer-events: none;
 }
-
-.rx-phero2__inner {
-  position: relative;
-  z-index: 3;
-  width: min(100%, 1320px);
-  margin: 0 auto;
-  padding: 0 clamp(16px, 3vw, 32px);
-}
-@media (min-width: 961px) {
-  /* コピーは中央寄せ枠をやめ、左に詰める */
-  .rx-phero2__inner {
-    width: 100%;
-    max-width: none;
-    margin: 0;
-    padding-left: clamp(28px, 3vw, 120px);
-    padding-right: 0;
-  }
-  .rx-phero2__copy { width: min(38vw, 820px); }
-}
-
-/* ---- 左: コピー ---- */
-.rx-phero2 .rx-p-pink { color: var(--hp); }
-
-.rx-phero2__heading {
-  font-family: var(--rxp-font);
-  font-weight: 900;
-  /* モバイル〜タブレット用（PCは下の @media で上書き） */
-  font-size: clamp(1.875rem, 1rem + 2.6vw, 2.5rem);
-  line-height: 1.38;
-  letter-spacing: .01em;
-  color: var(--rxp-text);
-  margin-top: .5em;
-}
-/* PCは画面比率に応じて大きく。狭いPC幅でも「一緒に整理しませんか？」がコピー内に収まる曲線 */
-@media (min-width: 961px) {
-  .rx-phero2__heading { font-size: clamp(2rem, 3.3vw, 4.25rem); }
-  /* 大きい画面では本文・ラベルも合わせて拡大 */
-  .rx-phero2 .rx-p-eyebrow { font-size: clamp(.875rem, .72rem + .28vw, 1.125rem); }
-  .rx-phero2__lead { font-size: clamp(1rem, .62rem + .6vw, 1.4375rem); line-height: 1.8; }
-}
-.rx-phero2__line3 { white-space: nowrap; }
-.rx-phero2__under { position: relative; white-space: nowrap; }
-.rx-phero2__under::after {
-  content: "";
-  position: absolute;
-  left: -.02em; right: -.02em;
-  bottom: .02em;
-  height: .14em;
-  background: var(--hp);
-  border-radius: 3px;
-}
-
-.rx-phero2__lead {
-  font-family: var(--rxp-font);
-  font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem);
-  line-height: 1.85;
-  color: var(--rxp-text);
-  margin-top: 1.05em;
-}
-
-.rx-phero2__cta {
-  margin-top: clamp(18px, 2.4vw, 32px);
-  width: min(100%, 520px);
-  background: var(--hp-grad);
-  box-shadow: 0 14px 30px rgba(240, 8, 88, .34);
-  font-size: clamp(1rem, .95rem + .4vw, 1.25rem);
-  padding-top: clamp(1rem, .88rem + .55vw, 1.35rem);
-  padding-bottom: clamp(1rem, .88rem + .55vw, 1.35rem);
-}
-.rx-phero2__cta:hover { box-shadow: 0 18px 36px rgba(240, 8, 88, .44); }
-
-.rx-phero2__assures {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: clamp(7px, .8vw, 11px);
-  margin: clamp(14px, 1.8vw, 24px) 0 0;
-  padding: 0;
-}
-/* PC〜タブレットは3つを必ず1行に */
-@media (min-width: 561px) {
-  .rx-phero2__assures { flex-wrap: nowrap; }
-}
-.rx-phero2__assure {
-  display: flex;
-  align-items: center;
-  gap: .45em;
-  flex-shrink: 0;
-  white-space: nowrap;
-  background: #fff;
-  border-radius: var(--rx-radius-pill);
-  box-shadow: 0 6px 20px rgba(40, 30, 40, .09);
-  padding: .5em .85em;
-  font-family: var(--rxp-font);
+.rx-price-flow__period img { flex: none; width: 30px; height: 30px; }
+.rx-price-flow__period-label {
   font-weight: 700;
-  font-size: clamp(.71875rem, .69rem + .18vw, .84375rem);
-  color: var(--rxp-text);
+  font-size: .8125rem;
+  letter-spacing: .04em;
 }
-.rx-phero2__assure-icon {
-  flex-shrink: 0;
+.rx-price-flow__period-value {
+  font-family: var(--pf-serif);
+  font-weight: 700;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  color: var(--pf-pink);
+}
+
+/* ---- 1〜3か月目のカード ---- */
+.rx-price-flow__steps {
   display: grid;
-  place-items: center;
-  width: 1.7em;
-  height: 1.7em;
-  border-radius: 50%;
-  background: #fde4ee;
+  gap: var(--pf-gap);
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
 }
-.rx-phero2__assure-icon svg { width: 60%; height: 60%; }
-.rx-phero2__assure-icon--fill { background: var(--hp-grad); }
-
-/* ---- 右: 写真フルブリード背景＋カード ---- */
-.rx-phero2__visual { position: relative; }
-.rx-phero2__photo {
-  display: block;
-  width: 100%;
-  height: auto;
+.rx-price-flow__step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  padding: 16px 16px 20px;
+  border: 1.5px solid var(--pf-pink-line);
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 10px 26px rgba(33, 35, 66, .06);
 }
-
-/* SP・タブレット: コピーの下にフル幅バナー。画像比率(1218:941)に合わせ全体を表示 */
-@media (max-width: 960px) {
-  .rx-phero2__visual {
-    margin: clamp(28px, 6vw, 44px) calc(-1 * clamp(16px, 3vw, 32px)) 0;
-    aspect-ratio: 1218 / 941;
-  }
-  .rx-phero2__photo {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: 50% 50%;
-    border-bottom-left-radius: clamp(80px, 22vw, 160px);
-  }
-}
-
-/* PC: 右側に絶対配置。ヘッダー(72px)の下から右端いっぱいに敷く。
-   画像は 1218×941（旧プラン「¥98,000/月〜」の焼き込みカードを 2026-09-25 に切り落とし済み）。左下は丸くくり抜く */
-@media (min-width: 961px) {
-  .rx-phero2__visual {
-    position: absolute;
-    top: clamp(72px, 4.5vw, 112px); right: 0; bottom: 0;   /* フル高さ＝写真下に白帯を作らない */
-    width: min(54vw, 1500px);
-    margin: 0;
-  }
-  .rx-phero2__photo {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: 50% 50%;   /* 人物2人を中央に収める */
-    border-bottom-left-radius: clamp(140px, 18vw, 320px);
-  }
-}
-
-.rx-phero2__card {
+.rx-price-flow__step:not(:last-child)::after {   /* 次のカードへの矢印丸（SPは下向き） */
+  content: "";
   position: absolute;
   z-index: 2;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 18px 44px rgba(40, 30, 40, .2);
+  left: 50%;
+  bottom: calc(var(--pf-gap) / -2 - var(--pf-arrow) / 2);
+  width: var(--pf-arrow);
+  height: var(--pf-arrow);
+  background: url("../images/price/price-flow-step-arrow.svg") center / contain no-repeat;
+  transform: translateX(-50%) rotate(90deg);
+  pointer-events: none;
 }
-
-/* おすすめプランカード（資料 p28。**画像には焼き込まずHTMLで重ねる**＝料金改定時は
-   このマークアップだけ直せばよく、画像との食い違いが起きない。BUGS.md 2026-09-25 参照） */
-.rx-phero2__card--plan {
-  top: clamp(16px, 2.2vw, 32px);
-  right: clamp(16px, 2vw, 32px);
-  width: clamp(212px, 15vw, 232px);
-  padding: clamp(14px, 1.4vw, 20px) clamp(12px, 1.2vw, 18px) clamp(12px, 1.2vw, 16px);
+.rx-price-flow__name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
-.rx-phero2__plan-badge {
+.rx-price-flow__month {                 /* 1か月目 / 2か月目 / 3か月目 のピル */
   display: inline-block;
-  background: var(--hp-grad);
-  color: #fff;
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.6875rem, .66rem + .15vw, .78125rem);
-  line-height: 1;
-  padding: .5em 1.2em;
+  padding: 2px 26px 3px;
+  border: 1.5px solid #ffc3da;
   border-radius: var(--rx-radius-pill);
-  margin: 0;
-}
-.rx-phero2__plan-name {
-  font-family: var(--rxp-font);
+  background: var(--pf-pink-soft);
+  font-family: var(--pf-sans);
   font-weight: 700;
-  font-size: clamp(.875rem, .84rem + .25vw, 1.0625rem);
-  color: var(--rxp-text);
+  font-size: .875rem;
+  line-height: 1.5;
+  letter-spacing: .06em;
+  color: var(--pf-pink);
+}
+.rx-price-flow__month b { font-size: 1.12em; margin-right: .04em; }
+.rx-price-flow__name-text {
+  margin-top: 8px;
+  font-family: var(--pf-serif);
+  font-weight: 700;
+  font-size: 1.3125rem;
+  line-height: 1.35;
   letter-spacing: .02em;
-  margin: .7em 0 0;
 }
-.rx-phero2__plan-price {
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.75rem, .72rem + .2vw, .875rem);
-  color: var(--rxp-text);
-  line-height: 1.1;
-  margin: .45em 0 0;
-  white-space: nowrap;
-}
-.rx-phero2__plan-price b {
-  font-family: var(--rxp-font-num);
-  font-weight: 800;
-  font-size: 2.1em;
-  color: var(--hp);
-  letter-spacing: -.01em;
-  padding-right: .06em;
-}
-.rx-phero2__plan-per {
-  font-weight: 500;
-  color: var(--rxp-muted);
-  padding-left: .15em;
-}
-.rx-phero2__plan-list {
-  list-style: none;
-  margin: clamp(10px, 1vw, 14px) 0 0;
-  padding: clamp(10px, 1vw, 14px) 0 0;
-  border-top: 1px dashed var(--rxp-border);
-  display: grid;
-  gap: .5em;
-  text-align: left;
-}
-.rx-phero2__plan-list li {
-  display: flex;
-  align-items: center;
-  gap: .5em;
-  font-family: var(--rxp-font);
-  font-weight: 500;
-  font-size: clamp(.6875rem, .66rem + .15vw, .78125rem);
-  line-height: 1.5;
-  color: var(--rxp-text);
-}
-.rx-phero2__plan-list li::before {
-  content: "";
-  flex-shrink: 0;
-  width: 1.15em;
-  height: 1.15em;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%23f00858'/%3E%3Cpath d='m7 12.5 3.2 3.2L17 9' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
-}
-/* 狭いPC・タブレット・SP: 写真の幅が足りず人物にカードがかかるため、
-   成果物リストを省いたコンパクト版にして右端に寄せる */
-@media (max-width: 1240px) {
-  .rx-phero2__card--plan {
-    top: clamp(10px, 2.4vw, 16px);
-    right: clamp(10px, 2.4vw, 16px);
-    width: auto;
-    min-width: clamp(124px, 34vw, 168px);
-    padding: clamp(8px, 2vw, 12px) clamp(10px, 2.4vw, 16px) clamp(9px, 2vw, 13px);
-    border-radius: 12px;
-  }
-  .rx-phero2__plan-name { margin-top: .5em; }
-  .rx-phero2__plan-list { display: none; }
-}
-/* SP・タブレットの写真バナーは左右の余白ぶん外側へ張り出す（negative margin）ため、
-   カードの right はその張り出し分を足さないと画面端で切れる */
-@media (max-width: 960px) {
-  .rx-phero2__card--plan { right: clamp(26px, 5.4vw, 48px); }
-}
-
-/* SP・タブレット: 画像が縮小されてバナーが浅いので、実績カードは
-   注記を隠した横長コンパクト（pill）にして下端中央へ */
-
-/* =========================================================================
-   2. 料金プラン（資料 p28・ライト / スタンダード / フル）
-   ========================================================================= */
-.rx-plans { background: #fff; padding: clamp(56px, 7vw, 110px) 0 clamp(48px, 6vw, 96px); }
-
-.rx-plans__inner {
-  width: min(100%, 1360px);
-  margin: 0 auto;
-  padding: 0 clamp(16px, 3vw, 32px);
-}
-
-.rx-plans__grid {
-  list-style: none;
-  margin: clamp(34px, 4vw, 60px) 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(14px, 1.6vw, 24px);
-  align-items: stretch;
-}
-@media (max-width: 768px) { .rx-plans__grid { grid-template-columns: 1fr; } }
-
-.rx-pcard {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  border: 1px solid var(--rxp-border);
-  border-radius: 14px;
-  box-shadow: var(--rxp-card-shadow);
-  overflow: hidden;
-}
-.rx-pcard--featured {
-  border: 2px solid var(--rxp-pink);
-  margin-top: 0;
-}
-
-.rx-pcard__badge {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -55%);
-  z-index: var(--z-elevated);
-  background: var(--rxp-grad);
-  color: #fff;
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.8125rem, .78rem + .2vw, .9375rem);
-  line-height: 1;
-  padding: .6em 1.5em;
-  border-radius: var(--rx-radius-pill);
-  white-space: nowrap;
-  margin: 0;
-}
-/* バッジがはみ出す分、featured カードはバッジ用の余白を上に確保 */
-.rx-plans__grid { padding-top: 14px; }
-.rx-pcard--featured { overflow: visible; }
-.rx-pcard--featured .rx-pcard__head { border-radius: 12px 12px 0 0; }
-
-.rx-pcard__head {
-  background: var(--rxp-dark);
-  color: #fff;
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(1rem, .95rem + .3vw, 1.1875rem);
-  letter-spacing: .04em;
-  text-align: center;
-  line-height: 1;
-  padding: 1em 0.5em;
-  margin: 0;
-}
-
-.rx-pcard__body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: clamp(18px, 2vw, 26px) clamp(14px, 1.6vw, 22px) 0;
-}
-
-/* ---- 価格エリア（月額 → 内訳） ---- */
-.rx-pcard__pricing {
-  margin-top: auto;
-  padding: clamp(16px, 1.8vw, 22px) 0 clamp(14px, 1.6vw, 20px);
-  border-top: 1px solid var(--rxp-border);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-.rx-pcard__body { padding-bottom: 0; }
-
-.rx-pcard__price {
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.9375rem, .9rem + .2vw, 1.0625rem);
-  color: var(--rxp-text);
-  text-align: center;
-  margin-top: .15em;
-}
-.rx-pcard__price b {
-  font-family: var(--rxp-font-num);
-  font-weight: 700;
-  font-size: 2.3em;
-  color: var(--rxp-pink);
-  letter-spacing: -.01em;
-  padding: 0 .08em;
-}
-
-/* ---- 月額単一価格 ---- */
-.rx-pcard__pricing--single { gap: 0; }
-/* カード先頭に価格を置く版（上の区切り線と余白を外す） */
-.rx-pcard__pricing--lead {
-  margin-top: 0;
-  border-top: none;
-  padding-top: 0;
-}
-.rx-pcard__single-label {
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.875rem, .85rem + .15vw, 1rem);
-  color: var(--rxp-text);
-}
-.rx-pcard__price--lg b { font-size: 2.8em; }
-.rx-pcard__single-note {
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.8125rem, .79rem + .15vw, .9375rem);
-  line-height: 1.7;
-  text-align: center;
-  color: var(--rxp-text);
-  margin-top: .2em;
-}
-
-/* ---- C/D 下注記 ---- */
-.rx-pcard__foot {
-  border-top: 1px solid var(--rxp-border);
-  font-family: var(--rxp-font);
-  font-size: clamp(.71875rem, .7rem + .15vw, .8125rem);
-  line-height: 1.7;
-  color: var(--rxp-muted);
-  text-align: center;
-  padding: clamp(12px, 1.5vw, 16px) 14px;
-  margin: 0;
-}
-
-/* ---- 下部CTA帯 ---- */
-.rx-plans__cta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: clamp(14px, 2vw, 28px);
-  flex-wrap: wrap;
-  border: 2px solid var(--rxp-pink);
-  border-radius: 16px;
-  background: #fff;
-  padding: clamp(16px, 2vw, 26px) clamp(16px, 2.4vw, 34px);
-  margin-top: clamp(28px, 3.4vw, 48px);
-}
-.rx-plans__cta-text {
-  display: flex;
-  align-items: center;
-  gap: .9em;
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.9375rem, .9rem + .3vw, 1.125rem);
-  color: var(--rxp-text);
-}
-.rx-plans__cta-icon {
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: 2.9em;
-  height: 2.9em;
-  border-radius: 50%;
-  background: var(--rxp-pink-pale);
-}
-.rx-plans__cta-icon svg { width: 55%; height: 55%; }
-.rx-plans__cta-btn { font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); }
-@media (max-width: 900px) {
-  .rx-plans__cta { justify-content: center; text-align: center; }
-}
-
-/* =========================================================================
-   3. 費用の考え方（資料 p27・基本プランと任意オプション）— モック3
-   ========================================================================= */
-.rx-pshift { background: #fff; padding: clamp(48px, 6vw, 96px) 0; }
-
-.rx-pshift__inner {
-  width: min(100%, 1360px);
-  margin: 0 auto;
-  padding: 0 clamp(16px, 3vw, 32px);
-}
-
-.rx-pshift__compare {
-  display: grid;
-  grid-template-columns: minmax(0, 1.06fr) minmax(0, .62fr) minmax(0, 1.18fr);
-  gap: clamp(16px, 2vw, 30px);
-  align-items: center;
-  margin-top: clamp(34px, 4vw, 56px);
-}
-@media (max-width: 960px) {
-  .rx-pshift__compare { grid-template-columns: 1fr; }
-}
-
-/* ---- 左右カード ---- */
-.rx-pshift__col {
-  display: flex;
-  flex-direction: column;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: var(--rxp-card-shadow);
-}
-.rx-pshift__col--base   { background: #f4f4f3; }
-.rx-pshift__col--option { background: #fff; border: 2px solid var(--rxp-pink); }
-
-.rx-pshift__col-head {
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(1rem, .95rem + .3vw, 1.1875rem);
-  letter-spacing: .05em;
-  text-align: center;
-  color: var(--rxp-text);
-  background: #eaeae8;
-  padding: .85em .5em;
-  margin: 0;
-  line-height: 1.2;
-}
-.rx-pshift__col-head--pink {
-  background: var(--rxp-grad);
-  color: #fff;
-}
-
-.rx-pshift__list {
-  flex: 1;
-  list-style: none;
-  margin: 0;
-  padding: clamp(6px, .8vw, 10px) clamp(16px, 1.8vw, 26px);
-}
-
-/* 各カード下端の請求区分（資料 p27「月額費用としてご請求」「広告費・応募課金は別建て」） */
-.rx-pshift__col-foot {
-  background: #fff;
-  border-radius: var(--rx-radius-pill);
-  margin: 0 clamp(16px, 1.8vw, 26px) clamp(16px, 1.8vw, 24px);
-  padding: .75em 1.2em;
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.75rem, .73rem + .15vw, .84375rem);
-  line-height: 1.5;
-  color: var(--rxp-text);
-  text-align: center;
-}
-.rx-pshift__col-foot--pink { background: var(--rxp-pink-pale); color: var(--rxp-pink); }
-.rx-pshift__item {
-  display: flex;
-  align-items: center;
-  gap: clamp(12px, 1.4vw, 20px);
-  padding: clamp(13px, 1.5vw, 19px) 0;
-}
-.rx-pshift__item + .rx-pshift__item { border-top: 1px solid rgba(0, 0, 0, .07); }
-.rx-pshift__col--option .rx-pshift__item + .rx-pshift__item { border-top-color: #f3e3ea; }
-
-.rx-pshift__item-icon {
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: clamp(48px, 4.2vw, 60px);
-  height: clamp(48px, 4.2vw, 60px);
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 3px 10px rgba(40, 30, 40, .08);
-}
-.rx-pshift__item-icon svg { width: 52%; height: 52%; }
-.rx-pshift__item-body { min-width: 0; }
-.rx-pshift__item-title {
+.rx-price-flow__name-text em { display: inline-block; font-style: normal; color: var(--pf-pink); }
+.rx-price-flow__visual {
   display: block;
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem);
-  color: var(--rxp-text);
-  line-height: 1.5;
+  width: 100%;
+  max-width: 260px;
+  height: 112px;
+  margin-top: 10px;
+  object-fit: contain;
 }
-.rx-pshift__item-title--pink { color: var(--rxp-pink); }
-.rx-pshift__item-desc {
-  display: block;
-  font-family: var(--rxp-font);
-  font-size: clamp(.75rem, .73rem + .15vw, .8125rem);
-  color: var(--rxp-muted);
-  line-height: 1.7;
-  margin-top: .1em;
-}
-
-/* ---- 中央（振り替え矢印） ---- */
-.rx-pshift__mid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(10px, 1.2vw, 16px);
-  text-align: center;
-}
-.rx-pshift__mid-text {
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem);
-  line-height: 1.6;
-  color: var(--rxp-text);
-}
-.rx-pshift__mid-text b {
-  display: block;
-  font-family: var(--rxp-font-num);
-  font-size: 2.1em;
-  color: var(--rxp-pink);
-  line-height: 1.3;
-}
-.rx-pshift__mid-text b small { font-size: .6em; font-family: var(--rxp-font); }
-.rx-pshift__mid-arrow { width: clamp(54px, 5vw, 72px); height: auto; }
-@media (max-width: 960px) {
-  .rx-pshift__mid-arrow { transform: rotate(90deg); margin: 4px 0; }
-}
-.rx-pshift__mid-budget {
-  background: var(--rxp-pink-pale);
-  border-radius: 12px;
-  padding: clamp(12px, 1.4vw, 16px) clamp(14px, 1.6vw, 20px);
-}
-.rx-pshift__mid-pill {
-  background: #fff;
-  border-radius: var(--rx-radius-pill);
-  padding: .45em 1.1em;
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.875rem, .84rem + .25vw, 1rem);
-  color: var(--rxp-pink);
-}
-.rx-pshift__mid-note {
-  font-family: var(--rxp-font);
-  font-size: clamp(.71875rem, .7rem + .15vw, .8125rem);
-  color: var(--rxp-text);
-  margin-top: .5em;
-}
-
-/* ---- 下部バナー ---- */
-.rx-pshift__banner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(16px, 2.4vw, 40px);
-  flex-wrap: wrap;
-  border: 2px solid var(--rxp-pink);
-  border-radius: 16px;
-  background: #fff;
-  padding: clamp(16px, 2vw, 24px) clamp(16px, 2.4vw, 34px);
-  margin-top: clamp(28px, 3.4vw, 48px);
-}
-.rx-pshift__banner-main {
-  display: flex;
-  align-items: center;
-  gap: .8em;
-  font-family: var(--rxp-font);
-  font-weight: 900;
-  font-size: clamp(1.125rem, 1rem + .8vw, 1.625rem);
-  color: var(--rxp-text);
-}
-.rx-pshift__banner-icon {
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: 2.2em;
-  height: 2.2em;
-  border-radius: 50%;
-  background: var(--rxp-grad);
-}
-.rx-pshift__banner-icon svg { width: 56%; height: 56%; }
-.rx-pshift__banner-sub {
-  font-family: var(--rxp-font);
-  font-weight: 500;
-  font-size: clamp(.8125rem, .78rem + .25vw, .9375rem);
-  line-height: 1.8;
-  color: var(--rxp-text);
-}
-@media (min-width: 901px) {
-  .rx-pshift__banner-sub { border-left: 1px solid var(--rxp-border); padding-left: clamp(16px, 2.4vw, 40px); }
-}
-@media (max-width: 900px) {
-  .rx-pshift__banner { flex-direction: column; text-align: center; gap: 10px; }
-  .rx-pshift__banner-sub br { display: none; }
-}
-
-/* =========================================================================
-   4. 無料診断から運用開始までの流れ（資料 p29）— 薄グレーの大パネルに白カード
-   ========================================================================= */
-.rx-psteps { background: #fff; padding: clamp(24px, 3vw, 48px) 0 clamp(48px, 6vw, 96px); }
-
-.rx-psteps__panel {
-  width: min(100% - clamp(24px, 4vw, 64px), 1480px);
-  margin: 0 auto;
-  background: var(--rxp-bg-gray);
-  border-radius: clamp(20px, 2.4vw, 32px);
-  padding: clamp(40px, 5vw, 72px) clamp(18px, 3vw, 56px) clamp(32px, 4vw, 56px);
-}
-
-.rx-psteps__list {
-  list-style: none;
-  margin: clamp(34px, 4vw, 56px) 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(26px, 2.6vw, 40px);
-}
-@media (max-width: 1100px) { .rx-psteps__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 700px)  { .rx-psteps__list { grid-template-columns: 1fr; gap: 34px; } }
-
-.rx-psteps__step {
-  position: relative;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: var(--rxp-card-shadow);
-  padding: clamp(28px, 2.8vw, 38px) clamp(12px, 1.4vw, 20px) clamp(18px, 2vw, 26px);
-  text-align: center;
-}
-
-/* 点線コネクタ（PCのみ・最後のカード以外） */
-@media (min-width: 1101px) {
-  .rx-psteps__step:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 38%;
-    right: calc(-1 * clamp(26px, 2.6vw, 40px) + 4px);
-    width: calc(clamp(26px, 2.6vw, 40px) - 8px);
-    border-top: 2.5px dotted #f08bac;
-  }
-  .rx-psteps__step:not(:last-child)::before {
-    content: '';
-    position: absolute;
-    top: calc(38% - 3.5px);
-    right: calc(-1 * clamp(26px, 2.6vw, 40px) + 2px);
-    width: 8px;
-    height: 8px;
-    border-top: 2.5px solid #ee417b;
-    border-right: 2.5px solid #ee417b;
-    transform: rotate(45deg);
-  }
-}
-
-.rx-psteps__num {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--rxp-grad);
-  color: #fff;
-  font-family: var(--rxp-font-num);
-  font-weight: 700;
-  font-size: clamp(.875rem, .84rem + .2vw, 1rem);
-  line-height: 1;
-  letter-spacing: .04em;
-  padding: .55em 1.2em;
-  border-radius: var(--rx-radius-pill);
-}
-
-.rx-psteps__icon {
-  display: grid;
-  place-items: center;
-  width: clamp(72px, 6.4vw, 92px);
-  height: clamp(72px, 6.4vw, 92px);
-  margin: 0 auto;
-  border-radius: 50%;
-  background: var(--rxp-pink-pale);
-}
-.rx-psteps__icon svg { width: 52%; height: 52%; }
-
-.rx-psteps__title {
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.9375rem, .9rem + .2vw, 1.0625rem);
-  line-height: 1.6;
-  color: var(--rxp-text);
-  margin-top: clamp(12px, 1.4vw, 18px);
-}
-.rx-psteps__desc {
-  font-family: var(--rxp-font);
-  font-size: clamp(.75rem, .73rem + .15vw, .8125rem);
-  line-height: 1.85;
-  color: var(--rxp-muted);
-  margin-top: .7em;
-  text-align: center;
-  word-break: normal;
-  overflow-wrap: normal;
-  line-break: strict;
-}
-@media (max-width: 700px) { .rx-psteps__title br { display: none; } }
-
-.rx-psteps__note {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .7em;
-  background: var(--rxp-pink-pale);
-  border-radius: var(--rx-radius-pill);
-  padding: clamp(12px, 1.4vw, 16px) clamp(16px, 2vw, 28px);
-  margin: clamp(28px, 3.4vw, 44px) auto 0;
+.rx-price-flow__points {
   width: fit-content;
   max-width: 100%;
-  font-family: var(--rxp-font);
-  font-weight: 500;
-  font-size: clamp(.8125rem, .78rem + .25vw, .9375rem);
-  color: var(--rxp-text);
-  text-align: left;
-}
-.rx-psteps__note-check { flex-shrink: 0; width: 1.5em; height: 1.5em; }
-.rx-psteps__note span { word-break: normal; overflow-wrap: normal; line-break: strict; }
-@media (max-width: 700px) { .rx-psteps__note { border-radius: 18px; } }
-
-/* ---- 既存施策を止めずに、チームで進める（資料 p24） ---- */
-.rx-psteps__team {
-  margin-top: clamp(32px, 4vw, 56px);
-  padding-top: clamp(28px, 3.4vw, 44px);
-  border-top: 1px solid var(--rxp-border);
-}
-.rx-psteps__team-head {
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(1.0625rem, 1rem + .45vw, 1.375rem);
-  line-height: 1.6;
-  color: var(--rxp-text);
-  text-align: center;
-  margin: 0;
-}
-.rx-psteps__team-list {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(16px, 2vw, 28px);
-  margin: clamp(20px, 2.4vw, 32px) 0 0;
+  margin: 12px auto 0;
   padding: 0;
+  list-style: none;
+  text-align: left;
+  font-weight: 500;
+  font-size: .8125rem;
+  line-height: 1.85;
+  letter-spacing: .03em;
 }
-@media (max-width: 860px) { .rx-psteps__team-list { grid-template-columns: 1fr; } }
-
-.rx-psteps__team-item {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-areas: "icon title" "icon desc";
-  align-items: center;
-  column-gap: clamp(12px, 1.4vw, 16px);
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: var(--rxp-card-shadow);
-  padding: clamp(16px, 1.8vw, 22px) clamp(14px, 1.6vw, 20px);
+.rx-price-flow__points li {
+  position: relative;
+  padding-left: 1.15em;
 }
-.rx-psteps__team-icon {
-  grid-area: icon;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: clamp(44px, 3.6vw, 54px);
-  height: clamp(44px, 3.6vw, 54px);
+.rx-price-flow__points li::before {     /* ピンクの点 */
+  content: "";
+  position: absolute;
+  left: .1em;
+  top: calc(.925em - 3px);
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  border: 1.5px solid var(--rxp-pink);
-  background: #fff;
+  background: var(--pf-pink);
 }
-.rx-psteps__team-icon svg { width: 56%; height: 56%; }
-.rx-psteps__team-title {
-  grid-area: title;
-  font-family: var(--rxp-font);
-  font-weight: 700;
-  font-size: clamp(.875rem, .85rem + .2vw, 1rem);
-  line-height: 1.5;
-  color: var(--rxp-pink);
-  min-width: 0;
+.rx-price-flow__note {
+  margin-top: 18px;
+  font-size: .75rem;
+  line-height: 1.7;
+  text-align: center;
+  color: var(--pf-muted);
 }
-.rx-psteps__team-desc {
-  grid-area: desc;
-  font-family: var(--rxp-font);
-  font-size: clamp(.75rem, .73rem + .15vw, .8125rem);
-  line-height: 1.8;
-  color: var(--rxp-muted);
-  margin-top: .35em;
-  min-width: 0;
+
+/* タブレット（701〜900px）: 縦積みのまま一回り大きく */
+@media (min-width: 701px) and (max-width: 900px) {
+  .rx-price-flow { --pf-gap: 22px; --pf-arrow: 38px; }
+  .rx-price-flow__inner { width: calc(100% - 60px); padding-top: 56px; }
+  .rx-price-flow__capsule { padding: 9px 34px; font-size: 1.125rem; }
+  .rx-price-flow__capsule::before,
+  .rx-price-flow__capsule::after { width: 70px; }
+  .rx-price-flow__title { font-size: 32px; }
+  .rx-price-flow__lead { font-size: .9375rem; letter-spacing: .06em; }
+  .rx-price-flow__period { gap: 14px; margin-top: 20px; padding: 9px 38px 10px; }
+  .rx-price-flow__period img { width: 38px; height: 38px; }
+  .rx-price-flow__period-label { font-size: 1rem; }
+  .rx-price-flow__period-value { font-size: 1.875rem; }
+  .rx-price-flow__steps { width: min(100%, 600px); margin: 28px auto 0; }
+  .rx-price-flow__step { padding: 20px 24px 24px; border-radius: 22px; }
+  .rx-price-flow__month { font-size: 1rem; padding: 3px 32px 4px; }
+  .rx-price-flow__name-text { margin-top: 10px; font-size: 1.625rem; }
+  .rx-price-flow__visual { max-width: 320px; height: 150px; margin-top: 14px; }
+  .rx-price-flow__points { margin-top: 16px; font-size: .9375rem; }
+  .rx-price-flow__note { font-size: .8125rem; }
+}
+
+/* ---- PC（901px〜）: カード横3つ・間に右向きの矢印丸 ---- */
+@media (min-width: 901px) {
+  .rx-price-flow { --pf-gap: 32px; --pf-arrow: 50px; }
+  .rx-price-flow__inner {
+    width: min(100% - 64px, 1368px);
+    padding: 60px 0 max(48px, calc(var(--rx-fixcta-h, 72px) + 24px));
+  }
+  .rx-price-flow__line { display: inline; }
+
+  .rx-price-flow__capsule { padding: 11px 64px 12px; font-size: clamp(1.25rem, 1.95vw, 1.75rem); }
+  .rx-price-flow__capsule::before,
+  .rx-price-flow__capsule::after { width: clamp(80px, 9.6vw, 140px); }
+  .rx-price-flow__capsule::before { right: calc(100% + 30px); }
+  .rx-price-flow__capsule::after  { left: calc(100% + 30px); }
+  .rx-price-flow__title {
+    margin-top: 24px;
+    font-size: clamp(30px, 3.75vw, 56px);
+    line-height: 1.35;
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
+  .rx-price-flow__lead { margin-top: 10px; font-size: clamp(.9375rem, 1.5vw, 1.375rem); letter-spacing: .14em; }
+  .rx-price-flow__period { gap: clamp(14px, 1.5vw, 22px); margin-top: 26px; padding: 10px clamp(40px, 4.4vw, 64px) 11px; }
+  .rx-price-flow__period::after { top: -26px; right: -34px; width: 44px; height: 40px; }
+  .rx-price-flow__period img { width: clamp(42px, 3.9vw, 56px); height: clamp(42px, 3.9vw, 56px); }
+  .rx-price-flow__period-label { font-size: clamp(1.0625rem, 1.6vw, 1.5rem); }
+  .rx-price-flow__period-value { font-size: clamp(2rem, 3.1vw, 2.875rem); }
+
+  .rx-price-flow__steps { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 38px; }
+  .rx-price-flow__step { padding: 22px clamp(16px, 1.7vw, 24px) 30px; border-radius: 22px; }
+  .rx-price-flow__step:not(:last-child)::after {   /* 右向き。イラストの高さに置く */
+    left: auto;
+    right: calc(var(--pf-gap) / -2 - var(--pf-arrow) / 2);
+    top: 44%;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+  .rx-price-flow__month { padding: 4px clamp(26px, 2.6vw, 38px) 5px; font-size: clamp(1rem, 1.6vw, 1.4375rem); }
+  .rx-price-flow__name-text { margin-top: 14px; font-size: clamp(1.25rem, 2.2vw, 2.125rem); letter-spacing: 0; }   /* 「漫画・動画・LPをつくる」が1行に入る大きさ */
+  .rx-price-flow__visual { max-width: 330px; height: clamp(132px, 13vw, 190px); margin-top: clamp(14px, 1.5vw, 22px); }
+  .rx-price-flow__points { margin-top: clamp(16px, 1.6vw, 24px); font-size: clamp(.8125rem, 1.36vw, 1.3125rem); line-height: 1.95; letter-spacing: .02em; }
+  .rx-price-flow__points li::before { width: 7px; height: 7px; top: calc(.975em - 3.5px); }
+  .rx-price-flow__note { margin-top: 30px; font-size: clamp(.8125rem, 1.05vw, .9375rem); letter-spacing: .04em; }
+}
+
+/* 小さいPC（901〜1120px）: カードの間と内側の余白を詰める */
+@media (min-width: 901px) and (max-width: 1120px) {
+  .rx-price-flow { --pf-gap: 24px; --pf-arrow: 40px; }
+  .rx-price-flow__step { padding-left: 12px; padding-right: 12px; }
+  .rx-price-flow__points { font-size: clamp(12.5px, 1.36vw, .9375rem); letter-spacing: 0; }   /* 箇条書きを1行に */
 }
 
 /* =========================================================================
-   5. 最終CTA（資料 p31・無料診断で優先ルートを決める）— 白→ピンクのグラデ背景
+   1-6. お問い合わせ・お見積もり（2026-11-11。完成図 PC/PC_design_final.png・SP/SP_design_final.png。
+        素材ZIP biz_recruit_section05_contact_PC_SP_20261109）
+   - 02〜04と同じ色味（白〜淡いブルーの地・紺の文字・ピンクの強調）にそろえつつ、スタイルは .rx-price-contact の中だけで完結させる
+   - 地・線・ドットは 01〜05 共通（.rx-price-body）。2026-11-11 に、このセクションだけの地（グラデーション・左上と右下の面と線）はやめた
+   - カプセル → h2 → リード → 「こんなご相談ができます」＋相談内容3つ（説明のカード。リンクにしない）→ ボタン2つ → 安心の2項目
+   - SP・タブレット（〜900px）: カード・ボタン・安心の2項目を縦に。カードは「アイコン｜縦線｜見出しと本文」。701〜900px は一回り大きく、幅600pxまで
+   - PC（901px〜）: 白い枠の中に3つ横並び（間に縦線）・上辺にバッジを重ねる。ボタン2つ横並び。安心の2項目は縦線で区切って1行。
+     1200px以上はアイコンを左に、901〜1199px はアイコンを上に置く
+   - 完成図のSPは文字がとても小さく描かれているので、並び方だけを写し、文字は12px以上にする
+   - 画面下の固定の相談バー（.rx-fixcta、高さ --rx-fixcta-h）に安心の2項目が隠れないよう、下の余白はバーの高さより広くとる
    ========================================================================= */
-.rx-pcta {
-  background:
-    radial-gradient(120% 90% at 50% 118%, rgba(235, 42, 99, .16) 0%, rgba(235, 42, 99, .07) 38%, rgba(255, 255, 255, 0) 72%),
-    radial-gradient(70% 50% at 8% 0%, rgba(235, 42, 99, .05) 0%, rgba(255, 255, 255, 0) 60%),
-    #fffdfd;
-  padding: clamp(56px, 7vw, 110px) 0 clamp(64px, 8vw, 120px);
+.rx-price-contact {
+  --pi-ink:        #0c203f;           /* 文字の紺 */
+  --pi-pink:       #ff0f6f;           /* 強調・電話ボタンの枠と文字 */
+  --pi-pink-soft:  #ffe9f2;           /* バッジの地 */
+  --pi-pink-line:  #f8c4d8;           /* カード・枠の細い線 */
+  --pi-line:       #9ca7ff;           /* カプセルの両脇の線 */
+  --pi-rule:       #e6e2f0;           /* カードの中・カードの間の縦線 */
+  --pi-muted:      #3f4d68;           /* 本文 */
+  --pi-serif: 'Shippori Mincho', 'Hiragino Mincho ProN', 'Yu Mincho', 'Noto Serif JP', serif;
+  --pi-sans:  'Zen Kaku Gothic Antique', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+
+  position: relative;
+  overflow: hidden;
+  color: var(--pi-ink);
+  font-family: var(--pi-sans);
+  font-feature-settings: "palt";
+  line-break: strict;                   /* 句読点で行を始めない */
+  /* 地・線・ドットは 01〜05 共通（.rx-price-body）。このセクション自体は透明 */
 }
 
-.rx-pcta__inner {
-  width: min(100%, 900px);
+.rx-price-contact__inner {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - 32px);
   margin: 0 auto;
-  padding: 0 clamp(16px, 3vw, 32px);
+  padding: 44px 0 max(44px, calc(var(--rx-fixcta-h, 72px) + 28px));
+}
+.rx-price-contact__nw { display: inline-block; }    /* 語句の途中で折り返さない */
+.rx-price-contact__line { display: block; }         /* SP: 見出しを語句の切れ目で3行に */
+
+/* ---- 見出し（カプセル → h2 → リード） ---- */
+.rx-price-contact__head { text-align: center; }
+.rx-price-contact__capsule {
+  position: relative;
+  display: inline-block;
+  padding: 7px 24px;
+  border: 1.5px solid #f6aac9;
+  border-radius: var(--rx-radius-pill);
+  background: linear-gradient(180deg, #fff8fb, #ffeef5);
+  font-family: var(--pi-serif);
+  font-weight: 700;
+  font-size: .9375rem;
+  line-height: 1.4;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+.rx-price-contact__capsule::before,
+.rx-price-contact__capsule::after {     /* 両脇の線 */
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 24px;
+  height: 1px;
+  background: var(--pi-line);
+}
+.rx-price-contact__capsule::before { right: calc(100% + 10px); }
+.rx-price-contact__capsule::after  { left: calc(100% + 10px); }
+.rx-price-contact__title {
+  margin-top: 14px;
+  font-family: var(--pi-serif);
+  font-weight: 700;
+  font-size: clamp(23px, 6.7vw, 28px);
+  line-height: 1.42;
+  letter-spacing: .01em;
+}
+.rx-price-contact__title em { font-style: normal; color: var(--pi-pink); }
+.rx-price-contact__lead {
+  margin-top: 10px;
+  font-weight: 500;
+  font-size: clamp(12px, 3.5vw, 14px);
+  line-height: 1.8;
+  letter-spacing: .02em;
+}
+
+/* ---- こんなご相談ができます（説明のカード3つ） ---- */
+.rx-price-contact__topics {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  margin-top: 24px;
 }
-
-.rx-pcta__heading {
-  font-family: var(--rxp-font);
-  font-weight: 900;
-  font-size: clamp(1.625rem, 1.15rem + 2.2vw, 2.75rem);
-  line-height: 1.55;
-  letter-spacing: .02em;
-  color: var(--rxp-text);
-  margin-top: .6em;
-}
-
-.rx-pcta__lead {
-  font-family: var(--rxp-font);
-  font-size: clamp(.875rem, .84rem + .3vw, 1.0625rem);
-  line-height: 2.1;
-  color: var(--rxp-text);
-  margin-top: 1.3em;
-}
-
-.rx-pcta__btn {
-  margin-top: clamp(28px, 3.4vw, 44px);
-  width: min(100%, 620px);
-  font-size: clamp(1.0625rem, 1rem + .45vw, 1.375rem);
-  padding-top: clamp(1.05rem, .9rem + .6vw, 1.4rem);
-  padding-bottom: clamp(1.05rem, .9rem + .6vw, 1.4rem);
-}
-
-.rx-pcta__assures {
-  list-style: none;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: clamp(10px, 1.4vw, 20px);
-  margin: clamp(24px, 3vw, 40px) 0 0;
-  padding: 0;
-}
-.rx-pcta__assure {
-  display: flex;
-  align-items: center;
-  gap: .6em;
-  background: #fff;
+.rx-price-contact__badge {              /* 小見出しのバッジ（右上にピンクのきらめき） */
+  position: relative;
+  z-index: 2;
+  padding: 7px 28px 8px;
+  border: 1.5px solid #ffd2e2;
   border-radius: var(--rx-radius-pill);
-  box-shadow: 0 6px 22px rgba(40, 30, 40, .09);
-  padding: .7em 1.4em;
-  font-family: var(--rxp-font);
+  background: linear-gradient(180deg, #fff3f8, #ffe7f0);
   font-weight: 700;
-  font-size: clamp(.8125rem, .78rem + .2vw, .9375rem);
-  color: var(--rxp-text);
+  font-size: .9375rem;
+  line-height: 1.5;
+  letter-spacing: .06em;
+  white-space: nowrap;
 }
-.rx-pcta__assure-icon {
-  flex-shrink: 0;
+.rx-price-contact__badge::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  right: -20px;
+  width: 26px;
+  height: 24px;
+  background: url("../images/price/price-flow-sparkle.svg") center / contain no-repeat;
+  pointer-events: none;
+}
+.rx-price-contact__cards {
   display: grid;
-  place-items: center;
-  width: 1.9em;
-  height: 1.9em;
-  border-radius: 50%;
-  background: var(--rxp-pink-pale);
+  gap: 12px;
+  width: 100%;
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
 }
-.rx-pcta__assure-icon svg { width: 62%; height: 62%; }
-.rx-pcta__assure-icon--fill { background: var(--rxp-grad); }
-
-/* =========================================================================
-   採用AIO・スポット制作パック（2026-09-28 提案書 最終版 p24）
-   - イチ推し採用3プランの下に、同じ .rx-pcard で「採用AIO」3枚と「スポット制作パック」1枚を並べる
-   ========================================================================= */
-.rx-plans__sub {
+.rx-price-contact__card {
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  align-items: center;
+  min-width: 0;
+  padding: 14px 14px 14px 8px;
+  border: 1.5px solid var(--pi-pink-line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, .94);
+  box-shadow: 0 10px 24px rgba(33, 35, 66, .05);
+}
+.rx-price-contact__icon {               /* アイコンの下に淡いピンクの楕円 */
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
+  justify-content: center;
+}
+.rx-price-contact__icon::before {
+  content: "";
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: -4%;
+  height: 46%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #ffe1ec 0%, #ffeef4 62%, rgba(255, 238, 244, 0) 100%);
+}
+.rx-price-contact__icon img {
+  position: relative;
+  display: block;
+  width: 72px;
+  height: auto;
+}
+.rx-price-contact__body {
+  min-width: 0;
+  margin-left: 8px;
+  padding-left: 14px;
+  border-left: 1px solid var(--pi-rule);
+}
+.rx-price-contact__name {
+  font-weight: 700;
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  letter-spacing: .02em;
+}
+.rx-price-contact__name em { display: inline-block; font-style: normal; color: var(--pi-pink); }
+.rx-price-contact__desc {
+  margin-top: 5px;
+  word-break: auto-phrase;              /* 文節の切れ目で折り返す（対応ブラウザ） */
+  text-wrap: pretty;
+  font-weight: 500;
+  font-size: .8125rem;
+  line-height: 1.75;
+  letter-spacing: .03em;
+  color: var(--pi-muted);
+}
+
+/* ---- ボタン（無料相談＝ピンクの塗り / 電話＝白にピンクの枠） ---- */
+.rx-price-contact__actions {
+  display: grid;
+  gap: 12px;
+  width: min(100%, 420px);
+  margin: 26px auto 0;
+}
+.rx-price-contact__btn {
+  position: relative;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: .5em;
-  margin: clamp(44px, 5.5vw, 80px) 0 0;
-  font-family: var(--rxp-font);
-  font-weight: 900;
-  font-size: clamp(1.25rem, 1.1rem + .8vw, 1.75rem);
-  line-height: 1.3;
-  color: var(--rxp-text);
-  text-align: center;
-}
-.rx-plans__sub-tag {
-  padding: .3em .85em;
-  border-radius: 999px;
-  background: var(--rxp-pink);
-  color: #fff;
-  font-size: .55em;
+  gap: 12px;
+  min-height: 60px;
+  padding: 10px 48px;
+  border: 2px solid var(--pi-pink);
+  border-radius: var(--rx-radius-pill);
   font-weight: 700;
+  font-size: 1.0625rem;
+  line-height: 1.3;
   letter-spacing: .06em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease;
 }
-.rx-plans__sub-note {
-  max-width: 42em;
-  margin-inline: auto;
-  margin-top: .8em;
-  font-size: clamp(.875rem, .85rem + .15vw, .9375rem);
+.rx-price-contact__btn--main {
+  border-color: transparent;
+  background: linear-gradient(100deg, #ff2a83, #ff0f6c);
+  box-shadow: 0 12px 26px rgba(255, 15, 108, .24);
+  color: #fff;
 }
-.rx-plans__grid--one { grid-template-columns: minmax(0, 440px); justify-content: center; }
+.rx-price-contact__btn--tel {
+  background: #fff;
+  color: var(--pi-pink);
+}
+.rx-price-contact__btn-icon { flex: none; width: 24px; height: 24px; }
+.rx-price-contact__btn-arrow {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+  transform: translateY(-50%);
+  transition: transform .2s ease;
+}
+.rx-price-contact__btn:hover { transform: translateY(-2px); }
+.rx-price-contact__btn--main:hover { box-shadow: 0 16px 30px rgba(255, 15, 108, .3); }
+.rx-price-contact__btn--main:hover .rx-price-contact__btn-arrow { transform: translate(3px, -50%); }
+.rx-price-contact__btn--tel:hover { background: #fff5f9; box-shadow: 0 10px 22px rgba(255, 15, 108, .12); }
+.rx-price-contact__btn:focus-visible { outline: 3px solid rgba(255, 15, 108, .45); outline-offset: 3px; }
+
+/* ---- 安心の2項目（ボタンではないチェック付きの文） ---- */
+.rx-price-contact__assure {
+  display: grid;
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  margin: 20px auto 0;
+  padding: 0;
+  list-style: none;
+  font-weight: 700;
+  font-size: .9375rem;
+  line-height: 1.5;
+  letter-spacing: .04em;
+}
+.rx-price-contact__assure li {
+  position: relative;
+  padding-left: 34px;
+}
+.rx-price-contact__assure li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  background: url("../images/price/price-contact-check.svg") center / contain no-repeat;
+  transform: translateY(-50%);
+}
+
+/* タブレット（701〜900px）: 縦積みのまま一回り大きく */
+@media (min-width: 701px) and (max-width: 900px) {
+  .rx-price-contact__inner { width: calc(100% - 60px); padding-top: 56px; }
+  .rx-price-contact__capsule { padding: 9px 34px; font-size: 1.125rem; }
+  .rx-price-contact__capsule::before,
+  .rx-price-contact__capsule::after { width: 70px; }
+  .rx-price-contact__capsule::before { right: calc(100% + 14px); }
+  .rx-price-contact__capsule::after  { left: calc(100% + 14px); }
+  .rx-price-contact__title { font-size: 34px; }
+  .rx-price-contact__lead { font-size: .9375rem; letter-spacing: .06em; }
+  .rx-price-contact__topics { margin-top: 30px; }
+  .rx-price-contact__badge { padding: 9px 36px 10px; font-size: 1.0625rem; }
+  .rx-price-contact__cards { width: min(100%, 600px); gap: 14px; margin-top: 18px; }
+  .rx-price-contact__card { grid-template-columns: 120px minmax(0, 1fr); padding: 18px 22px 18px 12px; border-radius: 22px; }
+  .rx-price-contact__icon img { width: 100px; }
+  .rx-price-contact__body { margin-left: 12px; padding-left: 20px; }
+  .rx-price-contact__name { font-size: 1.25rem; }
+  .rx-price-contact__desc { font-size: .9375rem; }
+  .rx-price-contact__actions { width: min(100%, 520px); gap: 14px; margin-top: 30px; }
+  .rx-price-contact__btn { min-height: 66px; font-size: 1.1875rem; }
+  .rx-price-contact__assure { font-size: 1rem; }
+}
+
+/* ---- PC（901px〜）: 白い枠の中に3つ横並び・ボタン2つ横並び ---- */
+@media (min-width: 901px) {
+  .rx-price-contact__inner {
+    width: min(100% - 64px, 1368px);
+    padding: 60px 0 max(48px, calc(var(--rx-fixcta-h, 72px) + 24px));
+  }
+  .rx-price-contact__line { display: inline; }
+
+  .rx-price-contact__capsule { padding: 11px 64px 12px; font-size: clamp(1.25rem, 1.95vw, 1.75rem); }
+  .rx-price-contact__capsule::before,
+  .rx-price-contact__capsule::after { width: clamp(80px, 9.6vw, 140px); }
+  .rx-price-contact__capsule::before { right: calc(100% + 30px); }
+  .rx-price-contact__capsule::after  { left: calc(100% + 30px); }
+  .rx-price-contact__title {
+    margin-top: 24px;
+    font-size: clamp(28px, 3.45vw, 50px);
+    line-height: 1.35;
+    letter-spacing: .02em;
+    white-space: nowrap;
+  }
+  .rx-price-contact__lead { margin-top: 12px; font-size: clamp(.9375rem, 1.45vw, 1.3125rem); letter-spacing: .12em; }
+
+  .rx-price-contact__topics { margin-top: clamp(30px, 3vw, 44px); }
+  .rx-price-contact__badge {            /* 枠の上辺にまたがせる（下に高さの半分だけ食い込ませる） */
+    margin-bottom: calc(-.75em - 12px);
+    padding: 10px clamp(40px, 4vw, 60px) 11px;
+    font-size: clamp(1.0625rem, 1.6vw, 1.5rem);
+  }
+  .rx-price-contact__badge::after { top: -26px; right: -34px; width: 44px; height: 40px; }
+  .rx-price-contact__cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    margin-top: 0;
+    padding: clamp(44px, 4.2vw, 60px) clamp(10px, 1.6vw, 26px) clamp(26px, 2.6vw, 38px);
+    border: 1.5px solid var(--pi-pink-line);
+    border-radius: 30px;
+    background: rgba(255, 255, 255, .86);
+    box-shadow: 0 14px 36px rgba(72, 77, 128, .05);
+  }
+  .rx-price-contact__card {             /* PC: 枠の中では線で区切るだけ（カードの枠・影は付けない） */
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    align-items: start;
+    align-content: start;               /* 高さがそろって伸びても、中身は上に詰める（見出しの位置を合わせる） */
+    padding: 0 clamp(14px, 1.6vw, 26px);
+    border: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
+  .rx-price-contact__card + .rx-price-contact__card { border-left: 1px solid var(--pi-rule); }
+  .rx-price-contact__icon img { width: auto; max-width: 100%; height: clamp(80px, 8vw, 96px); }   /* 上に置くときは高さをそろえ、見出しの位置を合わせる */
+  .rx-price-contact__body { width: 100%; margin: 14px 0 0; padding: 0; border: 0; }
+  .rx-price-contact__name { font-size: clamp(1.125rem, 1.62vw, 1.5rem); text-align: center; }   /* 「公開後の運用について」が1行に入る大きさ */
+  .rx-price-contact__desc { margin-top: 8px; font-size: clamp(.875rem, 1.2vw, 1.0625rem); line-height: 1.8; }
+
+  .rx-price-contact__actions {
+    display: flex;
+    justify-content: center;
+    gap: clamp(20px, 2.8vw, 44px);
+    width: 100%;
+    margin-top: clamp(30px, 3vw, 42px);
+  }
+  .rx-price-contact__btn { min-height: clamp(66px, 5.6vw, 82px); gap: clamp(12px, 1.2vw, 18px); font-size: clamp(1.1875rem, 1.95vw, 1.75rem); }
+  .rx-price-contact__btn--main { flex: 0 1 540px; padding: 10px 64px; }
+  .rx-price-contact__btn--tel { flex: 0 1 372px; padding: 10px 40px; }
+  .rx-price-contact__btn-icon { width: clamp(26px, 2.3vw, 34px); height: clamp(26px, 2.3vw, 34px); }
+  .rx-price-contact__btn-arrow { right: clamp(20px, 2vw, 30px); width: clamp(20px, 1.8vw, 26px); height: clamp(20px, 1.8vw, 26px); }
+
+  .rx-price-contact__assure {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-top: clamp(20px, 2vw, 28px);
+    font-size: clamp(1rem, 1.45vw, 1.3125rem);
+  }
+  .rx-price-contact__assure li { padding-left: 1.75em; }
+  .rx-price-contact__assure li + li { margin-left: clamp(24px, 2.6vw, 40px); padding-left: calc(1.75em + clamp(24px, 2.6vw, 40px)); border-left: 1px solid #c6cbe0; }
+  .rx-price-contact__assure li::before { width: 1.4em; height: 1.4em; }
+  .rx-price-contact__assure li + li::before { left: clamp(24px, 2.6vw, 40px); }
+}
+
+/* 広いPC（1200px〜）: カードはアイコンを左、見出しと本文を右に */
+@media (min-width: 1200px) {
+  .rx-price-contact__card {
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-items: stretch;
+    align-items: start;                 /* 見出しの高さを3つでそろえる */
+    column-gap: clamp(12px, 1.2vw, 18px);
+  }
+  .rx-price-contact__icon img { width: clamp(108px, 9.4vw, 128px); height: auto; }
+  .rx-price-contact__body { margin-top: 0; }
+  .rx-price-contact__name { text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rx-price-contact__btn,
+  .rx-price-contact__btn-arrow { transition: none; }
+  .rx-price-contact__btn:hover { transform: none; }
+  .rx-price-contact__btn--main:hover .rx-price-contact__btn-arrow { transform: translateY(-50%); }
+}
