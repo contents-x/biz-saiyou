@@ -16,7 +16,7 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+Antique:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@500;600;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;600&family=Zen+Kaku+Gothic+Antique:wght@400;500;700&family=Zen+Kurenaido&family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@500;600;700;800&display=swap">
   <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/price.css">
@@ -52,399 +52,386 @@
 
   <main>
 
-    <!-- ===================== 1. ヒーロー（2026-10-23 リデザイン・参考デザイン準拠）
-         見出し → 説明 → 3プラン → 注記 → CTA の順に読ませる。料金・見出し・CTAはすべてHTMLテキスト
-         （画像は背景＝CSS と人物イラストだけ）。PC＝左に情報・右下に人物 / SP＝情報 → CTA → 人物 の縦積み。
-         スタイルは css/price.css の .rx-price-hero。各プランの行は下の料金プラン（#plan-*）へ飛ぶ ===================== -->
+    <!-- ===================== 1. ヒーロー（2026-10-30 リデザイン・完成図 PC 1672×941 / SP 390幅 準拠）
+         主役は「基本セット 69.8万円（税別・買い切り）」。月額プランはHEROに並べず、運用サービスを追加できることだけ短く書く。
+         見出し・料金・制作物名・注記・CTA・手書き風コピーはすべてHTMLテキスト（画像は背景＝CSS、人物、漫画カード2枚、制作物アイコンだけ）。
+         PC（901px〜）＝左に料金とCTA・右に人物と漫画カード / SP（〜900px）＝人物と漫画のビジュアル → 見出し → 料金カード → CTA → 注記。
+         スタイルは css/price.css の .rx-price-hero ===================== -->
     <section class="rx-price-hero" aria-labelledby="priceHeading">
       <div class="rx-price-hero__inner">
 
         <div class="rx-price-hero__body">
           <p class="rx-price-hero__eyebrow" lang="en">PRICE</p>
           <h1 class="rx-price-hero__title" id="priceHeading">料金プラン</h1>
-          <p class="rx-price-hero__lead">貴社の採用状況・運用体制に合わせて、<br>最適な支援プランをご用意しています。</p>
+          <p class="rx-price-hero__lead">貴社の採用課題や目的に合わせて、<br>最適なコンテンツをまとめてご提供します。</p>
 
-          <ul class="rx-price-hero__plans">
-            <li>
-              <a class="rx-price-hero__plan" href="#plan-light">
-                <span class="rx-price-hero__plan-name">ライト</span>
-                <span class="rx-price-hero__plan-price"><span class="rx-price-hero__plan-unit">月額</span><b class="rx-stat-num">15</b>万円</span>
-                <svg class="rx-price-hero__plan-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
-              </a>
-            </li>
-            <li>
-              <a class="rx-price-hero__plan rx-price-hero__plan--recommended" href="#plan-standard">
-                <span class="rx-price-hero__plan-name">スタンダード</span>
-                <span class="rx-price-hero__plan-price"><span class="rx-price-hero__plan-unit">月額</span><b class="rx-stat-num">24</b>万円</span>
-                <span class="rx-price-hero__badge">おすすめ</span>
-                <svg class="rx-price-hero__plan-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
-              </a>
-            </li>
-            <li>
-              <a class="rx-price-hero__plan" href="#plan-premium">
-                <span class="rx-price-hero__plan-name">プレミアム</span>
-                <span class="rx-price-hero__plan-price"><span class="rx-price-hero__plan-unit">月額</span><b class="rx-stat-num">39</b>万円</span>
-                <svg class="rx-price-hero__plan-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
-              </a>
-            </li>
-          </ul>
+          <div class="rx-price-hero__card">
+            <div class="rx-price-hero__card-head">
+              <p class="rx-price-hero__set">基本セット</p>
+              <p class="rx-price-hero__price"><b>69<span class="rx-price-hero__price-dec">.8</span></b>万円</p>
+              <p class="rx-price-hero__terms">税別・買い切り</p>
+            </div>
+            <p class="rx-price-hero__set-desc">4つの採用コンテンツをまとめて制作</p>
+            <ul class="rx-price-hero__items" aria-label="基本セットに含まれる制作物">
+              <li class="rx-price-hero__item"><img src="images/price/price-hero-icon-manga.webp" alt="" width="200" height="135" decoding="async"><span>採用漫画</span></li>
+              <li class="rx-price-hero__item"><img src="images/price/price-hero-icon-animation.webp" alt="" width="200" height="164" decoding="async"><span>アニメーション</span></li>
+              <li class="rx-price-hero__item"><img src="images/price/price-hero-icon-short.webp" alt="" width="200" height="138" decoding="async"><span>ショート動画3本</span></li>
+              <li class="rx-price-hero__item"><img src="images/price/price-hero-icon-lp.webp" alt="" width="200" height="161" decoding="async"><span>職場体験LP</span></li>
+            </ul>
+          </div>
 
-          <ul class="rx-price-hero__notes">
-            <li>年間契約・税別</li>
-            <li>媒体費・追加制作は別途</li>
-          </ul>
+          <p class="rx-price-hero__extra"><span>必要に応じて、<span class="rx-price-hero__extra-em"><span class="rx-price-hero__nw">求人広告運用</span>・<span class="rx-price-hero__nw">SNS広告運用</span>・<span class="rx-price-hero__nw">AI検索対策</span></span><br class="rx-price-hero__extra-br">を追加できます。</span></p>
 
           <div class="rx-price-hero__actions">
-            <a class="rx-price-hero__cta" href="contact.html?source=free-diagnosis">
-              <span>無料診断を申し込む</span>
-              <svg class="rx-price-hero__cta-arrow" viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h19M15 2.5 21 8l-6 5.5"/></svg>
+            <a class="rx-price-hero__cta" href="contact.html?source=free-consultation">
+              <span>制作・料金を相談する</span>
+              <svg class="rx-price-hero__arrow" viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h19M15 2.5 21 8l-6 5.5"/></svg>
             </a>
-            <a class="rx-price-hero__compare" href="#plans">
-              <span>プラン比較を見る</span>
-              <svg class="rx-price-hero__compare-arrow" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+            <!-- 飛び先は料金の仕組みの次の基本セット紹介 #basic-set（2026-11-07〜。それまでは #plan-guide） -->
+            <a class="rx-price-hero__more" href="#basic-set">
+              <span>基本セットの内容を見る</span>
+              <svg class="rx-price-hero__arrow rx-price-hero__arrow--more" viewBox="0 0 24 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 8h19M15 2.5 21 8l-6 5.5"/></svg>
             </a>
           </div>
+
+          <ul class="rx-price-hero__notes">
+            <li>単品制作にも対応</li>
+            <li>職場体験LPの年間維持費3.6万円（税別）は別途</li>
+          </ul>
         </div>
 
+        <!-- 人物＋漫画カード＋手書き風コピー（SP: 合成済みの1枚を見出しの上に / PC: 別々の画像を右側に重ねる。
+             漫画カード2枚はPCだけ。loading="lazy" なのでSPでは読み込まれない） -->
         <div class="rx-price-hero__visual">
-          <p class="rx-price-hero__message">人が育てば、<br>会社はもっと、<br>やさしく強くなれる。</p>
-          <img class="rx-price-hero__person" src="images/price/hero-person.webp" srcset="images/price/hero-person-720.webp 720w, images/price/hero-person.webp 1086w" sizes="(max-width: 768px) 80vw, 40vw" alt="資料を胸に抱え、斜め上を見上げる女性のイラスト" width="1086" height="1448" loading="eager" fetchpriority="high" decoding="async">
-          <p class="rx-price-hero__signature" lang="en" aria-hidden="true">Good People<br>Brighter Future</p>
+          <p class="rx-price-hero__catch">採用コンテンツで<br>会社の魅力を<br><span class="rx-price-hero__catch-em">もっと伝えられる。</span></p>
+          <picture>
+            <source media="(max-width: 900px)" srcset="images/price/price-hero-visual-sp.webp" width="780" height="560">
+            <img class="rx-price-hero__person" src="images/price/price-hero-woman-pc.webp" srcset="images/price/price-hero-woman-pc-640.webp 640w, images/price/price-hero-woman-pc.webp 980w" sizes="39vw" alt="ノートPCを抱えて笑顔で見上げる女性と、採用漫画のページのイラスト" width="980" height="1518" fetchpriority="high" decoding="async">
+          </picture>
+          <img class="rx-price-hero__story" src="images/price/price-hero-story.webp" alt="" width="780" height="482" loading="lazy" decoding="async">
+          <img class="rx-price-hero__manga" src="images/price/price-hero-manga-page.webp" alt="" width="760" height="542" loading="lazy" decoding="async">
         </div>
 
       </div>
     </section>
 
-    <!-- ===================== 2. 料金プラン（提案書 最終版 p24・2026-09-28）
-         イチ推し採用3プラン（年間契約・税別）＋採用AIO3プラン（別サービス）＋スポット制作パック。
-         各プランの成果物の本数は最終版に記載が無いため載せない。旧3プラン（19.8／34.8／58.9万・成果物つき）は撤去 ===================== -->
-    <section class="rx-plans" id="plans" aria-labelledby="plansHeading">
-      <div class="rx-plans__inner">
-        <p class="rx-p-eyebrow rx-p-eyebrow--center">PRICE PLAN</p>
-        <h2 class="rx-p-h2" id="plansHeading">イチ推し採用の<span class="rx-p-pink">月額プラン</span></h2>
-        <p class="rx-p-sublead">応募前の職場体験をつくる、採用クリエイティブの制作と活用。<br class="rx-p-br-sp">3つのプランからお選びいただけます。</p>
+    <!-- ===================== 01〜05 の共通の地（2026-11-11）
+         料金の仕組み〜お問い合わせの5つを1つの地（白〜淡いブルー）でくるみ、セクションの境目で色や線が途切れないようにする。
+         各セクションの背景は透明で、線（左右の端から出入りする波線）とドットだけを持つ。スタイルは css/price.css の .rx-price-body ===================== -->
+    <div class="rx-price-body">
 
-        <ul class="rx-plans__grid">
+    <!-- ===================== 1-2. 料金の仕組み（2026-11-07・完成図 PC 1672×941 / SP 941×1672 準拠。素材ZIP biz_recruit_section01_price_guide_PC_SP_20261107）
+         料金は「つくる」（基本セット 69.8万円・税別・買い切り。制作のみで導入できる）と「届ける」（必要に応じて追加する運用）の2つ、を説明する。
+         見出し・料金・制作物名・運用メニュー・注記はすべてHTMLテキスト（画像は背景の飾り＝CSS、人物2人、アイコンだけ）。
+         PC（1100px〜）＝左「つくる」｜右向きの矢羽根｜右「届ける」 / SP・タブレット（〜1099px）＝つくる → 下向きの矢羽根 → 届ける の縦積み。
+         「単品制作にも対応」は次のセクション（#basic-set）へのページ内リンク。スタイルは css/price.css の .rx-price-guide ===================== -->
+    <section class="rx-price-guide" id="plan-guide" aria-labelledby="priceGuideHeading">
+      <div class="rx-price-guide__inner">
 
-          <li class="rx-pcard rx-anim" id="plan-light">
-            <h3 class="rx-pcard__head">ライト</h3>
-            <div class="rx-pcard__body">
-              <div class="rx-pcard__pricing rx-pcard__pricing--single rx-pcard__pricing--lead">
-                <p class="rx-pcard__single-label">月額</p>
-                <p class="rx-pcard__price rx-pcard__price--lg"><b class="rx-stat-num">15</b>万円</p>
-                <p class="rx-pcard__single-note">継続的な採用クリエイティブの制作</p>
-              </div>
+        <div class="rx-price-guide__head">
+          <p class="rx-price-guide__eyebrow" lang="en">PRICE GUIDE</p>
+          <h2 class="rx-price-guide__title" id="priceGuideHeading">料金は「つくる」と<br class="rx-price-guide__br">「届ける」の2つ。</h2>
+          <p class="rx-price-guide__lead"><span class="rx-price-guide__nw">まず採用コンテンツを制作し、</span><span class="rx-price-guide__nw">必要に応じて運用を追加できます。</span></p>
+        </div>
+
+        <div class="rx-price-guide__stages">
+          <article class="rx-price-guide__card rx-price-guide__card--make" aria-labelledby="priceGuideMake">
+            <img class="rx-price-guide__person" src="images/price/price-guide-woman.webp" alt="" width="525" height="435" loading="lazy" decoding="async">
+            <p class="rx-price-guide__pop">制作のみもOK</p>
+            <div class="rx-price-guide__intro">
+              <h3 class="rx-price-guide__name" id="priceGuideMake">つくる</h3>
+              <p class="rx-price-guide__desc"><span class="rx-price-guide__nw">採用コンテンツを</span><span class="rx-price-guide__nw">まとめて制作</span></p>
             </div>
-            <p class="rx-pcard__foot">年間契約・税別。求人広告の媒体費・スカウト運用・追加制作は別途お見積りです。</p>
-          </li>
-
-          <li class="rx-pcard rx-pcard--featured rx-anim" id="plan-standard">
-            <p class="rx-pcard__badge">おすすめ</p>
-            <h3 class="rx-pcard__head">スタンダード</h3>
-            <div class="rx-pcard__body">
-              <div class="rx-pcard__pricing rx-pcard__pricing--single rx-pcard__pricing--lead">
-                <p class="rx-pcard__single-label">月額</p>
-                <p class="rx-pcard__price rx-pcard__price--lg"><b class="rx-stat-num">24</b>万円</p>
-                <p class="rx-pcard__single-note">制作量と支援範囲を拡張</p>
-              </div>
+            <div class="rx-price-guide__price-box">
+              <p class="rx-price-guide__set">基本セット</p>
+              <p class="rx-price-guide__price"><b>69<span class="rx-price-guide__dec">.8</span></b>万円</p>
+              <p class="rx-price-guide__terms">税別・買い切り</p>
             </div>
-            <p class="rx-pcard__foot">年間契約・税別。求人広告の媒体費・スカウト運用・追加制作は別途お見積りです。</p>
-          </li>
+            <p class="rx-price-guide__sub">4つの採用コンテンツがセット</p>
+            <ul class="rx-price-guide__items" aria-label="基本セットに含まれる4つの制作物">
+              <li class="rx-price-guide__item"><img src="images/price/price-guide-icon-manga.svg" alt="" width="64" height="64"><span>採用漫画</span></li>
+              <li class="rx-price-guide__item"><img src="images/price/price-guide-icon-animation.svg" alt="" width="64" height="64"><span>アニメーション</span></li>
+              <li class="rx-price-guide__item"><img src="images/price/price-guide-icon-short.svg" alt="" width="64" height="64"><span><span class="rx-price-guide__nw">ショート動画</span><span class="rx-price-guide__nw">3本</span></span></li>
+              <li class="rx-price-guide__item"><img src="images/price/price-guide-icon-lp.svg" alt="" width="64" height="64"><span>職場体験LP</span></li>
+            </ul>
+            <a class="rx-price-guide__single" href="#basic-set"><span><span class="rx-price-guide__nw">単品制作にも対応</span><span class="rx-price-guide__nw rx-price-guide__single-sub">（詳細は次のセクションへ）</span></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12h16M14 6.5l5.5 5.5-5.5 5.5"/></svg></a>
+          </article>
 
-          <li class="rx-pcard rx-anim" id="plan-premium">
-            <h3 class="rx-pcard__head">プレミアム</h3>
-            <div class="rx-pcard__body">
-              <div class="rx-pcard__pricing rx-pcard__pricing--single rx-pcard__pricing--lead">
-                <p class="rx-pcard__single-label">月額</p>
-                <p class="rx-pcard__price rx-pcard__price--lg"><b class="rx-stat-num">39</b>万円</p>
-                <p class="rx-pcard__single-note">制作＋活用＋改善を広く支援</p>
-              </div>
-            </div>
-            <p class="rx-pcard__foot">年間契約・税別。求人広告の媒体費・スカウト運用・追加制作は別途お見積りです。</p>
-          </li>
-
-        </ul>
-
-        <h3 class="rx-plans__sub" id="aioPlansHeading">採用AIO<span class="rx-plans__sub-tag">AI検索対策</span></h3>
-        <p class="rx-p-sublead rx-plans__sub-note">AIに聞かれたときに会社が正しく説明されるよう、公開情報を整える支援です。採用コラムの制作を含み、イチ推し採用とは別サービスとしてご契約いただけます。</p>
-        <ul class="rx-plans__grid" aria-labelledby="aioPlansHeading">
-
-          <li class="rx-pcard rx-anim">
-            <h3 class="rx-pcard__head">ライト</h3>
-            <div class="rx-pcard__body">
-              <div class="rx-pcard__pricing rx-pcard__pricing--single rx-pcard__pricing--lead">
-                <p class="rx-pcard__single-label">月額</p>
-                <p class="rx-pcard__price rx-pcard__price--lg"><b class="rx-stat-num">19.8</b>万円</p>
-                <p class="rx-pcard__single-note">採用コラム 月4本</p>
-              </div>
-            </div>
-            <p class="rx-pcard__foot">税別。対象のサイト・職種・質問はご契約時に決めます。検索・AIの回答は外部サービスが決めるため、掲載・引用・順位を保証するものではありません。</p>
-          </li>
-
-          <li class="rx-pcard rx-anim">
-            <h3 class="rx-pcard__head">スタンダード</h3>
-            <div class="rx-pcard__body">
-              <div class="rx-pcard__pricing rx-pcard__pricing--single rx-pcard__pricing--lead">
-                <p class="rx-pcard__single-label">月額</p>
-                <p class="rx-pcard__price rx-pcard__price--lg"><b class="rx-stat-num">29.8</b>万円</p>
-                <p class="rx-pcard__single-note">採用コラム 月6本</p>
-              </div>
-            </div>
-            <p class="rx-pcard__foot">税別。対象のサイト・職種・質問はご契約時に決めます。検索・AIの回答は外部サービスが決めるため、掲載・引用・順位を保証するものではありません。</p>
-          </li>
-
-          <li class="rx-pcard rx-anim">
-            <h3 class="rx-pcard__head">プレミアム</h3>
-            <div class="rx-pcard__body">
-              <div class="rx-pcard__pricing rx-pcard__pricing--single rx-pcard__pricing--lead">
-                <p class="rx-pcard__single-label">月額</p>
-                <p class="rx-pcard__price rx-pcard__price--lg"><b class="rx-stat-num">39.8</b>万円</p>
-                <p class="rx-pcard__single-note">採用コラム 月8本</p>
-              </div>
-            </div>
-            <p class="rx-pcard__foot">税別。対象のサイト・職種・質問はご契約時に決めます。検索・AIの回答は外部サービスが決めるため、掲載・引用・順位を保証するものではありません。</p>
-          </li>
-
-        </ul>
-
-        <h3 class="rx-plans__sub" id="spotHeading">スポット制作パック</h3>
-        <p class="rx-p-sublead rx-plans__sub-note">継続契約の前に、まず1本つくって試したい方向けの単発パックです。</p>
-        <ul class="rx-plans__grid rx-plans__grid--one" aria-labelledby="spotHeading">
-
-          <li class="rx-pcard rx-anim">
-            <h3 class="rx-pcard__head">スポット制作パック</h3>
-            <div class="rx-pcard__body">
-              <div class="rx-pcard__pricing rx-pcard__pricing--single rx-pcard__pricing--lead">
-                <p class="rx-pcard__single-label">単発</p>
-                <p class="rx-pcard__price rx-pcard__price--lg"><b class="rx-stat-num">49.8</b>万円〜</p>
-                <p class="rx-pcard__single-note">採用漫画1本＋ショート採用アニメーション1本</p>
-              </div>
-            </div>
-            <p class="rx-pcard__foot">税別。単発の募集なら、スポット制作パックからはじめられます。</p>
-          </li>
-
-        </ul>
-
-        <div class="rx-plans__cta rx-anim">
-          <p class="rx-plans__cta-text">
-            <span class="rx-plans__cta-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#eb2a63" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.4 15.4 5.1 5.1"/><path d="M7.6 10.5h1.6l1.1-2.2 1.5 4.2 1-2h1.6"/></svg>
-            </span>
-            <span class="rx-plans__cta-copy">どのプランが合うかわからない方は、まずは<b class="rx-p-pink">無料の採用力診断</b>で現状を整理しませんか。</span>
+          <p class="rx-price-guide__connect">
+            <span class="rx-price-guide__connect-text">必要に<br class="rx-price-guide__pc-br">応じて<br class="rx-price-guide__pc-br">追加</span>
+            <svg class="rx-price-guide__connect-arrow" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 32h46M40 16l15 16-15 16"/></svg>
           </p>
-          <a class="rx-p-btn rx-plans__cta-btn" href="contact.html?source=free-diagnosis">
-            <svg class="rx-p-btn__lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.4 15.4 5.1 5.1"/><path d="M7.6 10.5h1.6l1.1-2.2 1.5 4.2 1-2h1.6"/></svg>
-            <span>無料診断を申し込む</span>
-            <svg class="rx-p-btn__chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5.5 2.5 5.5 5.5-5.5 5.5"/></svg>
-          </a>
-        </div>
 
-      </div>
-    </section>
-
-    <!-- ===================== 3. 費用の考え方（提案書 最終版 p20・p21・p24。月額プランと別途お見積りの切り分け） ===================== -->
-    <section class="rx-pshift" aria-labelledby="shiftHeading">
-      <div class="rx-pshift__inner">
-        <p class="rx-p-eyebrow rx-p-eyebrow--center">費用の考え方</p>
-        <h2 class="rx-p-h2" id="shiftHeading">費用は、月額プランと<br class="rx-p-br-sp">別途お見積りを分けて考える</h2>
-        <p class="rx-p-sublead">イチ推し採用の各プランは<b class="rx-p-pink">採用クリエイティブの制作と活用の月額費用</b>（年間契約・税別）です。求人広告の媒体費・スカウト運用・追加制作は別途お見積りです。</p>
-
-        <div class="rx-pshift__compare">
-
-          <div class="rx-pshift__col rx-pshift__col--base rx-anim">
-            <h3 class="rx-pshift__col-head">月額プラン（制作・活用）</h3>
-            <ul class="rx-pshift__list">
-              <li class="rx-pshift__item">
-                <span class="rx-pshift__item-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#55545e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 9.5h18"/><path d="m10.3 12.4 4.4 2.6-4.4 2.6z" fill="#33323a" stroke="#33323a" stroke-width="1.2"/></svg>
-                </span>
-                <span class="rx-pshift__item-body">
-                  <span class="rx-pshift__item-title">制作</span>
-                  <span class="rx-pshift__item-desc">採用漫画・採用アニメーション・会社紹介動画を制作します。</span>
+          <article class="rx-price-guide__card rx-price-guide__card--deliver" aria-labelledby="priceGuideDeliver">
+            <img class="rx-price-guide__person rx-price-guide__person--man" src="images/price/price-guide-man.webp" alt="" width="509" height="466" loading="lazy" decoding="async">
+            <div class="rx-price-guide__intro">
+              <h3 class="rx-price-guide__name" id="priceGuideDeliver">届ける</h3>
+              <p class="rx-price-guide__desc"><span class="rx-price-guide__nw">採用情報を</span><span class="rx-price-guide__nw">より多くの人に届ける</span></p>
+            </div>
+            <ul class="rx-price-guide__ops" aria-label="必要に応じて追加できる運用メニュー">
+              <li class="rx-price-guide__op">
+                <span class="rx-price-guide__op-name"><img src="images/price/price-guide-icon-ads.svg" alt="" width="64" height="64"><span class="rx-price-guide__op-label">求人広告運用</span></span>
+                <span class="rx-price-guide__op-fee">
+                  <span class="rx-price-guide__op-price"><small>月</small><b>15</b>万円〜</span>
+                  <span class="rx-price-guide__op-alt"><span class="rx-price-guide__nw">または</span><span class="rx-price-guide__nw">応募1件1万円〜</span></span>
                 </span>
               </li>
-              <li class="rx-pshift__item">
-                <span class="rx-pshift__item-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#55545e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5h11v9h-11z"/><path d="M13.5 9.5h3.8l3.2 3.2v2.8h-7z"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/></svg>
-                </span>
-                <span class="rx-pshift__item-body">
-                  <span class="rx-pshift__item-title">配給</span>
-                  <span class="rx-pshift__item-desc">求人票・採用サイト・SNS・スカウト・説明会など、候補者が見る場所に置きます。</span>
+              <li class="rx-price-guide__op">
+                <span class="rx-price-guide__op-name"><img src="images/price/price-guide-icon-sns.svg" alt="" width="64" height="64"><span class="rx-price-guide__op-label">SNS広告運用</span></span>
+                <span class="rx-price-guide__op-fee">
+                  <span class="rx-price-guide__op-price"><small>月</small><b>15</b>万円〜</span>
                 </span>
               </li>
-              <li class="rx-pshift__item">
-                <span class="rx-pshift__item-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#55545e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3.5" width="16" height="17" rx="2"/><path d="M8 8.5h8M8 12h8M8 15.5h5"/></svg>
-                </span>
-                <span class="rx-pshift__item-body">
-                  <span class="rx-pshift__item-title">レポート</span>
-                  <span class="rx-pshift__item-desc">応募数・面接到達率・応募単価・内容の理解度の変化をご報告します。</span>
+              <li class="rx-price-guide__op rx-price-guide__op--aio">
+                <span class="rx-price-guide__op-name"><img src="images/price/price-guide-icon-aio.svg" alt="" width="64" height="64"><span class="rx-price-guide__op-label"><span class="rx-price-guide__nw">AI検索対策</span><span class="rx-price-guide__nw">（採用AIO）</span></span></span>
+                <span class="rx-price-guide__op-fee">
+                  <span class="rx-price-guide__op-price"><small>月</small><b>19.8</b>万円</span>
+                  <span class="rx-price-guide__op-alt">初回3か月〜</span>
                 </span>
               </li>
             </ul>
-            <p class="rx-pshift__col-foot">月額費用としてご請求（年間契約）</p>
-          </div>
-
-          <div class="rx-pshift__mid rx-anim">
-            <p class="rx-pshift__mid-text">媒体費・スカウト運用・追加制作は</p>
-            <svg class="rx-pshift__mid-arrow" viewBox="0 0 64 28" aria-hidden="true"><path d="M0 8h40V2l24 12-24 12v-6H0Z" fill="#ee417b"/></svg>
-            <div class="rx-pshift__mid-budget">
-              <p class="rx-pshift__mid-pill"><b>別途お見積り</b></p>
-              <p class="rx-pshift__mid-note">月額プランには含まれず、<br>内容に応じてお見積りします</p>
-            </div>
-          </div>
-
-          <div class="rx-pshift__col rx-pshift__col--option rx-anim">
-            <h3 class="rx-pshift__col-head rx-pshift__col-head--pink">別途お見積り（媒体費・運用）</h3>
-            <ul class="rx-pshift__list">
-              <li class="rx-pshift__item">
-                <span class="rx-pshift__item-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#eb2a63" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="13.5" width="3.6" height="6.5" rx="1"/><rect x="9.2" y="10" width="3.6" height="10" rx="1"/><rect x="15.4" y="6.5" width="3.6" height="13.5" rx="1"/><path d="m13.8 4.6 4.9-1 .5 4.9"/></svg>
-                </span>
-                <span class="rx-pshift__item-body">
-                  <span class="rx-pshift__item-title rx-pshift__item-title--pink">求人広告運用</span>
-                  <span class="rx-pshift__item-desc">原稿にクリエイティブを添え、応募までの導線を整えます。媒体費は別途です。</span>
-                </span>
-              </li>
-              <li class="rx-pshift__item">
-                <span class="rx-pshift__item-icon">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="#eb2a63" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 9.5h3l7-3.5v12l-7-3.5h-3z"/><path d="M7 14.5v4.5h3v-3"/><path d="M17 8.5a5 5 0 0 1 0 7"/></svg>
-                </span>
-                <span class="rx-pshift__item-body">
-                  <span class="rx-pshift__item-title rx-pshift__item-title--pink">スカウト運用</span>
-                  <span class="rx-pshift__item-desc">文面にクリエイティブを添え、どんな会社かを伝えます。別途お見積りです。</span>
-                </span>
-              </li>
-            </ul>
-            <p class="rx-pshift__col-foot rx-pshift__col-foot--pink">媒体費・スカウト運用は別途お見積り</p>
-          </div>
-
+          </article>
         </div>
 
-        <div class="rx-pshift__banner rx-anim">
-          <p class="rx-pshift__banner-main">
-            <span class="rx-pshift__banner-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="13.5" width="3.4" height="6.5" rx="1" fill="#fff"/><rect x="9.6" y="10.5" width="3.4" height="9.5" rx="1" fill="#fff"/><rect x="15.2" y="7.5" width="3.4" height="12.5" rx="1" fill="#fff"/><path d="m13.5 4.5 4.8-1 .5 4.8" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 10.5 18 3.6" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </span>
-            <span class="rx-pshift__banner-copy">効果は、<b class="rx-p-pink">4つの指標</b>で確かめる。</span>
-          </p>
-          <p class="rx-pshift__banner-sub">応募数・面接到達率・応募単価・内容の理解度を掲載前後で比較し、<br>原稿・配置・見せる順番の改善につなげます。</p>
+        <div class="rx-price-guide__foot">
+          <p class="rx-price-guide__note">※ 制作後に運用を追加できます。</p>
+          <p class="rx-price-guide__note">※ 職場体験LPの年間維持費3.6万円（税別）は別途。</p>
         </div>
 
       </div>
     </section>
 
-    <!-- ===================== 4. 無料診断から運用開始までの流れ（提案書 最終版 p25。チーム体制は旧資料 p24 のまま） ===================== -->
-    <section class="rx-psteps" aria-labelledby="stepsHeading">
-      <div class="rx-psteps__panel">
-        <p class="rx-p-eyebrow rx-p-eyebrow--center">FLOW</p>
-        <h2 class="rx-p-h2" id="stepsHeading">無料診断から<br class="rx-p-br-sp">運用開始までの流れ</h2>
-        <p class="rx-p-sublead">診断は無料です。ご契約から1本目の納品までは、<b class="rx-p-pink">3週間〜1か月</b>が目安です。</p>
+    <!-- ===================== 1-3. つくる｜制作料金の詳細（2026-11-08・完成図 02_create/PC・SP_design_approved.png。素材ZIP biz_recruit_02_03_PC_SP_assets_prompt_FINAL_20261107）
+         基本セット（69.8万円）で作れる4つの採用コンテンツ、「単品合計 93.7万円相当 → 基本セット 69.8万円（23.9万円おトク！）」の比較、単品での制作料金（白い独立カード4枚）。
+         見出し・価格・数量・単品料金・注記はすべてHTMLテキスト。画像は各カードのサンプル4枚（PC/SPを picture で切り替え。説明用の仮画像で、再生・リンクの操作は付けない）とアイコンSVGだけ。
+         PC（901px〜）＝比較は横長のバー、カード・単品料金は横4つ / SP・タブレット（〜900px）＝比較は縦積み、カード・単品料金は2列×2行。
+         id="basic-set" はヒーロー「基本セットの内容を見る」と料金の仕組み「単品制作にも対応」の飛び先。
+         スタイルは css/price.css の .rx-price-detail（02・03で共通の地・見出し）と .rx-price-create ===================== -->
+    <section class="rx-price-detail rx-price-create" id="basic-set" aria-labelledby="priceCreateHeading">
+      <div class="rx-price-detail__inner">
 
-        <ol class="rx-psteps__list">
-          <li class="rx-psteps__step rx-anim">
-            <p class="rx-psteps__num">01</p>
-            <span class="rx-psteps__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#3c3b44" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.2" cy="10.2" r="6.6"/><path d="m15.2 15.2 5.3 5.3"/><path d="M7.2 10.2h1.7l1.2-2.4 1.6 4.6 1-2.2h1.7" stroke="#eb2a63"/></svg>
-            </span>
-            <h3 class="rx-psteps__title">採用力診断（無料）</h3>
-            <p class="rx-psteps__desc">仕事の中身・人・職場の空気・入社後の姿が、求人票・SNS・AI上で伝わるかを簡易確認します。</p>
+        <div class="rx-price-detail__head">
+          <p class="rx-price-detail__capsule"><span>つくる</span><span class="rx-price-detail__capsule-sub">制作料金の詳細</span></p>
+          <h2 class="rx-price-detail__title" id="priceCreateHeading"><em>基本セット</em>で作れる、<span class="rx-price-detail__line">4つの採用コンテンツ。</span></h2>
+          <p class="rx-price-detail__lead">漫画・動画・LPをまとめて制作し、<span class="rx-price-detail__line">会社の魅力や働くイメージを効果的に伝えます。</span></p>
+        </div>
+
+        <div class="rx-price-create__compare" role="group" aria-label="単品合計と基本セットの料金の比較（税別）">
+          <p class="rx-price-create__theme"><span class="rx-price-detail__nw">会社・仕事・成長</span><span class="rx-price-detail__nw">から<em><b>1</b>テーマ</em>を選択</span></p>
+          <span class="rx-price-create__sep" aria-hidden="true"></span>
+          <p class="rx-price-create__sum"><span class="rx-price-create__sum-label">単品合計</span><span class="rx-price-create__sum-price"><b>93.7</b>万円相当</span></p>
+          <img class="rx-price-create__arrow" src="images/price/price-detail-arrow.svg" alt="" width="56" height="48">
+          <div class="rx-price-create__price">
+            <p class="rx-price-create__price-body"><span class="rx-price-create__price-label">基本セット</span><span class="rx-price-create__price-num"><b>69.8</b>万円</span></p>
+            <p class="rx-price-create__otoku"><b>23.9</b>万円おトク！</p>
+          </div>
+        </div>
+
+        <ul class="rx-price-create__cards" aria-label="基本セットに含まれる4つの制作物">
+          <li class="rx-price-create__card rx-price-create__card--manga">
+            <h3 class="rx-price-create__name"><img src="images/price/price-create-icon-manga.svg" alt="" width="64" height="64" loading="lazy" decoding="async">採用漫画</h3>
+            <p class="rx-price-create__qty">1話・約<b>9</b>ページ</p>
+            <picture class="rx-price-create__visual">
+              <source media="(max-width: 900px)" srcset="images/price/price-create-manga-sp.webp" width="456" height="328">
+              <img src="images/price/price-create-manga-pc.webp" alt="採用漫画のイメージ（仮サンプル）。オフィスで働く男女を描いた4コマの漫画" width="856" height="615" loading="lazy" decoding="async">
+            </picture>
           </li>
-          <li class="rx-psteps__step rx-anim">
-            <p class="rx-psteps__num">02</p>
-            <span class="rx-psteps__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#3c3b44" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="2.6" width="6" height="11" rx="3"/><path d="M5.6 11.4a6.4 6.4 0 0 0 12.8 0" stroke="#eb2a63"/><path d="M12 17.8v3.6M8.6 21.4h6.8"/></svg>
-            </span>
-            <h3 class="rx-psteps__title">診断結果のご報告</h3>
-            <p class="rx-psteps__desc">候補者がどの段階で離れているか、足りない情報は何かをご報告します。</p>
+          <li class="rx-price-create__card rx-price-create__card--animation">
+            <h3 class="rx-price-create__name"><img src="images/price/price-create-icon-animation.svg" alt="" width="64" height="64" loading="lazy" decoding="async">アニメーション</h3>
+            <p class="rx-price-create__qty">1本・<b>2〜3</b>分</p>
+            <picture class="rx-price-create__visual">
+              <source media="(max-width: 900px)" srcset="images/price/price-create-animation-sp.webp" width="400" height="229">
+              <img src="images/price/price-create-animation-pc.webp" alt="アニメーションのイメージ（仮サンプル）。明るい空を背景に笑顔の女性社員が映る動画の画面" width="752" height="429" loading="lazy" decoding="async">
+            </picture>
           </li>
-          <li class="rx-psteps__step rx-anim">
-            <p class="rx-psteps__num">03</p>
-            <span class="rx-psteps__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#3c3b44" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.4" y="4.4" width="17.2" height="11.6" rx="1.8"/><path d="M1.8 19h20.4"/><path d="m8.2 10.2 2.2 2.2 4.4-4.4" stroke="#eb2a63"/></svg>
-            </span>
-            <h3 class="rx-psteps__title">ご提案・ご契約</h3>
-            <p class="rx-psteps__desc">イチ推し採用の制作範囲と、採用AIOなどの支援を分けて決めます。</p>
+          <li class="rx-price-create__card rx-price-create__card--short">
+            <h3 class="rx-price-create__name"><img src="images/price/price-create-icon-short.svg" alt="" width="64" height="64" loading="lazy" decoding="async">ショート動画</h3>
+            <p class="rx-price-create__qty"><b>3</b>本</p>
+            <picture class="rx-price-create__visual">
+              <source media="(max-width: 900px)" srcset="images/price/price-create-short-sp.webp" width="425" height="276">
+              <img src="images/price/price-create-short-pc.webp" alt="ショート動画のイメージ（仮サンプル）。縦長の動画3本を並べたサムネイル" width="798" height="517" loading="lazy" decoding="async">
+            </picture>
           </li>
-          <li class="rx-psteps__step rx-anim">
-            <p class="rx-psteps__num">04</p>
-            <span class="rx-psteps__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#3c3b44" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.6c3.1 2.2 4.9 5.6 4.9 9.4l-2.3 2.8H9.4L7.1 12c0-3.8 1.8-7.2 4.9-9.4Z"/><circle cx="12" cy="9.6" r="1.9" stroke="#eb2a63"/><path d="M9.4 15.2 6.6 19l3.3-.7M14.6 15.2l2.8 3.8-3.3-.7"/></svg>
-            </span>
-            <h3 class="rx-psteps__title">会社取材・制作・運用</h3>
-            <p class="rx-psteps__desc">担当チームが、取材から公開・改善まで一貫して進めます。</p>
+          <li class="rx-price-create__card rx-price-create__card--lp">
+            <h3 class="rx-price-create__name"><img src="images/price/price-create-icon-lp.svg" alt="" width="64" height="64" loading="lazy" decoding="async">職場体験LP</h3>
+            <p class="rx-price-create__qty"><b>1</b>ページ</p>
+            <picture class="rx-price-create__visual">
+              <source media="(max-width: 900px)" srcset="images/price/price-create-lp-sp.webp" width="482" height="281">
+              <img src="images/price/price-create-lp-pc.webp" alt="職場体験LPのイメージ（仮サンプル）。ノートパソコンに表示した「仕事をリアルに体験する」ページ" width="906" height="524" loading="lazy" decoding="async">
+            </picture>
+          </li>
+        </ul>
+
+        <div class="rx-price-create__single" role="group" aria-labelledby="priceCreateSingle">
+          <h3 class="rx-price-create__single-title" id="priceCreateSingle"><span class="rx-price-create__single-main">単品での制作料金</span><span class="rx-price-create__single-sub">（1コンテンツからのご依頼も可能です）</span></h3>
+          <ul class="rx-price-create__single-list">
+            <li class="rx-price-create__single-card"><p class="rx-price-create__single-name"><img src="images/price/price-create-icon-manga.svg" alt="" width="64" height="64" loading="lazy" decoding="async">採用漫画</p><p class="rx-price-create__single-price"><b>28.9</b>万円</p></li>
+            <li class="rx-price-create__single-card"><p class="rx-price-create__single-name"><img src="images/price/price-create-icon-animation.svg" alt="" width="64" height="64" loading="lazy" decoding="async">アニメーション</p><p class="rx-price-create__single-price"><b>34.8</b>万円</p></li>
+            <li class="rx-price-create__single-card"><p class="rx-price-create__single-name"><img src="images/price/price-create-icon-short.svg" alt="" width="64" height="64" loading="lazy" decoding="async">ショート動画</p><p class="rx-price-create__single-price"><b>5</b>万円／本</p></li>
+            <li class="rx-price-create__single-card"><p class="rx-price-create__single-name"><img src="images/price/price-create-icon-lp.svg" alt="" width="64" height="64" loading="lazy" decoding="async">職場体験LP</p><p class="rx-price-create__single-price"><b>15</b>万円</p></li>
+          </ul>
+        </div>
+
+        <div class="rx-price-detail__notes">
+          <p>※ 表示価格は税別です。</p>
+          <p>※ 職場体験LPの年間維持費3.6万円（税別）は別途かかります。</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== 1-4. 届ける｜運用料金の詳細（2026-11-08・完成図 03_deliver/PC・SP_design_approved.png。素材ZIP biz_recruit_02_03_PC_SP_assets_prompt_FINAL_20261107）
+         制作後に必要なものだけ追加できる3つの運用（求人広告運用・SNS広告運用・AI検索対策（採用AIO））と料金。人物の装飾は置かない。
+         見出し・料金・説明はすべてHTMLテキスト。画像はアイコンSVGだけ。PC（901px〜）＝カード横3つ / SP・タブレット（〜900px）＝縦に3つ。
+         相談ボタンは既存の相談フォーム（contact.html?source=free-consultation）へ。各サービスの詳細ページは未確定なのでリンクしない。
+         スタイルは css/price.css の .rx-price-detail（02・03で共通）と .rx-price-deliver ===================== -->
+    <section class="rx-price-detail rx-price-deliver" id="deliver" aria-labelledby="priceDeliverHeading">
+      <div class="rx-price-detail__inner">
+
+        <div class="rx-price-detail__head">
+          <p class="rx-price-detail__capsule"><span>届ける</span><span class="rx-price-detail__capsule-sub">運用料金の詳細</span></p>
+          <h2 class="rx-price-detail__title" id="priceDeliverHeading">制作した採用コンテンツを、<span class="rx-price-detail__line">必要な人に<em>届ける</em>。</span></h2>
+          <p class="rx-price-detail__lead">求人広告・SNS広告・AI検索対策から、<span class="rx-price-detail__line">必要な運用だけを追加できます。</span></p>
+        </div>
+
+        <ul class="rx-price-deliver__cards" aria-label="制作後に必要なものだけ追加できる運用メニュー">
+          <li class="rx-price-deliver__card">
+            <h3 class="rx-price-deliver__name"><img src="images/price/price-deliver-icon-ads.svg" alt="" width="64" height="64" loading="lazy" decoding="async"><span>求人広告運用</span></h3>
+            <div class="rx-price-deliver__fee">
+              <p class="rx-price-deliver__price"><small>月</small><b>15</b>万円〜</p>
+              <p class="rx-price-deliver__sub">または応募1件<b>1</b>万円〜</p>
+            </div>
+            <p class="rx-price-deliver__desc">求人媒体への掲載・運用を支援し、応募獲得につなげます。</p>
+          </li>
+          <li class="rx-price-deliver__card">
+            <h3 class="rx-price-deliver__name"><img src="images/price/price-deliver-icon-sns.svg" alt="" width="64" height="64" loading="lazy" decoding="async"><span>SNS広告運用</span></h3>
+            <div class="rx-price-deliver__fee">
+              <p class="rx-price-deliver__price"><small>月</small><b>15</b>万円〜</p>
+            </div>
+            <p class="rx-price-deliver__desc">SNSで広告の配信・運用を行い、潜在的な応募者にもアプローチします。</p>
+          </li>
+          <li class="rx-price-deliver__card">
+            <h3 class="rx-price-deliver__name"><img src="images/price/price-deliver-icon-aio.svg" alt="" width="64" height="64" loading="lazy" decoding="async"><span><span class="rx-price-detail__nw">AI検索対策</span><span class="rx-price-detail__nw">（採用AIO）</span></span></h3>
+            <div class="rx-price-deliver__fee">
+              <p class="rx-price-deliver__price"><small>月</small><b>19.8</b>万円</p>
+              <p class="rx-price-deliver__sub">初回<b>3</b>か月〜</p>
+            </div>
+            <p class="rx-price-deliver__desc">AI検索で自社の採用情報が適切に見つかるよう、情報整備・コンテンツの改善を行います。</p>
+          </li>
+        </ul>
+
+        <p class="rx-price-deliver__note">※ 表示価格は税別です。運用は制作後、必要なものだけ追加できます。</p>
+        <a class="rx-price-deliver__cta" href="contact.html?source=free-consultation">運用内容を相談する<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12h16M14 6.5l5.5 5.5-5.5 5.5"/></svg></a>
+
+      </div>
+    </section>
+
+    <!-- ===================== 1-5. 制作・公開までの流れ（2026-11-09・完成図 PC/PC_design_reference.png・SP/SP_design_reference.png。素材ZIP biz_recruit_section04_flow_PC_SP_20261108）
+         基本セットの制作から公開まで、約3か月の目安を「1か月目 / 2か月目 / 3か月目」の3枚のカードで見せる。人物の大きな写真・キャラクターは置かない。
+         見出し・期間・月・箇条書き・注記はすべてHTMLテキスト。画像は各カードのイラスト3枚（WebP）とアイコン・装飾（SVG）だけ。
+         PC（901px〜）＝カード横3つ・間に右向きの矢印丸 / SP・タブレット（〜900px）＝縦に3つ・間に下向きの矢印丸。
+         スタイルは css/price.css の .rx-price-flow（02・03の .rx-price-detail とは別スコープ） ===================== -->
+    <section class="rx-price-flow" id="production-flow" aria-labelledby="priceFlowHeading">
+      <div class="rx-price-flow__inner">
+
+        <div class="rx-price-flow__head">
+          <p class="rx-price-flow__capsule">制作・公開までの流れ</p>
+          <h2 class="rx-price-flow__title" id="priceFlowHeading"><span class="rx-price-flow__line"><em>約<b>3</b>か月</em>を目安に、</span><span class="rx-price-flow__line">採用コンテンツを制作・公開。</span></h2>
+          <p class="rx-price-flow__lead"><span class="rx-price-flow__nw">取材・構成から制作、</span><span class="rx-price-flow__nw">公開まで一貫してサポートします。</span></p>
+          <p class="rx-price-flow__period"><img src="images/price/price-flow-icon-calendar.svg" alt="" width="64" height="64" loading="lazy" decoding="async"><span class="rx-price-flow__period-label">制作期間の目安：</span><strong class="rx-price-flow__period-value">約<b>3</b>か月</strong></p>
+        </div>
+
+        <ol class="rx-price-flow__steps" aria-label="制作から公開までの3か月の流れ">
+          <li class="rx-price-flow__step">
+            <h3 class="rx-price-flow__name"><span class="rx-price-flow__month"><b>1</b>か月目</span><span class="rx-price-flow__name-text"><em>取材・構成</em>を決める</span></h3>
+            <img class="rx-price-flow__visual" src="images/price/price-flow-interview.webp" alt="" width="640" height="503" loading="lazy" decoding="async">
+            <ul class="rx-price-flow__points">
+              <li>会社・仕事・成長からテーマを選択</li>
+              <li>担当者への取材で魅力を整理</li>
+              <li>漫画・動画・LPの構成を決定</li>
+            </ul>
+          </li>
+          <li class="rx-price-flow__step">
+            <h3 class="rx-price-flow__name"><span class="rx-price-flow__month"><b>2</b>か月目</span><span class="rx-price-flow__name-text"><em>漫画・動画・LP</em>をつくる</span></h3>
+            <img class="rx-price-flow__visual" src="images/price/price-flow-create.webp" alt="" width="640" height="347" loading="lazy" decoding="async">
+            <ul class="rx-price-flow__points">
+              <li>採用漫画（約9ページ）を制作</li>
+              <li>アニメーションの映像・音声を編集</li>
+              <li>職場体験LPを並行して制作</li>
+            </ul>
+          </li>
+          <li class="rx-price-flow__step">
+            <h3 class="rx-price-flow__name"><span class="rx-price-flow__month"><b>3</b>か月目</span><span class="rx-price-flow__name-text"><em>確認・納品・公開</em></span></h3>
+            <img class="rx-price-flow__visual" src="images/price/price-flow-publish.webp" alt="" width="640" height="430" loading="lazy" decoding="async">
+            <ul class="rx-price-flow__points">
+              <li>本編動画とショート動画3本を完成</li>
+              <li>内容を確認・修正して納品</li>
+              <li>LPに掲載・公開し、活用方法をご案内</li>
+            </ul>
           </li>
         </ol>
 
-        <p class="rx-psteps__note rx-anim">
-          <svg class="rx-psteps__note-check" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#eb2a63"/><path d="M8.5 8.5a5 5 0 1 1-1 4.6" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/><path d="M8.8 5.6v3.2h3.1" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span>無料診断は簡易確認です。<b class="rx-p-pink">AI上の見え方の詳しい診断</b>は、採用AIOで行います。</span>
-        </p>
+        <p class="rx-price-flow__note"><span class="rx-price-flow__nw">※ 制作期間は目安です。</span><span class="rx-price-flow__nw">制作内容や確認・修正状況によって</span><span class="rx-price-flow__nw">前後する場合があります。</span></p>
 
-        <div class="rx-psteps__team rx-anim">
-          <h3 class="rx-psteps__team-head">既存施策を止めずに、<b class="rx-p-pink">チーム</b>で進める</h3>
-          <ul class="rx-psteps__team-list">
-            <li class="rx-psteps__team-item">
-              <span class="rx-psteps__team-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#eb2a63" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.2 12a7.8 7.8 0 0 1 13.2-5.6"/><path d="M19.8 12a7.8 7.8 0 0 1-13.2 5.6"/><path d="M17.6 3.2v3.6h-3.5M6.4 20.8v-3.6h3.5"/></svg>
-              </span>
-              <span class="rx-psteps__team-title">既存施策との並行稼働</span>
-              <span class="rx-psteps__team-desc">既存の取り組みを止めずに、新しい施策を並行して推進します。</span>
+      </div>
+    </section>
+
+    <!-- ===================== 1-6. お問い合わせ・お見積もり（2026-11-11・完成図 PC/PC_design_final.png・SP/SP_design_final.png。素材ZIP biz_recruit_section05_contact_PC_SP_20261109）
+         制作内容・料金プラン・公開後の運用を相談できることを伝え、無料相談（既存の相談フォーム）か電話へつなぐ。人物の写真・イラストは置かない。
+         「こんなご相談ができます」の3つはボタンではなく説明のカード（リンクにしない）。見出し・本文・ボタン・安心の2項目はすべてHTMLテキスト。
+         画像は相談内容のアイコン3枚（WebP）と装飾（SVG）だけ。ボタンのカレンダー・電話・矢印は文字色に合わせたSVG。
+         PC（901px〜）＝白い枠の中に3つ横並び、ボタン2つ横並び / SP・タブレット（〜900px）＝カード・ボタン・安心の2項目を縦に。
+         電話番号は固定の相談バー（js/main.js）と同じ 03-6261-0764。スタイルは css/price.css の .rx-price-contact（ほかのセクションとは別スコープ） ===================== -->
+    <section class="rx-price-contact" id="price-contact" aria-labelledby="priceContactHeading">
+      <div class="rx-price-contact__inner">
+
+        <div class="rx-price-contact__head">
+          <p class="rx-price-contact__capsule">お問い合わせ・お見積もり</p>
+          <h2 class="rx-price-contact__title" id="priceContactHeading"><span class="rx-price-contact__line">制作・運用のご相談は</span><span class="rx-price-contact__line"><em>お気軽にお問い合わせ</em></span><span class="rx-price-contact__line">ください。</span></h2>
+          <p class="rx-price-contact__lead"><span class="rx-price-contact__nw">料金のこと、制作内容のこと、公開後の運用まで、</span><span class="rx-price-contact__nw">まとめてご相談いただけます。</span></p>
+        </div>
+
+        <div class="rx-price-contact__topics">
+          <p class="rx-price-contact__badge" id="priceContactTopics">こんなご相談ができます</p>
+          <ul class="rx-price-contact__cards" aria-labelledby="priceContactTopics">
+            <li class="rx-price-contact__card">
+              <span class="rx-price-contact__icon"><img src="images/price/price-contact-icon-content.webp" alt="" width="400" height="338" loading="lazy" decoding="async"></span>
+              <div class="rx-price-contact__body">
+                <h3 class="rx-price-contact__name"><em>制作内容</em>について</h3>
+                <p class="rx-price-contact__desc">採用漫画・アニメーション・<span class="rx-price-contact__nw">職場体験LPなど、</span>制作できる内容をご相談いただけます。</p>
+              </div>
             </li>
-            <li class="rx-psteps__team-item">
-              <span class="rx-psteps__team-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#eb2a63" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8.6" r="2.9"/><circle cx="16.4" cy="8.6" r="2.9"/><path d="M2.6 18.8c.7-2.9 2.8-4.4 5.4-4.4s4.7 1.5 5.4 4.4"/><path d="M14.2 14.9c.7-.3 1.4-.5 2.2-.5 2.4 0 4.3 1.4 5 4"/></svg>
-              </span>
-              <span class="rx-psteps__team-title">顧客側と提供側の役割分担</span>
-              <span class="rx-psteps__team-desc">それぞれの強みを活かし、明確な役割分担でスムーズに推進します。</span>
+            <li class="rx-price-contact__card">
+              <span class="rx-price-contact__icon"><img src="images/price/price-contact-icon-pricing.webp" alt="" width="400" height="376" loading="lazy" decoding="async"></span>
+              <div class="rx-price-contact__body">
+                <h3 class="rx-price-contact__name"><em>料金プラン</em>について</h3>
+                <p class="rx-price-contact__desc">基本セットや単品制作、オプションの内容など、ご予算に合わせたプランをご案内します。</p>
+              </div>
             </li>
-            <li class="rx-psteps__team-item">
-              <span class="rx-psteps__team-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#eb2a63" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9.2c1.1-1.8 3.7-1.8 4.6 0 .8 1.6-.7 3.3-4.6 5.8-3.9-2.5-5.4-4.2-4.6-5.8.9-1.8 3.5-1.8 4.6 0Z"/><path d="M2.8 17.4c2.2 2.2 5 3.3 8.4 3.3 4.4 0 7.7-2.2 11.6-6"/></svg>
-              </span>
-              <span class="rx-psteps__team-title">現場の負担を最小限に抑える</span>
-              <span class="rx-psteps__team-desc">既存の業務フローに配慮し、現場の負担を最小限に設計します。</span>
+            <li class="rx-price-contact__card">
+              <span class="rx-price-contact__icon"><img src="images/price/price-contact-icon-operation.webp" alt="" width="400" height="346" loading="lazy" decoding="async"></span>
+              <div class="rx-price-contact__body">
+                <h3 class="rx-price-contact__name"><em>公開後の運用</em>について</h3>
+                <p class="rx-price-contact__desc">求人広告・SNS広告・<span class="rx-price-contact__nw">AI検索対策など、</span>公開後の活用・改善方法をご相談いただけます。</p>
+              </div>
             </li>
           </ul>
         </div>
-      </div>
-    </section>
 
-    <!-- ===================== 5. 最終CTA（資料 p31） ===================== -->
-    <section class="rx-pcta" aria-labelledby="priceCtaHeading">
-      <div class="rx-pcta__inner rx-anim">
-        <p class="rx-p-eyebrow rx-p-eyebrow--center">FREE DIAGNOSIS</p>
-        <h2 class="rx-pcta__heading" id="priceCtaHeading">まずは、<br class="rx-p-br-sp"><span class="rx-p-pink">無料の採用力診断</span>から</h2>
-        <p class="rx-pcta__lead">御社の仕事の中身や職場の空気が、候補者からどう見えているかをお伝えします。<br>相談内容に「採用力診断希望」とご記入ください。費用はかかりません。</p>
+        <div class="rx-price-contact__actions">
+          <a class="rx-price-contact__btn rx-price-contact__btn--main" href="contact.html?source=free-consultation"><svg class="rx-price-contact__btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.6"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.6 13.4h.01M12 13.4h.01M16.4 13.4h.01M7.6 17h.01M12 17h.01" stroke-width="2.6"/></svg><span>無料相談を申し込む</span><svg class="rx-price-contact__btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></a>
+          <a class="rx-price-contact__btn rx-price-contact__btn--tel" href="tel:0362610764" aria-label="電話で相談する（03-6261-0764）"><svg class="rx-price-contact__btn-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.98.98 0 0 0-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99Z"/></svg><span>電話で相談する</span></a>
+        </div>
 
-        <a class="rx-p-btn rx-pcta__btn" href="contact.html?source=free-diagnosis">
-          <svg class="rx-p-btn__lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.4 15.4 5.1 5.1"/><path d="M7.6 10.5h1.6l1.1-2.2 1.5 4.2 1-2h1.6"/></svg>
-          <span>無料診断を申し込む</span>
-          <svg class="rx-p-btn__chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5.5 2.5 5.5 5.5-5.5 5.5"/></svg>
-        </a>
-
-        <ul class="rx-pcta__assures">
-          <li class="rx-pcta__assure">
-            <span class="rx-pcta__assure-icon rx-pcta__assure-icon--fill" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10.4" cy="10.4" r="6.4"/><path d="m15.2 15.2 5 5"/></svg>
-            </span>
-            採用課題の整理
-          </li>
-          <li class="rx-pcta__assure">
-            <span class="rx-pcta__assure-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#eb2a63" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="3.5" width="15" height="17" rx="2"/><path d="M9 3.5V2.2h6v1.3"/><path d="m8 10 1.4 1.4L12 8.8M8 15l1.4 1.4L12 13.8"/><path d="M14.5 10.4h2.5M14.5 15.4h2.5"/></svg>
-            </span>
-            既存施策の確認
-          </li>
-          <li class="rx-pcta__assure">
-            <span class="rx-pcta__assure-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#eb2a63" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="2.4"/><circle cx="19" cy="6.4" r="2.4"/><circle cx="19" cy="17.6" r="2.4"/><path d="M7.4 12h3.2l6-5.6M10.6 12l6 5.6"/></svg>
-            </span>
-            候補者へ伝えるテーマの選定
-          </li>
+        <ul class="rx-price-contact__assure">
+          <li>ご相談・お見積もりは無料です</li>
+          <li>無理な営業は行いません</li>
         </ul>
+
       </div>
     </section>
+
+    </div><!-- /.rx-price-body -->
 
   </main>
 

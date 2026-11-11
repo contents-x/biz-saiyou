@@ -83,7 +83,7 @@ h1,h2,h3,h4,[id]:not(html,body){ scroll-margin-top: calc(var(--rx-header-h) + 16
 | index.html | `.rx-home-hero` | `calc(var(--rx-header-h) + clamp(20→36px))`（PC `+clamp(8→14px)`）。高さは内容なり（`min-height` 指定なし・2026-09-28） |
 | case.html | `.rx-chero` | `calc(64px + clamp(40→80px))`＝104px〜 |
 | contact.html | `.rx-contact` | `clamp(80→200px)` |
-| price.html | `.rx-price-hero` | `calc(var(--rx-header-h) + clamp(16→32px))`（PC `+clamp(24→56px)`、背の低い画面は `+20px` / `+12px`）。人物は右カラム内に置くのでヘッダーに重ならない（2026-10-23） |
+| price.html | `.rx-price-hero` | `var(--rx-header-h)`。中身はSPはビジュアルが真下から、PCは `calc(var(--p) * 36)` をあけて PRICE から始まる（`--p` は画面の高さにも追従）。PCの人物・漫画カード・手書き風コピーも `top: calc(var(--rx-header-h) + …)` でヘッダーより下から始まる（2026-10-30） |
 | case/{slug}/ | `.rx-cdtl-hero` | `var(--rx-header-h)`（＋inner余白） |
 | company.html / privacy.html | `.rx-lhero`（`css/legal.css`） | `calc(var(--rx-header-h) + clamp(36→64px))` |
 
